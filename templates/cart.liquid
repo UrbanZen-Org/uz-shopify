@@ -1,0 +1,144 @@
+{{ checkout_scripts }}
+{{ content_for_layout }}
+
+<form action="/cart" method="post" id="cart_form">   
+		<div class="wrap">
+			<div class="sidebar" role="complimentary">
+				<div class="sidebar__content">
+					<div class="order-summary__section order-summary__section--total-lines">
+						
+						<h2 class="subtotal">
+							Order Summary
+						</h2>
+						<div class="line"></div>
+
+						<p class="subtotal_amount">
+							<strong class="left">Subtotal:</strong> <span class="right">{{ cart.total_price | money_with_currency }}</span>
+							{% comment %}
+							<small id="estimated-shipping" style="display:none">+ <em>{{ 0 | money }} {{ 'cart.shipping_calculator.estimated_shipping' | t }}</em></small>
+							{% endcomment %}
+						</p>
+						<p class="clearfix">
+						<small class="excluding_tax"><em>{{ 'cart.general.excluding_tax_shipping' | t }}</em></small>
+						</p>
+
+						{% if settings.show_multiple_currencies %}
+						<p>
+							<small>
+								{{ 'cart.general.orders_processed_in_currency_html' | t: currency: shop.currency }}
+							</small>
+						</p>
+						{% endif %}
+
+						{% if settings.display_special_instructions %} 
+						<label for="note">{{ 'cart.general.note' | t: shop_name: shop.name }}:</label>
+						<textarea id="note" name="note" rows="2">{{ cart.note }}</textarea>        
+						{% endif %}
+
+						{% if settings.display_tos_checkbox %}
+						<p>
+							<input type="checkbox" class="tos_agree" id="cart_agree" />
+							<label class="tos_label" for="cart_agree">
+								{{ 'cart.general.agree_to_terms_html' | t }}
+							</label>
+						</p>
+						{% endif %}
+						{% if cart.item_count != 0 %}
+						<div class="shopping_actions">
+							{{ content_for_additional_checkout_buttons | google_button_options: 'transparent' }}
+							<input type="submit" class="action_button cta-button add_to_cart right" id="checkout" name="checkout" value="{{ 'cart.general.checkout' | t }}" />
+							{% if cart.item_count > 0 %}
+								<div class="continue_shopping left">
+									<a class="cta-button" href="{% if cart.items.first.product.collections != blank %}{{ cart.items.first.product.collections.last.url }}{% else %}/collections/all{% endif %}">Continue Shopping</a>
+								</div>
+							{% endif %}
+						</div>
+        				{% endif %}
+						<div class="line mobile_hidden"></div>
+						<div class="clearfix mobile_hidden">
+							<h2>Customer Care</h2>
+							<p>If you have any questions, or if we can be of further assistance, please contact the Urban Zen online team.<br><br><b>855.755.4848</b><br>Our customer care line is open Monday to Friday, from 10am – 6pm EST.<br><i>We are closed on weekends and national holidays.</i><br><br>All available items will be processed within 2 business days. Ground shipping arrives in approximately 4 to 7 business days. FedEx 2Day® shipping will arrive in 2-5 business days from time of order.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main" role="main">
+				<ul class="breadcrumb mobile_hidden">
+				    <li class="breadcrumb__item breadcrumb__item--current">
+				      <a class="breadcrumb__link" href="/cart">Bag</a>
+				    </li>
+
+				    <li class="breadcrumb__item breadcrumb__item--blank">
+				      Customer information
+				    </li>
+				    <li class="breadcrumb__item breadcrumb__item--blank">
+				      Delivery Method
+				    </li>
+				    <li class="breadcrumb__item breadcrumb__item--blank">
+				      Payment method
+				    </li>
+				</ul>
+				<h2>Your {{ 'cart.general.title' | t }}</h2>
+				{% if cart.item_count == 0 %}
+					<p class="quote">{{ 'cart.general.continue_browsing_html' | t }}</p>
+					<div class="spacer"></div>
+					{% endif %}
+				<div class="feature_divider"></div>
+				<div class="main__content">	
+					{% for item in cart.items %}
+					<div class="{% if cart.item_count == 1 %}one-{% endif %}item">
+					<div class="two columns alpha">
+						<a href="{{ item.url }}" title="{{ item.title | escape }}" class="cart_page_image">       
+							<img src="{{ 'loader.gif' | asset_url }}" data-src="{{ item | img_url: 'medium' }}" data-src-retina="{{ item | img_url: 'large' }}" alt="{{ item.title | escape }}" />
+						</a>
+					</div>
+					<div class="five columns omega">
+						
+						<p>
+							<a href="{{ item.url }}" title="{{ item.title | escape }}">{{ item.title }}</a>
+						</p> 
+        
+						{% if item.properties %}
+						<p>
+							{% for p in item.properties %}
+							{% unless p.last == blank %}
+							{% if p.last contains '/uploads/' %}
+							{{ p.first }}: <a class="lightbox" href="{{ p.last }}">{{ 'cart.general.uploaded_file' | t }}</a><br />
+							{% else %}
+							{{ p.first }}: {{ p.last }}<br />
+							{% endif %}
+							{% endunless %}
+							{% endfor %}
+						</p>
+						{% endif %}
+
+						<p class="price_total">
+							{% if item.price > 0 %} 
+							{{ item.price | money_with_currency }}
+							{% else %}
+							{{ settings.free_price_text }}
+							{% endif %}
+						</p>
+
+						<p id="quantity_{{ forloop.index }}">
+							<label for="updates_{{ item.id }}" class="quantity_label">{{ 'cart.general.quantity' | t }}:</label>
+							<input type="number" min="0" size="3" maxlength="3" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" />
+						</p>
+
+						<p class="remove_item">
+							<a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" title="{{ 'cart.general.remove' | t }}">{{ 'cart.general.remove' | t }}</a>
+						</p>
+					</div>
+					</div>
+					<br class="clear" />
+					<br class="clear" />
+					{% endfor %}							
+				</div>
+				<div class="line desktop_hidden"></div>
+				<div class="clearfix desktop_hidden">
+					<h2>Customer Care</h2>
+					<p>If you have any questions, or if we can be of further assistance, please contact the Urban Zen online team.<br><br><b>855.755.4848</b><br>Our customer care line is open Monday to Friday, from 10am – 6pm EST.<br><i>We are closed on weekends and national holidays.</i><br><br>All available items will be processed within 2 business days. Ground shipping arrives in approximately 4 to 7 business days. FedEx 2Day® shipping will arrive in 2-5 business days from time of order.</p>
+				</div>
+			</div>
+		</div>
+</form>

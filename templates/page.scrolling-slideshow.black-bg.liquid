@@ -1,0 +1,33 @@
+</div>	
+<section class="regular slider">
+    <div class="full" style="background-image:url({{ 'D_Campaign_Slider_1800x1150_1.jpg' | asset_url | split:'?' | first }});"></div>
+    <div class="full" style="background-image:url({{ 'D_Campaign_Slider_1800x1150_2.jpg' | asset_url | split:'?' | first }});"></div>
+    <div class="full" style="background-image:url({{ 'D_Campaign_Slider_1800x1150_3.jpg' | asset_url | split:'?' | first }});"></div>
+    <div class="full" style="background-image:url({{ 'D_Campaign_Slider_1800x1150_4.jpg' | asset_url | split:'?' | first }});"></div>
+    <div class="full" style="background-image:url({{ 'D_Campaign_Slider_1800x1150_5.jpg' | asset_url | split:'?' | first }});"></div>
+    <div class="full" style="background-image:url({{ 'D_Campaign_Slider_1800x1150_6.jpg' | asset_url | split:'?' | first }});"></div>
+    <div class="full" style="background-image:url({{ 'D_Campaign_Slider_1800x1150_7.jpg' | asset_url | split:'?' | first }});"></div>
+    <div class="full" style="background-image:url({{ 'D_Campaign_Slider_1800x1150_8.jpg' | asset_url | split:'?' | first }});"></div>
+</section>
+
+  <script type="text/javascript">
+    $(document).on('ready', function() {
+      $(".regular").slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        speed: 10000,
+        useCSS: true,
+        cssEase: 'linear',
+        autoplaySpeed: 1,
+        pauseOnHover: false,
+        useTransition: true,
+        waitForAnimate: true,
+        arrows: false,
+        focusOnSelect: false
+
+      });
+     
+    });
+  </script>

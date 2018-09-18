@@ -1,0 +1,96 @@
+{% assign search_pagination = settings.pagination_limit %}
+{% paginate search.results by search_pagination %}
+ {% if search.performed %}
+<div class="sixteen columns">
+	<div class="header-title">
+		<h1>{{ 'general.search.title' | t }}</h1>
+		{% if search.results == empty %} 
+			<p>{{ 'general.search.no_results_html' | t: terms: search.terms }} {% if search.performed %}{{ 'general.search.results_count' | t: count: search.results_count }}{% endif %}</p>      
+		{% else %} 	
+			<p>{{ 'general.search.results_for_html' | t: terms: search.terms }} {% if search.performed %}{{ 'general.search.results_count' | t: count: search.results_count }}{% endif %}:</p>
+		{% endif %}
+	</div>
+
+	{% comment %}<div class="section center">
+		<h4>Content</h4>
+		<div class="search_results">
+			<!-- PAGE RESULTS LOOP -->
+			{% for item in search.results %}
+				{% if item.object_type == 'page' %}
+					<div class="one-quarter itemResult page result center">
+						{% if item.content contains "<featured" %}
+							{% assign src = item.content | split: 'src="' %}
+							{% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn';; | replace: 'http:http://';;, 'http://';; | remove: 'https:' %}
+							<a href="{{ item.url }}">
+							    <img src="{{ src }}" >
+							</a>
+						{% endif %}
+						<p class="dark"><a href="{{ item.url }}" title="{{ item.title | escape }}">{{ item.title }}</a></p> 
+					</div>
+					{% endif %}
+			{% endfor %}
+			<!-- ARTICLE RESULTS LOOP -->
+			{% for item in search.results %}
+				{% if item.object_type == 'article' and item.image %}
+					<div class="one-quarter itemResult article result right">
+						{% assign featured_image = true %}
+						<div class="alpha">
+							<a href="{{ item.url }}" title="{{ item.title | escape }}">
+								<img src="{{ item.image | img_url: 'grande' }}"  alt="{{ item.title | escape }}" />
+							</a>
+						</div>
+						<p class="dark"><a href="{{ item.url }}" title="{{ item.title | escape }}">{{ item.title }}</a></p> 
+					</div>
+				{% endif %}	
+			{% endfor %}
+		</div>
+	</div>{% endcomment %}
+	
+	<div class="section center">
+		{% comment %}<h4>Product</h4>{% endcomment %}
+		<div class="search_results">
+			<!-- PRODUCT RESULTS LOOP -->
+			{% for item in search.results %}
+				{% assign featured_image = true %}
+				{% unless item.object_type == 'article' or item.object_type == 'page' %}
+					<div class="one-quarter itemResult result right">
+						<div class="alpha">
+							<a href="{{ item.url }}" title="{{ item.title | escape }}">
+								<img src="{{ item.featured_image | product_img_url: 'grande' }}"  alt="{{ item.title | escape }}" />
+							</a>
+						</div>
+						<p class="dark"><a href="{{ item.url }}" title="{{ item.title | escape }}">{{ item.title }}</a></p> 
+						{% if item.price %}
+							<div class="info">
+								<span class="price">
+									{% if item.tags contains 'no-pricing' %}
+										Price upon request
+									{% else %}
+										{% if item.compare_at_price_max > item.price %}
+											<span class="was_price">{{ item.compare_at_price_max | money }}</span>
+				          	{% endif %}
+										{% if item.available %}
+											{% if item.price_varies %}
+												{% if item.compare_at_price_max > item.price %}
+													<br />
+												{% endif %}
+	              			  	<small><em>{{ 'products.general.from' | t }}</em></small>
+	            				{% endif %}
+											{{ item.price_min | money }}
+										{% else %}
+											{{ item.price_min | money }} - {{ 'products.product.sold_out' | t }}
+										{% endif %}
+									{% endif %}
+
+								</span>
+							</div>
+						{% endif %}
+					</div>
+				{% endunless %}	
+			{% endfor %}
+		</div>
+	</div>
+</div>
+	
+{% endif %}
+{% endpaginate %}

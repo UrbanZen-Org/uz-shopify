@@ -1,0 +1,11 @@
+dev:
+  password: ca741df4297412b59fad725d27d19f49
+  theme_id: "128319297"
+  store: urban-zen-foundation.myshopify.com
+  ignore_files:
+    - config/settings_data.json
+    - node_modules/
+prod:
+  password: 39bd0c94fc48744c3b1af69619f031d0
+  theme_id: "169331473"
+  store: https://urbanzen.myshopify.com

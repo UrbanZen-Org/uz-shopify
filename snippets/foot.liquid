@@ -1,0 +1,49 @@
+	{{ 'app.js' | asset_url | script_tag }}
+	{{ 'js-additional-js.js' | asset_url | script_tag }}
+			
+	{% if template contains 'product' %}
+		<script async defer src="//assets.pinterest.com/js/pinit.js"></script>
+		<script type="text/javascript">
+			var str = $( ".description p:first" ).text();
+			$('.cloudzoom').attr("data-pin-description", str);
+		</script>
+	{% endif %}
+
+	{% if template contains "campaign" or template contains 'philanthropy' or template contains 'our-story' %}
+		<script type="text/javascript">		
+			$(document).ready(function() {
+				var fullPageCreated = false;
+
+				function createFullpage() {
+					if(fullPageCreated === false) {
+						fullPageCreated = true; 
+						$('#fullpage').fullpage({
+							normalScrollElements: '.drawer-nav',      
+							sectionSelector: '.fp-section',
+							lazyLoading: true
+						});
+					}
+				}
+				if(document.documentElement.clientWidth < 400) {
+					$.fn.fullpage.destroy('all');
+					createFullpage();
+				}
+				
+        //mobile width change 400
+        if ($(window).width() < 1023) {
+        	createFullpage();
+        }else{
+        	if(fullPageCreated == true) {
+        		fullPageCreated = false;
+        		$.fn.fullpage.destroy('all');
+        	}
+        }
+
+			});
+		</script>
+	{% endif %}
+
+	{% if template contains 'customer' %}
+		{{ "shopify_common.js" | shopify_asset_url | script_tag }}
+		{{ "customer_area.js"  | shopify_asset_url | script_tag }}
+	{% endif %}	

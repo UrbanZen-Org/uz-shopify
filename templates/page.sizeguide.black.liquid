@@ -1,0 +1,70 @@
+<div class="full">
+	<div class="text text3">	
+		<h1 class="light">{{page.title}}</h1>
+	</div>
+	{% if page.content contains "<featured" %}
+		{% assign src = page.content | split: 'src="' %}
+		{% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn';; | replace: 'http:http://';;, 'https://';; | remove: 'http:' %}
+	    <img width="100%" src="{{ src }}" alt="{{page.title}}" />
+	{% endif %}
+</div>
+
+	<dl class="accordion store-accordion faq">
+	   <dt><a class="open" href="#"></a><h2>General</h2></dt>
+	   <dd >
+		   <dl class="accordion-sub">
+			   <dt class="sub"><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>How do I contact Customer Service?</h6></dt>
+			   <dd class="first">
+				   <div class="sixteen section  columns clearfix animated ">
+				   <p>If you have any questions or comments regarding products or orders, please contact the Urban Zen online team at customerservice@urbanzen.com or855.755.4848. Our customer care line is open Monday to Friday, from 10am – 6pm EST. Note we are closed on weekends and national holidays.</p>
+					</div>
+			   </dd>
+			   <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>How do I know which size to purchase?</h6></dt>
+			   <dd >
+				   <div class="sixteen section columns clearfix animated ">
+				   <p>Please refer to the sizing guide by clicking here. If you would like to talk to a customer service representative please call 855-755-4848 and they can direct you to the appropriate sales associate.</p>
+				   </div>
+			   </dd>
+		   </dl>
+	   </dd>
+	  
+	   <div class="border-separate"></div><dt><a class="open" href="#"></a><h2><br>Shipping & Returns</h2></dt>
+	   <dd>
+		   <dl class="accordion-sub">
+			   <dt class="sub"><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>Do you offer complimentary shipping?</h6></dt>
+			   <dd>
+				   <div class="sixteen section  columns clearfix animated ">
+				   		<p>We are pleased to offer complimentary ground shipping for all orders on urbanzen.com.</p>
+					</div>
+			   </dd>
+			   <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>Can I ship my order internationally?</h6></dt>
+			   <dd >
+				   <div class="sixteen section columns clearfix animated ">
+				   		<p>We are only able ship orders online within the US at this time. Please email or call customer service at customerservice@urbanzen.com or 855-755-4848 to inquire about international orders and delivery.</p>
+				   </div>
+			   </dd>
+			    <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>How long will my order take to arrive?</h6></dt>
+			   <dd >
+				   <div class="sixteen section columns clearfix animated ">
+				   		<p>All available items will be processed within 2 business days. Ground shipping arrives in approximately 4 to 7 business days. FedEx 2Day® shipping will arrive in 2-5 business days from time of order.</p>
+				   </div>
+			   </dd>
+			    <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>What if my order arrives damaged?</h6></dt>
+			   <dd >
+				   <div class="sixteen section columns clearfix animated ">
+				   		<p>Contact us right away at customerservice@urbanzen.com or 855-755-4848. We will cover the cost of returning your item to us so it can be repaired, replaced, or refunded.</p>
+				   </div>
+			   </dd>
+			    <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>What is your return policy?</h6></dt>
+			   <dd >
+				   <div class="sixteen section columns clearfix animated ">
+				   		<p>Items are eligible for return in unworn, unused and saleable condition with all original tags attached within 15 days of the receipt of your package. Certain products and categories are FINAL SALE. This will be noted on the product page at the time of purchase. All discounted items are considered Final Sale.</p>
+				   </div>
+			   </dd>
+			   <div class="border-separate"></div>
+		   </dl>
+	   </dd>
+	</dl>
+
+
+{% include 'accordion-js' %}

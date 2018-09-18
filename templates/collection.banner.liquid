@@ -1,0 +1,19 @@
+<div class="banner full">
+    <a href="{{ collection.url }}" title="Browse our {{ collection.title | escape }} collection." >
+        <img src="{{ collection.image.src | collection_img_url: 'large' }}" width="100%" alt="{{ collection.title | escape }}" />
+        <span class="text">
+          <h1 class="light">{{ collection.title }}</h1>
+        </span>
+    </a>
+</div>
+<div class="sixteen columns">
+    {% if collection.products.size == 0 %}
+      <div class="section no-match clearfix">     
+        <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
+      </div>
+    {% else %}
+      {% assign products = collection.products %}
+      {% assign products_per_row = settings.products_per_row %}
+      {% include 'product-loop' with settings.collection_sidebar %}
+    {% endif %}
+  </div>

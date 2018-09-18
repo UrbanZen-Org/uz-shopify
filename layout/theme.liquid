@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+	<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+	<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+	<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+	<!--[if IE 9 ]><html class="ie ie9" lang="en"> <![endif]-->
+	<!--[if (gte IE 10)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+	<head>
+		{% include 'head' %}
+		{{ content_for_header }}
+	</head>
+		{% if template contains "collection" and settings.slideshow_collection_enabled %}
+			{% assign feature_image = true %}
+		{% elsif template contains "blog" and settings.slideshow_blog_enabled %}
+			{% assign feature_image = true %}
+		{% elsif template contains "article" and article.image and settings.slideshow_article_enabled %}
+			{% assign feature_image = true %}
+		{% elsif template contains "contact" and settings.slideshow_contact_enabled %}
+			{% assign feature_image = true %}
+		{% else %}
+			{% assign feature_image = false %}
+		{% endif %}
+	<body class="{{ template | replace: '.', '-' | handle }} drawer drawer--left drawer--sidebar {% if template contains 'shop-the-look' %} shop-the-look{% endif %}{% if template contains 'page' %} page{% endif %} {{current_tags}} {% if article.tags contains 'black-bg' %}black-bg{% endif %}{% if template contains 'black-bg' %}black-bg{% endif %} {{ page_classes }}">
+	{% include 'foot' %}
+		{% include 'header' %}
+		<main role="main" >
+			<div class="drawer-contents">
+				{{ content_for_layout }}
+				
+				{% if template contains "product" and settings.size_chart != blank %}
+					{% unless product.tags contains 'no-size-guide' %}	
+					<div id="size-chart">
+						{{ pages[settings.size_chart].content }}
+					</div>
+					{% endunless %}
+				{% endif %}
+				
+				{% comment %}{% include 'apology' %} {% endcomment %}
+				
+					{% include 'newsletter-popup' %} 
+			</div>
+			<div class="footerpad"></div>
+		</main>
+		
+			{% include 'footer' %}
+		
+		
+	</body>
+</html>

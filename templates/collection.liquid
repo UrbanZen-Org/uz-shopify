@@ -1,0 +1,104 @@
+<div class="sixteen columns">
+	<div class="header-title">
+    	<h1>{{ collection.title }}{{page.title}}</h1>
+  		<h3 class="subtitle text-center">{{current_tags | replace: '-', ' ' | replace: '["', '' | replace: '"]', '' }}</h3>
+      {% if collection.description %}
+        <p>{{ collection.description }}</p>
+      {% endif %}
+	</div>
+    {% if collection.products.size == 0 %}
+      <div class="section no-match clearfix">     
+        <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
+      </div>
+    {% elsif current_tags contains "Furniture" %} 
+      <div class="negative-margins">
+
+  <div class="image-row">
+  <div class="eight columns padded alpha inline thumbnail mobile-full" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">
+    <div class="flexwrap">
+      <a rel="gallery1" class="fancybox" href="{{ 'Furniture_01_Single_Arm_Sofa_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Single Arm Sofa">
+        <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_01_Single_Arm_Sofa_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ 'Furniture_01_Single_Arm_Sofa_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}"  />
+      </a>
+    </div>
+  </div>
+  <div class="eight columns padded alpha inline thumbnail mobile-full" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">
+    <div class="text-container bordered">
+    <div class="text-left">
+      <h1>"The artistry in Bali speaks to my passions and fuels my imagination.  I’m forever inspired by the legacy there, the generations of craftsmanship and the extraordinary use of natural resources."<br><br> - Donna Karan</h1>
+    </div>
+  </div>
+  </div></div><div class="image-row desktop_hidden"><div class="eight columns padded alpha inline thumbnail mobile-full" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">
+    <div class="flexwrap"><a rel="gallery1" class="fancybox" href="{{ 'Furniture_05_D_Double_Arm_Chair_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Double Arm Chair"> <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_05_D_Double_Arm_Chair_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ 'Furniture_05_D_Double_Arm_Chair_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}"  /></a></div>
+  </div></div><div class="image-row"><div class="four columns padded alpha inline thumbnail border-right" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">
+    <div class="text-container bordered">
+    <h1 class="text-left">
+        "Designs that resonate with the Balinese spirit of harmony and tranquility"
+        </h1>
+      </div>
+    </div><div class="four columns padded alpha inline thumbnail right-side" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">    
+    <div class="flexwrap"><a rel="gallery1" class="fancybox" href="{{ 'Furniture_04_Single_Arm_Chair_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Single Arm Chair"> <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_04_Single_Arm_Chair_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ 'Furniture_04_Single_Arm_Chair_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}" /></a></div>
+  </div><div class="eight columns padded alpha inline thumbnail mobile_hidden" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">  
+    <div class="flexwrap"><a rel="gallery1" class="fancybox" href="{{ 'Furniture_05_D_Double_Arm_Chair_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Double Arm Chair"> <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_05_D_Double_Arm_Chair_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ 'Furniture_05_D_Double_Arm_Chair_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}" /></a></div>
+  </div></div><div class="image-row"><div class="eight columns padded alpha inline thumbnail bottom-padding" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">
+    <div class="flexwrap"><a rel="gallery1" class="fancybox" href="{{ 'Furniture_06_Platform_Bed_With_Four_Posts_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Platform Bed With Four Posts"> <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_06_Platform_Bed_With_Four_Posts_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ 'Furniture_06_Platform_Bed_With_Four_Posts_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}" /></a></div>
+  </div><div class="eight columns padded alpha inline thumbnail" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">
+    <div class="flexwrap"><a rel="gallery1" class="fancybox" href="{{ 'Furniture_07_Low_Dining_Table_Low_Dining_Chair_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Low Dining Table & Low Dining Chair"> <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_07_Low_Dining_Table_Low_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ 'Furniture_07_Low_Dining_Table_Low_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}" /></a></div>
+  </div></div><div class="image-row"><div class="eight columns padded alpha inline thumbnail mobile_hidden" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">   
+    <div class="flexwrap"><a rel="gallery1" class="fancybox" href="{{ 'Furniture_08_D_High_Dining_Table_High_Dining_Chair_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Low Dining Table"> <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_08_D_High_Dining_Table_High_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ 'Furniture_08_D_High_Dining_Table_High_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}" /></a></div>
+  </div><div class="four columns padded alpha inline thumbnail desktop_hidden left-side" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">    
+    <div class="flexwrap"><a  rel="gallery1" class="fancybox" href="{{ 'Furniture_08_M_Low_Dining_Table_Low_Dining_Chair_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Low Dining Table & Low Dining Chair"> <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_08_M_Low_Dining_Table_Low_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ 'Furniture_08_M_Low_Dining_Table_Low_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}" /></a></div>
+  </div><div class="four columns padded alpha inline thumbnail border-right" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">  
+    <div class="text-container bordered">
+    <div class="text-left">
+      <h1>Modernity with soul, a casual simplicity and an authentic richness</h1>
+    </div>
+  </div>
+  </div><div class="four columns padded alpha inline thumbnail mobile_hidden" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">   
+    <div class="flexwrap"><a rel="gallery1" class="fancybox" href="{{ 'Furniture_10_Low_Dining_Table_Low_Dining_Chair_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Low Dining Table & Low Dining Chair"> <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_10_Low_Dining_Table_Low_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ Furniture_10_Low_Dining_Table_Low_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}" /></a></div>
+  </div></div><div class="image-row">
+    <div class="columns alpha inline thumbnail desktop_hidden" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">    
+        <div class="flexwrap"><a  rel="gallery1" class="fancybox" href="{{ 'Furniture_10_Low_Dining_Table_Low_Dining_Chair_2048x2048.jpg' | asset_url | split:'?' | first }}" title="Low Dining Table & Low Dining Chair"> <img width="480" height="351" src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'Furniture_10_Low_Dining_Table_Low_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" data-src-retina="{{ Furniture_10_Low_Dining_Table_Low_Dining_Chair_large.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen - Furniture Collection" class="{% if featured_image.id == image.id %}featured_image{% endif %}" /></a></div>
+      </div></div>
+  <div class="section clearfix center">
+    <p class="p2">The Urban Zen Home Collection is handcrafted by artisans in Bali using solid teak.<br>Designed in collaboration with Bonetti/Kozerski Studio.</p>
+    <a href="#contact_form" class="cta-button dark fancyform"><span>Inquire</span></a>
+  </div>
+</div>
+
+<div style="display:none;">
+
+<form method="post" action="" id="contact_form" class="contact-form" accept-charset="UTF-8">
+  <h4 class="center">Furniture Inquiry</h4>
+  <h3 class="center"> All furniture is handmade to order. Please use the form below to inquire about pricing and lead time.</h3>
+  <input type="hidden" value="contact" name="form_type">
+  <input type="hidden" name="utf8" value="✓">
+  <div id="contactFormWrapper" >
+    <p>
+      <label>{{ 'contact.form.name' | t }}</label>
+      <input type="text" required id="name" name="contact[name]">
+    </p>
+    <p>
+      <label>{{ 'contact.form.email' | t }}</label>
+      <input type="email" required id="email" name="contact[email]">
+    </p>
+
+    <p>
+      <label>{{ 'contact.form.message' | t }}</label>
+      <textarea required rows="10" id="msg" name="contact[body]"></textarea>
+    </p>
+    <p>
+      <input type="submit" class="cta-button " id="formSubmit" value="{{ 'contact.form.send' | t }}" />
+    </p>
+  </div>
+<div id="messaging"><p class="p2 center"></p></div>
+</form>
+</div>  
+</div>
+
+    {% else %}
+      {% assign products = collection.products %}
+      
+      {% assign products_per_row = settings.products_per_row %}
+      {% include 'product-loop' with settings.collection_sidebar %}
+    {% endif %}
+  </div>

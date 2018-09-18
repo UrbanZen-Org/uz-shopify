@@ -1,0 +1,237 @@
+{% capture permalinkURL %}{{ shop.url }}{{ product.url }}{% endcapture %}
+{% capture shareTitle %}{{ product.title | url_param_escape }}{% endcapture %}
+
+{% if settings.product_sidebar %}
+  {% include 'sidebar' %}
+  <div class="twelve columns">
+    <div class="product-{{ product.id }}">
+{% else %}
+  <div class="sixteen columns">
+    <div class="product-{{ product.id }}">
+{% endif %}
+
+{% if collection %}
+  {% if collection.previous_product or collection.next_product %}
+    <p class="">
+      {% if collection.previous_product %}
+        {% capture prev_url %}{{ collection.previous_product}}#content{% endcapture %}
+        {{ 'products.general.previous_product_html' | t | link_to: prev_url }}
+      {% else %}
+       
+      {% endif %}
+      {% if collection.previous_product and collection.next_product  %}
+      |
+      {% endif %}
+      {% if collection.next_product %}
+        {% capture next_url %}{{ collection.next_product}}#content{% endcapture %}
+        {{ 'products.general.next_product_html' | t | link_to: next_url }}
+      {% else %}
+       
+      {% endif %}
+    </p>
+  {% endif %}
+{% endif %}
+
+<div class="section product_section clearfix" itemscope itemtype="http://schema.org/Product" id="ajax_section">
+             
+  <div class="{% if settings.product_sidebar %}seven{% else %}nine{% endif %} columns {% if product-images == blank %}{% if settings.product_images_position == 'left' %}alpha{% else %}omega{% endif %}{% endif %} {% if settings.product_images_position == 'right' %}mobile_only{% endif %}">
+    {% include 'product-images-carousel' %}
+  
+  </div>
+  <div class="{% if settings.product_sidebar %}five{% else %}seven{% endif %} columns {% if settings.product_images_position == 'left' %}omega{% else %}alpha{% endif %}">
+    
+    {% assign collection_handles = product.collections | map: 'handle' %}
+    {% assign variant = product.selected_or_first_available_variant %}
+    <h1 class="dark product_name" itemprop="name">{{ product.title }}</h1>
+    {% if settings.display_vendor %}
+  	{% if product.vendor == "Urban Zen" %}
+	{% else %}
+      	<p class="p2 vendor">	
+        	  <span class="brand" itemprop="brand"><a href="/collections/{{ product.vendor | handleize }}" name="{{product.vendor}}">{{ product.vendor}}</a></span>
+      	</p>
+    	{% endif %}
+  {% endif %}
+
+    {% unless collection_handles contains 'coming-soon' or product.tags contains 'call-to-purchase' %}
+      <p class="p2 price_info" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+        <meta itemprop="seller" content="{{ shop.name | escape }}" />
+        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+        <meta itemprop="itemCondition" content="New" />       
+        <span class="product-price" itemprop="price" content="{{ product.selected_or_first_available_variant.price | money }} ">
+          <span class="sale strike">{% if variant.compare_at_price > variant.price %}{{variant.compare_at_price | money}}{% endif %}</span> {% if product.tags contains 'donation' %}{% else %}<span class="current-price">{{ variant.price | money }}</span>{% endif %}
+        </span>
+		    <span class="soldout"> {% comment %}- {{ 'products.product.sold_out' | t }} </span>{% endcomment %}
+    {% else %}
+      <span class="{% if product.tags contains 'call-to-purchase' %}current-price{% else %}current_price{% endif %}">
+        {% unless product.tags contains 'no-pricing' %}
+          {{ product.price | money }}
+          {% elsif product.tags contains 'call-to-purchase' %}
+            Price upon request
+          {% elsif variant.price > 0 %} 
+            {{ variant.price | money }}
+			    {% else%}
+            {{ settings.free_price_text }}
+          {% endunless %}
+      </span>
+      {% include 'product-notify-me' %}
+    {% endunless %}
+        {% assign discount_floor =  variant.compare_at_price | divided_by: 2 %}
+        <span class="final-sale smaller">{% if discount_floor > variant.price %}Final Sale{% endif %}</span>
+
+      </p>
+      <p>{% if product.tags contains 'pre-order' %}Pre-Order{% endif %}</p>
+    {% if settings.product_description_position == "top" %}
+      {% if product.description != blank %}
+        
+          <div class="description" itemprop="description">
+             {{ product.description | split: '<!-- split -->' | first }}
+          </div>
+     {% endif %}
+    {% endif %}
+
+    {% unless collection_handles contains 'coming-soon' %}
+  
+      {% include 'product-form' with 'product' %}
+	
+    {% endunless %}  
+
+    {% if settings.product_description_position == "bottom" %}
+      {% if product.description != blank %}
+        {% if product.tags contains 'F17 Import' or product.tags contains 'Resort 18' or product.tags contains 'S18-D1' or product.tags contains 's18-d2' or product.tags contains 'F18' %}
+          {% assign fall_class = ' fall-product' %}
+        {% endif %}
+       <div class="description{{ fall_class }}" itemprop="description" >
+        {{ product.description | split: '<!-- split -->' | first }}
+       </div>
+      {% endif %}
+    {% endif %}
+
+    {% if settings.display_collections or settings.display_tags or settings.display_type %}
+     <hr />
+    {% endif %}
+   
+    <div class="meta">
+	<div class="left">
+     
+	<p class="p6 style-ref">
+	{% for tag in product.tags  %}
+		{% assign product_tags_string = tag | join ' ' %}
+	  	{% if product_tags_string contains 'style-' %}
+	 		<span><b>STYLE NUMBER: </b> {{tag | remove:'style-'}}</span><br>
+		{% endif %}
+	{% endfor %}
+	</p> 
+  <div>
+  {% if product_tags_string contains 'donation' %}
+    <a data-pin-do="buttonBookmark" data-pin-custom="true" class="share-btn left" data-pin-save="false" href="https://www.pinterest.com/pin/create/button/">
+
+        <span class="icon-pinterest" aria-hidden="true"></span>
+        <span class="share-title">Pin it</span>
+    </a>
+  {% endif %}
+      {% if settings.display_collections %}
+        <p>
+          <span class="label">{{ 'products.product.collections' | t }}:</span> 
+          <span>
+           {% for col in product.collections %}
+             <a href="{{ col.url }}" title="{{ col.title }}">{{ col.title }}</a>{% unless forloop.last %},{% endunless %} 
+           {% endfor %}
+         </span>
+       </p>
+      {% endif %}
+</div>
+      {% if settings.display_tags %}
+         <p>
+           {% for tag in product.tags %}
+             {% if forloop.first %}
+               <span class="label">{{ 'products.product.tags' | t }}:</span> 
+             {% endif %}
+
+             {% unless tag contains 'meta-related-collection-' %}
+               <span>
+                 <a href="/collections/{% if collection %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handle }}" title="{{ 'products.product.products_tagged' | t: tag: tag }}">{{ tag }}</a>{% unless forloop.last %},{% endunless %}
+               </span>
+             {% endunless %} 
+           {% endfor %}
+         </p>
+      {% endif %}
+   
+     {% if settings.display_type %}
+        <p>
+          <span class="label">{{ 'products.product.product_types' | t }}:</span> 
+          <span>{{ product.type | link_to_type }}</span>
+        </p>
+     {% endif %}
+    </div>
+  </div>
+  
+  {% if settings.product_images_position == 'right' %}   
+    <div class="{% if settings.product_sidebar %}seven{% else %}nine{% endif %} columns {% if product-images == blank %}{% if settings.product_images_position == 'left' %}alpha{% else %}omega{% endif %}{% endif %} mobile_hidden">          
+      {% include 'product-images' %}
+    </div>
+  {% endif %}
+</div>
+
+{% if product.description contains "<!-- split -->"  %}
+  <br class="clear" />
+  <div class="section clearfix">
+    <div class="description">
+      {{ product.description | split: '<!-- split -->' | last }}
+    </div>
+  </div>
+{% endif %}
+</div>
+  {% comment %} 
+{% unless product.tags contains 'no-related' %}
+  {% if settings.display_related_products %}
+    {% capture limit %}{{ settings.products_per_row | plus: 1 }}{% endcapture %}
+
+    {% if collection and collection.all_products_count > 1 %}
+      {% assign col = collection.handle %}
+    {% else %}
+      {% assign col = product.collections.last.handle %}
+    {% endif %}
+
+    {% for tag in product.tags %}
+      {% if tag contains 'meta-related-collection-' %}
+        {% assign col = tag | remove: 'meta-related-collection-' %}
+        {% assign collection = collections[col] %}
+        {% capture limit %}{{ collection.products_count | plus: 1 }}{% endcapture %}
+      {% endif %}
+    {% endfor %}
+     
+    {% if col and collections[col].all_products_count > 0 %}
+      {% if collections[col].all_products_count != 1 or collections[col].products.first.id != product.id %}
+        <br class="clear" />
+		 <div class="desktop_hidden feature_divider"></div>
+        <h4 class="title center">{{ 'products.product.related_items' | t }}</h4>
+        <div class="mobile_hidden feature_divider"></div>
+
+        {% assign skip_product = product %}
+        {% assign products = collections[col].products %}
+        {% assign products_per_row == "4" %}
+        {% include 'related-products' %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  {% endunless %}
+  {% endcomment %}
+    {% include 'cross-sell' %}
+</div>
+
+
+
+		<script type="text/javascript">
+		$(window).ready(function() {
+			var windowWidth = $(window).width();
+		    if (windowWidth <= 1024) { 
+				$('.swatch_options').on('click','.swatch-element.color', function(){
+					$('html,body').animate({scrollTop: $("#slider").offset().top -75 } ,'slow');
+				});	
+		    }
+ 
+		});
+		</script>
+		
+		 {% include 'accordion-js' %}

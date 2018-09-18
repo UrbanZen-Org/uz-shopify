@@ -1,0 +1,178 @@
+<script type="text/javascript">
+$(window).ready(function() {
+	windowWidth = $(window).width();
+	shopContainer = '<div class="shop-the-look-container-outer"><div itemtype="http://schema.org/ItemList" class="shop-the-look-container productDrawer"></div></div>';
+	$(document).on('click','.flexwrap.ready',function(event) {
+		$(this).removeClass('ready');
+		$(this).addClass('shopActive');
+		if (windowWidth >= 1023){ 
+			$(this).closest('.row-container').append(shopContainer);
+			$('.shop-the-look-container').text('loading...');
+		}else{
+			$(this).append('<span class="loading">loading...</span>');
+			$('.shopActive').append(shopContainer);
+			$('.shop-the-look-container').text('loading...');
+		}
+		var shopTheLookClass = $(this).attr('shop-the-look');
+		var shopTheLookClassNumber = shopTheLookClass.replace('shop-the-look-','');
+		var link = '/collections/all/'+ shopTheLookClass;
+		var getUrl = link;
+		var clickover = $(event.target);
+		var _opened = $(this).parent().hasClass("active-shop-the-look");
+		if (_opened === false){   
+			$.ajax({
+				url: getUrl,
+				type:'GET',
+				success: function(data){	
+					$('.loading').remove();
+					$(event.target).closest('.row-container').find('.shop-the-look-container').slideDown('slow').toggleClass('previousDrawer opened').html($(data).find('.products').html());
+					{% include 'addToCart-ajax' %}
+					$(event.target).parent().parent().addClass('active-shop-the-look');
+					$(event.target).parent().parent().addClass('previousOpen');
+					$(event.target).closest('.row-container').find('.shop-the-look-container-outer').addClass('shop-the-look-'+ shopTheLookClassNumber);
+					$(event.target).closest('.row-container').find('.shop-the-look-container-outer').prepend('<span class="look-number align_right">look '+shopTheLookClassNumber+'</span><span class="close">close</span>');
+					$(event.target).closest('.row-container').addClass('open');
+					$("img").unveil(300).css('opacity', 1);
+					$('html,body').animate({scrollTop: $(".shop-the-look-container").offset().top -100 } ,'slow');
+					if($(event.target).is('[shop-the-look="shop-the-look-1"]')){
+						$(".productSortItem[color^='Wine']").addClass('active');
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-2"]')){
+						$(".productSortItem[color^='Wine']").addClass('active'); 	
+						$(".productSortItem[color^='Mud'][title^='Leather Toggle Belt']").addClass('active');
+					}
+					if($(event.target).is('[shop-the-look="shop-the-look-3"]')){
+						$(".productSortItem[color^='Wine']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-4"]')){
+						$(".productSortItem[color^='Wine']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-5"]')){
+						$(".productSortItem[color^='Wine']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-6"]')){
+						$(".productSortItem[color^='Wine']").addClass('active');
+						$(".productSortItem[color^='Mud'][title^='Leather Toggle Belt']").addClass('active');
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-7"]')){
+						$(".productSortItem[color^='Wine']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-8"]')){
+						$(".productSortItem[color^='Wine']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-9"]')){
+						$(".productSortItem[color^='Petrol']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-10"]')){
+						$(".productSortItem[color^='Petrol']").addClass('active'); 	
+						$(".productSortItem[color^='Black'][title^='Leather Tribal Beads High Neck Necklace']").addClass('active');
+						$(".productSortItem[color^='Black'][title^='Large Morph Cuff']").addClass('active');
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-11"]')){
+						$(".productSortItem[color^='Petrol']").addClass('active'); 	
+						$(".productSortItem[color^='Black'][title^='Varied Leather Bead Necklace']").addClass('active');
+						$(".productSortItem[color^='Black'][title^='Large Morph Cuff']").addClass('active');					
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-12"]')){
+						$(".productSortItem[color^='Steel']").addClass('active'); 	
+						$(".productSortItem[color^='Black']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-13"]')){
+						$(".productSortItem[color^='Steel']").addClass('active');
+						$(".productSortItem[color^='Petrol']").addClass('active');
+						$(".productSortItem[color^='Dove Grey'][title^='Tapered Jodhpur']").addClass('active');						
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-14"]')){
+						$(".productSortItem[color^='Dove Grey']").addClass('active'); 	
+
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-15"]')){
+						$(".productSortItem[color^='Dove Grey']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-16"]')){
+						$(".productSortItem[color^='Dove Grey']").addClass('active');
+						$(".productSortItem[title^='Varied Leather Bead Necklace']").addClass('active');							 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-17"]')){
+						$(".productSortItem[color^='Dove Grey']").addClass('active'); 
+						$(".productSortItem[color^='Mud']").addClass('active'); 							
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-18"]')){
+						$(".productSortItem[color^='Dove Grey']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-19"]')){
+						$(".productSortItem[color^='Mud']").addClass('active');
+						$(".productSortItem[color^='Dove Grey'][title^='Tapered Jodhpur']").addClass('active');
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-20"]')){
+						$(".productSortItem[color^='Mud']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-21"]')){
+						$(".productSortItem[color^='Mud']").addClass('active'); 	
+						$(".productSortItem[color^='Black'][title^='Large Morph Cuff']").addClass('active');
+						$(".productSortItem[color^='Black'][title^='Varied Leather Bead Necklace']").addClass('active');
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-22"]')){
+						$(".productSortItem[color^='Dove Grey']").addClass('active');	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-23"]')){
+						$(".productSortItem[color^='Dove Grey']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-24"]')){
+						 $(".productSortItem[color^='Black'][title^='Leather Tribal Beads High Neck Necklace']").addClass('active');	
+						$(".productSortItem[color^='Black']").addClass('active'); 	
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-25"]')){
+						 $(".productSortItem[color^='Black'][title^='Leather Tribal Beads High Neck Necklace']").addClass('active');							 
+						$(".productSortItem[color^='Black']").addClass('active'); 						
+					}	
+					if($(event.target).is('[shop-the-look="shop-the-look-26"]')){
+						$(".productSortItem[color^='Black']").addClass('active'); 	
+						$(".productSortItem[color^='Black'][title^='Varied Leather Bead Necklace']").addClass('active');						
+					}
+					if($(event.target).is('[shop-the-look="shop-the-look-27"]')){
+						$(".productSortItem[color^='Black']").addClass('active'); 	
+						$(".productSortItem[color^='Black'][title^='Varied Leather Bead Necklace']").addClass('active');						
+					}
+					if($(event.target).is('[shop-the-look="shop-the-look-28"]')){
+						$(".productSortItem[color^='Black']").addClass('active'); 
+						$(".productSortItem[color^='Black'][title^='Varied Leather Bead Necklace']").addClass('active');							
+					}
+					if($(event.target).is('[shop-the-look="shop-the-look-29"]')){
+						$(".productSortItem[color^='Black']").addClass('active');
+						$(".productSortItem[color^='Black'][title^='Varied Leather Bead Necklace']").addClass('active');						
+					}
+					if($(event.target).is('[shop-the-look="shop-the-look-30"]')){
+						$(".productSortItem[color^='Black']").addClass('active');
+						$(".productSortItem[color^='Black'][title^='Varied Leather Bead Necklace']").addClass('active');						
+					}
+					if($(event.target).is('[shop-the-look="shop-the-look-31"]')){
+						$(".productSortItem[color^='Black']").addClass('active'); 
+						$(".productSortItem[color^='Black'][title^='Varied Leather Bead Necklace']").addClass('active');							
+					}
+					$(".shop-the-look-container .productSortItem").sort(sort_looks).appendTo('.shop-the-look-container');
+					function sort_looks(a, b){
+					    return ($(b).data('look-position')) < ($(a).data('look-position')) ? 1 : -1;    
+					}
+					$(document).find('.look-image').addClass('close');
+					return false;
+				}
+			});
+		}
+	});	
+	$(document).on('click','.close,.shopActive', function(event){
+		$('.shop-the-look-container').slideUp('slow');
+		$('html,body').animate({scrollTop: $(this).offset().top -100 } ,'slow');
+		$('.parentItem').removeClass('active-shop-the-look');		
+		$('.shop-the-look-container').removeClass('opened');
+		$('.shop-the-look-container-outer').remove();
+		$('.previousOpen .flexwrap').removeClass('shopActive');
+		$('.previousOpen .flexwrap').addClass('ready');
+		$(document).find('.previousOpen').removeClass('previousOpen');
+		$('.row-container').removeClass('open');
+		$('.shop-the-look-container.previousDrawer').remove();
+		$('.close').removeClass('close');
+
+	});
+});
+</script>

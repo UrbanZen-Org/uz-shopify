@@ -1,0 +1,49 @@
+{% assign product_found = false %}
+{% assign skip = false %}
+{% assign collection_group = products | map: 'id' %}
+{% assign collection_group_thumb = collection_group | append : 'thumb' %}
+{% assign collection_group_mobile = collection_group | append : 'mobile' %}
+
+<div itemtype="http://schema.org/ItemList" class="products">
+  {% for product in products limit: limit %}
+    {% if product.id == skip_product.id or skip == true %}
+      {% assign product_found = true %}
+    {% else %}
+      {% if forloop.rindex0 == 0 and product_found == false and forloop.length != products.count and template != 'search' %}
+        {% assign skip = true %}
+      {% else %}
+
+        {% include 'product-thumbnail-swatches' with product-loop %}
+
+        {% if products_per_row == "2" %}
+          {% cycle collection_group: '', new_row %}
+        {% elsif products_per_row == "3" %}
+          {% cycle collection_group: '', '', new_row %}    
+        {% elsif products_per_row == "4" %}  
+          {% cycle collection_group: '', '', '', new_row %}
+        {% endif %}
+      {% endif %}    
+    {% endif %}
+  {% endfor %}
+</div>
+{% comment %}
+{% unless template contains 'no-sort' %}
+{% include 'product-sort' %}
+{% endunless %}
+{% endcomment %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.productSortItem .variantItem:first-child').addClass('active');
+    $('.productSortItem').find('.colorSwatch:first').addClass('selected');
+  });
+  $('.productSortItem').on('click', '.colorSwatch', function(e) {
+      e.preventDefault();
+    
+      var elementClass = $(this).attr("color");
+      $(this).parent('.productSortItem').find('.colorSwatch').removeClass('selected');
+      $(this).addClass('selected');
+      $(this).parent('.productSortItem').find('a.active').removeClass('active');
+      $(this).parent('.productSortItem').find('a.' + elementClass).addClass('active');
+      return false;
+  });
+</script>

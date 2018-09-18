@@ -1,0 +1,121 @@
+{% comment %}{% assign file_extension = 'png' %}
+{% assign option_index = 0 %}
+<div class="product_form">		
+		{% if product.tags contains 'call-to-purchase'  %}
+		<input type="submit" name="add" value="LIMITED QUANTITY AVAILABLE" class="action_button add_to_cart add-to-bag cta-button pull-right" data-label='LIMITED QUANTITY AVAILABLE' disabled />
+		{% elsif product.tags contains 'coming-soon' %}
+		<input type="submit" name="add" value="COMING MID-DECEMBER" class="action_button add_to_cart add-to-bag cta-button pull-right" data-label='COMING MID-DECEMBER' disabled />
+		{% elsif product.available == false %}
+		<input type="submit" name="add" value="sold out" class="action_button add_to_cart add-to-bag cta-button pull-right" data-label='Sold Out' disabled />
+		
+	{% else %}
+	<form action="/cart/add" data-id="{{ variant.id }}" method="post" class="clearfix product_form" data-money-format="{{ shop.money_format }}" data-shop-currency="{{ shop.currency }}" id="product-form-{{ product.id }}">
+		{% if product.variants.size == 1 %}
+      <div class="swatch-element available hide"></div>
+			<input type="hidden" name="id" value="{{ product.variants.first.id }}" id="variant-{{ variant.id }}" />
+		{% else %}
+			<div class="swatch_options">
+				<div class="swatch">
+				    {% for variant in product.variants %}
+				      	{% assign value = variant.options[option_index] %}
+				        {% assign values = values | join: ',' %}
+				        {% assign values = values | append: ',' | append: value %} 
+				        {% assign values = values | split: ',' %}			
+						{% if product.options.first == 'Size' and product.options.size == 1 %}
+							{% if variant.available %}
+								<div class="{{product.id}} p5 3a swatch-element {% if variant.available %}available{% else %}soldout{% endif %}">
+									<input name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}" class="{{product.id}}" >
+									<label for="variant-{{ variant.id }}">{{ variant.option1 | escape }}</label> 
+								</div>
+							{% else %}
+								<div class="p5 swatch-element 3b {% if variant.available %}available{% else %}soldout{% endif %}">
+									<input name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}" disabled="disabled" class="disabled"  style="opacity:0.4;" >
+									<label for="variant-{{ variant.id }}" disabled="disabled" opacity="0.8">{{ variant.option1 | escape }}</label>
+								</div>
+							{% endif %}
+						{% elsif product.options.first == 'Size' and product.options.size > 1 %}
+							{% if variant.available %}
+								<div class="{{product.id}} p5 4a swatch-element {% if variant.available %}available{% else %}soldout{% endif %}">
+									<input name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}" class="{{product.id}}" >
+									<label for="variant-{{ variant.id }}">{{ variant.option1 | escape }}</label> 
+								</div>
+							{% else %}
+								<div class="p5 swatch-element 4b {% if variant.available %}available{% else %}soldout{% endif %}">
+									<input name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}" disabled="disabled" class="disabled"  style="opacity:0.4;" >
+									<label for="variant-{{ variant.id }}" disabled="disabled" opacity="0.8">{{ variant.option1 | escape }}</label>
+								</div>
+							{% endif %}                  
+						{% elsif product.options.first == 'Color' and product.options.size == 1 %}
+                             {% assign variantColor = variant.option1 | escape %}
+							 {% if variantColor == colorName %}
+                  			     <div data-variant="{{ variant.title }}" style="visibility: hidden;" class="p5 5a swatch-element {% if variant.available %}available{% else %}soldout{% endif %} swatch-img">
+						           {% if variant.available %} 
+                                  		<input checked="checked" name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}" class="{{product.id}}" > 
+                                  		<label id="{{ variant.id }}" for="variant-{{ variant.id }}">{{ variant.option2 | escape }}</label> 		
+                                  {% else %} 
+                   			     <div data-variant="{{ variant.title }}" style="visibility: hidden;" class="p5 5a swatch-element {% if variant.available %}available{% else %}soldout{% endif %} swatch-img">
+                                   		<input disabled="disabled"  style="opacity:0.4;" name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}"  class="disabled" > 
+                                   		<label id="{{ variant.id }}" for="variant-{{ variant.id }}"  disabled="disabled" opacity="0.8">{{ variant.option2 | escape }}</label> 		
+                                   {% endif %}
+                                  <script>
+                                 	 $('#product-form-{{ product.id }}').addClass('quick-buy-reset');
+                                  </script>
+								</div>	
+							 {% endif %}
+						{% elsif product.options.first == 'Color' and product.options.size > 1 %}
+                             {% assign variantColor = variant.option1 | escape %}
+                  			  {% if variantColor == colorName %}
+                                  {% if variant.available %}
+                                    <div class="{{variant.id}} p5 5a swatch-element {% if variant.available %}available{% else %}soldout{% endif %}">
+                                        <input name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}" class="{{product.id}}" >
+                                        <label class="{{ variant.option1 | escape }}" for="variant-{{ variant.id }}">{{ variant.option2 | escape }}</label> 						
+                                    </div>
+                                    {% else %}
+                                    <div class="{{ variant.id }} p5 swatch-element 5b {% if variant.available %}available{% else %}soldout{% endif %}">
+                                        <input name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}" class="{{product.id}}" >
+                                        <label for="variant-{{ variant.id }}">{{ variant.option2 | escape }}</label> 						
+                                    </div>
+                                {% endif %}
+                  			  {% endif %}
+						{% endif %}                  
+					    <script>
+						    $(document).on('click','input.{{product.id}}', function() {
+						    	console.log($(this).parent().parent().parent().parent());
+								$('input[type="submit"].{{product.id}}').removeAttr('disabled');
+								$('.warning').empty();
+								$(this).parent().parent().parent().parent().children('.empty').removeClass('disabled-container');
+						    });    
+					    </script>
+					{% endfor %}
+				  
+				</div>
+			</div>
+		{% endif %}
+		{% if product.tags contains 'pre-order' %}
+				<span class="empty disabled-container">
+				<input type="submit" id="addcart" name="add" value="pre-order" class="action_button add_to_cart add-to-bag cta-button pull-right {{variant.id}} {{ product.id }} " data-label='pre-order' disabled="disabled" />
+				<p class="warning animated bounceIn"></p>
+				</span>
+		{% else %}		
+		{% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}
+		<span class="empty disabled-container">
+		<input type="submit" id="addcart" name="add" value="add to cart" class="action_button add_to_cart add-to-bag cta-button pull-right {{variant.id}} {{ product.id }} {% if product.variants.size == 1 or product.first_available_variant.option2 == 'O/S'  %} no-choices{% endif %}" data-label={{ add_to_cart_label | json }} disabled="disabled" />
+		</span>
+		{% endif %}
+		<input type="hidden" name="productId" value="{{ product.id }}">
+	</form>
+	{% endif %}
+</div>
+<div class="opacity-bg"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.action_button.no-choices').removeProp('disabled');
+	$('.action_button.no-choices').parent().removeClass('disabled-container');
+});
+ $(document).on('click','.disabled-container', function(e){
+    e.preventDefault();
+      $(this).children(".warning").text("Please select a size");
+
+    });        
+
+</script>{% endcomment %}

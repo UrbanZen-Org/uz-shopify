@@ -1,0 +1,67 @@
+	{% assign html_title = page_title %}
+
+	{% if template contains "index" %}
+	{% else %}
+		{% assign html_title = page_title %}
+
+		{% unless page_title contains shop.name %}
+			{% assign html_title = html_title | append: ' | ' | append: shop.name %}
+		{% endunless %}
+	{% endif %}
+
+	<title>{{ html_title }}</title>
+
+	{% if page_description %}
+		<meta name="description" content="{{ page_description | escape }}" />
+	{% endif %}
+	<meta charset="utf-8">
+	<meta http-equiv="cleartype" content="on">
+	<meta name="robots" content="index,follow">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{ 'favicon.png' | asset_url }}">
+	<link rel="canonical" href="{{ canonical_url }}" />
+	{% if current_tags %}
+		{% assign meta_tags = current_tags | join: ', ' %}
+	{% endif %}
+
+	{% include 'social-meta-info' %}
+
+	{% if collection.previous_product %}
+		<link rel="prev" href="{{ collection.previous_product }}">
+	{% endif %}
+
+	{% if collection.next_product %}
+		<link rel="next" href="{{ collection.next_product }}">
+	{% endif %}
+
+	{{ 'styles.scss.css' | asset_url | stylesheet_tag }}
+	{{ 'css-additional-styles.css' | asset_url | stylesheet_tag }}
+
+	{% if template == 'cart' %}
+		{{ 'checkout_cart.scss.css' | asset_url | stylesheet_tag }}
+	{% endif %}
+
+	<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  '//connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1672688262943392');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="//www.facebook.com/tr?id=1672688262943392&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+	<!--[if lte IE 8]>
+		{{ 'ie.css' | asset_url | stylesheet_tag }}
+		{{ 'skrollr.ie.js' | asset_url | script_tag }}
+	<![endif]-->

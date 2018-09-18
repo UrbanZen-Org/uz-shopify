@@ -1,0 +1,54 @@
+{% if settings.slideshow_collection_enabled %}
+  <div id="slide-collection">
+    <div class="bcg"
+        data-bottom-top="background-position: 50% 0px;"
+        data-top-bottom="background-position: 50% -200px;"
+        data-anchor-target="#slide-collection">
+          <div class="hsContainer">
+            <div class="hsContent center">
+              {% if settings.display_collection_header_title %}
+                <div>
+                  <h1 class="headline" style="color:{{settings.banner_color}}">{{ collection.title }}</h1>
+                </div>
+              {% endif %}                
+            </div>
+          </div>
+    </div>
+  </div>
+  <a name="pagecontent" id="pagecontent"></a>
+  <div class="container">
+{% endif %}
+
+{% paginate collection.products by settings.pagination_limit %}
+{% comment %}
+  {% if settings.collection_sidebar %}
+    {% include 'sidebar' %}
+    <div class="twelve columns">
+  {% else %}
+    <div class="sixteen columns">
+  {% endif %}
+{% endcomment %}
+    <div class="sixteen columns">
+    {% if collection.description != blank %}
+      <div class="section clearfix collection_description">    
+        {{ collection.description }}
+      </div>
+    {% endif %}
+	{% capture active_tags %}{{current_tags}}{% endcapture %}
+    {% if collection.products.size == 0 %}
+      <div class="section clearfix">     
+        <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
+      </div>
+    {% elsif active_tags == "" %}
+	<h1>TEST</h1>
+	{% else %}
+      {% assign products = collection.products %}
+      {% assign products_per_row = settings.products_per_row %}
+      {% include 'product-loop' with settings.collection_sidebar %}
+  	
+	  	
+    {% endif %}
+
+    {% include 'pagination' with settings.collection_sidebar %}
+  </div>
+{% endpaginate %}

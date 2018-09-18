@@ -1,0 +1,117 @@
+{% assign file_extension = 'png' %}
+{% assign swatch = product-swatch %}
+{% if swatch == blank %}
+<div class="swatch error">
+  <p>You must include the snippet swatch.liquid with the name of a product option.</p> 
+  <p>Use: <code>{% raw %}{% include 'swatch' with 'name of your product option here' %}{% endraw %}</code></p>
+  <p>Example: <code>{% raw %}{% include 'swatch' with 'Color' %}{% endraw %}</code></p>
+</div>
+{% else %}
+
+{% assign found_option = false %}
+{% assign is_color = false %}
+{% assign option_index = 0 %}
+{% assign is_size = false %}
+{% for option in product.options %}
+  {% if option == swatch %}
+    {% assign found_option = true %}
+    {% assign option_index = forloop.index0 %}
+    <style>
+      label[for="product-select-option-{{ option_index }}"] { display: none; }
+      #product-select-option-{{ option_index }} { display: none; }
+      #product-select-option-{{ option_index }} + .custom-style-select-box { display: none !important; }
+    </style>
+    <script>$(window).load(function() { $('.selector-wrapper:eq({{ option_index }})').hide(); });</script>
+    {% assign downcased_option = swatch | downcase %}
+    {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+      {% assign is_color = true %}
+    {% endif %} 
+  {% endif %}
+{% endfor %}
+
+{% unless found_option %}
+<div class="swatch error">
+  <p>You included the snippet swatch.liquid with the name of a product option — <code>'{{ swatch }}'</code> — that does not belong to your product.</p>
+  <p>Use <code>{% raw %}{% include 'swatch' with 'name of your product option here' %}{% endraw %}</code></p>
+  <p>Example: <code>{% raw %}{% include 'swatch' with 'Color' %}{% endraw %}</code></p>
+  <p><strong>This is case-sensitive!</strong> Do not put in <code>'color'</code> if your product option name is <code>'Color'</code>.</p>
+</div>
+{% else %}
+<div class="swatch clearfix" data-option-index="{{ option_index }}">
+	 <p class="p6 option-title {% if is_color %}color-title{% endif %}">
+    {% if product.tags contains 'donation' %}
+      Choose Your Donation Amount
+    {% else %}
+		 {{ swatch }}{% if is_color %}:{% endif %}
+		 {% if variant.option1 != blank and is_color %}
+			 {% assign values = '' %}
+			 {% for variant in product.variants %}
+			 	{% assign value = variant.options[option_index] %}
+				{% unless values contains value %}
+					{% assign values = values | join: ',' %}
+	        		{% assign values = values | append: ',' | append: value %} 
+	        		{% assign values = values | split: ',' %}
+					{% if is_color %}
+						{% assign words = {{value}} | split: ' ' %}
+            {% comment %}{{ product.tags }}{% endcomment %}
+						<span data-value="{{ value | escape }}" class="swatch_name">
+              
+                {{ value }}
+
+							{% for word in words %}
+								{% unless forloop.last %}
+								{{word | replace: '-', '/'}}
+								{% endunless %}
+							{% endfor %}
+						</span>
+					{% endif %}
+				{% endunless %}
+			{% endfor %}
+		{% endif %}
+  {% endif %}
+	</p>
+  
+  {% assign values = '' %}
+  {% for variant in product.variants %}
+    {% assign value = variant.options[option_index] %}
+    {% unless values contains value %}
+      {% assign values = values | join: ',' %}
+      {% assign values = values | append: ',' | append: value %} 
+      {% assign values = values | split: ',' %}      
+      
+      {% unless product.tags contains 'F18' and is_color %}
+          <div data-value="{{ value | escape }}" data-product-title="{{product.title}}" class="p5 swatch-element {% if is_color %}color {% else %} size {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %} {{option.title}}">        
+            <input variant-id="{{ variant.id }}" data-variant-size="{{ variant.option2}}" data-variant-color="{{ variant.option1}}" product-id="{{ product.id }}" class="{{ variant.id }}" id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} data-price="{{variant.price | money | strip_html}}" data-sale-price="{{variant.compare_at_price | money}}" data-sale-lang="{% if variant.compare_at_price > variant.price %}final sale{% endif %}" />
+
+
+          {% if is_color %}
+            
+            <label class="{{ variant.id }}" variant-id="{{ variant.id }}" id="{{ value | handle }}" for="swatch-{{ option_index }}-{{ value | handle }}" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})">
+              <img class="crossed-out" src="{{ 'soldout-square.png' | asset_url }}" />
+            </label>
+
+          {% else %}
+            <label class="{{ variant.id }}" id="{{ value | handle }}" for="swatch-{{ option_index }}-{{ value | handle }}">
+            {{ value }}
+            <img class="crossed-out" src="{{ 'soldout-square.png' | asset_url }}" />
+            </label>
+          {% endif %}
+        </div>
+      {% endunless %}
+    {% endunless %}
+  {% endfor %}
+    {% if is_color %}
+    <div></div>
+    {% if product.tags contains "more colors" %}
+      <p class="additional-available">Also available in: {% if product.tags contains 'Black' %}<span>Black</span>{% endif %}{% if product.tags contains 'Mud' %}<span>Mud</span>{% endif %}{% if product.tags contains 'Petrol' %}<span>Petrol</span>{% endif %}{% if product.tags contains 'Really Red' %}<span>Really Red</span>{% endif %}{% if product.tags contains 'Wine' %}<span>Wine</span>{% endif %}{% if product.tags contains 'White Smoke' %}<span>White Smoke</span>{% endif %}</p>
+      <p>Contact customer care to order: 212.206.3999</p>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% endunless %}
+
+{% endif %}
+<script type="text/javascript">
+{% include 'swatch-js-orient' %}
+</script>

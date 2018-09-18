@@ -1,0 +1,268 @@
+{% assign collection_handles = product.collections | map: 'handle' %}
+{% assign alt_text = product.featured_image.alt %}
+{% assign colorList = ',' %}
+{% assign sizeList = ',' %}
+
+{% unless product.tags contains "no-variant-images" or product.variants.first.title contains 'Default' %}
+	{% if product.options.first == 'Size' and product.options.color %}
+		{% for variant in product.variants %}
+			{% capture compareColor %},{{variant.option2}},{% endcapture %}
+			{% capture compareSize %},{{variant.option1}},{% endcapture %}
+			{% if colorList contains compareColor %}
+			
+			{% elsif sizeList contains compareSize %}
+			
+			{% else %} 
+
+				{% assign variant_image = variant.image or product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+				{% assign colors = {{variant.option2}}%}
+				{% assign sizes = {{variant.option1}}%}
+				{% for color in colors | limit:1 %}
+					{% assign colorName = color %}
+					<div color="{{color}}" title="{{product.title}}" class="productSortItem six columns thumbnail" itemprop="itemListElement" itemtype="http://schema.org/Product">
+						<a href="{{ variant.url | within: collection }}" itemprop="url" class="active">
+							<div class="relative product_image relative thumbnail {% if product.variant.option2.size > 4 %}many-variants{% endif %}">
+								<img width="100%" height="auto" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ variant_image | product_img_url: 'original' | split:'?' | first }}" data-retina-src="{{ variant_image | product_img_url: '1024x1024' | split:'?' | first }}" alt="{{variant.name}}" />	
+								{% for image in product.images %}
+									{% if image.alt contains 'shop-the-look' %}
+										<img src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ image | product_img_url: 'original' }}" data-retina-src="{{ image | product_img_url: 'large' }}" alt="{{ image.alt | escape }}" />
+									{% endif %}
+								{% endfor %}
+								<div class="quick-buy">
+									{% include 'quick-buy' %}
+								</div>
+							</div>
+							<div class="meta">
+								{% for tag in product.tags %}
+									{% if tag contains 'country-' or tag contains 'Country-' %}
+										<p class="country">{{ tag | remove: "country-" | remove: "Country-" }}</p>
+									{% endif %}
+								{% endfor %}
+								<p class="title">{{product.title}}</p>
+								<p class="price"><div class="here"></div>{% if product.tags contains 'no-pricing' %}Price upon request{% elsif product.variant contains 'Default' %}{{variant.price | money}}{% elsif product.available == false %}<span class="soldOut">{{ 'products.product.sold_out' | t }}</span>{% elsif product.price_varies %} {{ product.price_min | money }} - {{ product.price_max | money }}{% elsif product.price_varies and product.tags contains 'no-variant-images' %} {{ product.price_min | money }} - {{ product.price_max | money }}{% else %}{{variant.price | money}}{% endif %}</p>
+								<p>{% if color contains 'Default' %}{% else %}<span class="colorName">{{color}}</span>{% endif %}</p>
+								
+							</div>
+						</a>
+					</div>				
+				{% endfor %}
+				{% capture colorTempList %}{{colorList}}{{variant.option2}},{% endcapture %}
+				{% capture sizeTempList %}{{sizeList}}{{variant.option1}},{% endcapture %}
+				{% assign colorList = colorTempList %}
+				{% assign sizeList = sizeTempList %}
+			{% endif %}
+		{% endfor %}
+
+	{% elsif product.options.first == 'Color' and product.options.size > 1 %}
+		<div title="{{product.title}}" class="productSortItem six columns thumbnail" itemprop="itemListElement" itemtype="http://schema.org/Product">
+			{% for variant in product.variants %}
+				{% capture size_opt_variant %}
+					{% for variant in product.variants %}
+						{% for option in variant.options %}
+							{% if product.options[forloop.index0] == 'Size' %}somestring,{% endif %}
+						{% endfor %}
+					{% endfor %}
+				{% endcapture %}
+				{% assign size_opt_variant_split = size_opt_variant | split: 'somestring,' %}
+				{% assign size_opt_count = size_opt_variant_split.size | minus:1 %}
+				{% capture compareSize %},{{variant.option2}},{% endcapture %}
+				{% capture compareColor %},{{variant.option1}},{% endcapture %}
+				{% if colorList contains compareColor %}
+
+				{% else %}  
+					{% assign variant_image = variant.image or product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+					{% assign colors = {{variant.option1}}%}
+					{% assign sizes = {{variant.option2}}%}
+					{% for color in colors %}
+						{% assign colorName = color %}	
+						<a color="{{color | replace: ' ', '-' | downcase}}" href="{{ variant.url | within: collection }}" itemprop="url" class="variantItem {{color | replace: ' ', '-' | downcase}}" >
+							<div class="relative product_image relative thumbnail {% if product.variant.option2.size > 4 %}many-variants{% endif %}">
+								<img width="100%" height="auto" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ variant_image | product_img_url: 'original' | split:'?' | first }}" data-retina-src="{{ variant_image | product_img_url: '1024x1024' | split:'?' | first }}" alt="{{variant.name}}" />	
+								
+								<div class="quick-buy">
+									{% include 'quick-buy' %}
+								</div>
+							</div>
+							<div class="meta">
+								{% for tag in product.tags %}
+									{% if tag contains 'country-' %}
+										<p class="country">{{ tag | remove: "country-" }}</p>
+									{% endif %}
+								{% endfor %}
+								<p class="title">{{product.title}}</p>
+								<p class="price">
+									{% if product.tags contains 'no-pricing' %}
+										Price upon request
+									{% elsif product.variant contains 'Default' %}
+									{{variant.price | money}}
+										<span class="sale strike">{% if variant.compare_at_price > variant.price %}
+												{{variant.compare_at_price | money}}
+											{% endif %}</span>
+										
+									{% elsif product.variant.available == false %}
+										<span class="soldOut">{{ 'products.product.sold_out' | t }}</span>
+									{% else %}
+									{% if product.price_varies %} {{ product.price_min | money }} - {{ product.price_max | money }}{% else %}{{ variant.price | money }}{% endif %}
+										<span class="sale strike">{% if variant.compare_at_price > variant.price %}
+												{{variant.compare_at_price | money}}{% endif %}</span> 
+										
+									{% endif %}
+								</p>
+								<p>{% if color contains 'Default' %}{% else %}
+									{% comment %}<span class="colorName">{% assign words = {{color}} | split: ' ' %}{% for word in words %}{% unless forloop.last %}{{word | replace: '-', '/'}}{% endunless %} {% endfor %}</span>{% endcomment %}
+								{% endif %}</p>
+							</div>
+						</a>			
+					{% endfor %}
+					{% capture colorTempList %}{{colorList}}{{variant.option1}},{% endcapture %}
+					{% capture sizeTempList %}{{sizeList}}{{variant.option2}},{% endcapture %}
+					{% assign colorList = colorTempList %}
+					{% assign sizeList = sizeTempList %}
+				{% endif %}
+			{% endfor %}
+			{% assign colorList = ',' %}
+			{% assign sizeList = ',' %}	
+			{% for variant in product.variants %}
+				{% capture size_opt_variant %}
+					{% for variant in product.variants %}
+						{% for option in variant.options %}
+							{% if product.options[forloop.index0] == 'Size' %}somestring,{% endif %}
+						{% endfor %}
+					{% endfor %}
+				{% endcapture %}
+				{% assign size_opt_variant_split = size_opt_variant | split: 'somestring,' %}
+				{% assign size_opt_count = size_opt_variant_split.size | minus:1 %}	
+				{% capture compareSize %},{{variant.option2}},{% endcapture %}
+				{% capture compareColor %},{{variant.option1}},{% endcapture %}
+				{% if colorList contains compareColor %}
+				
+				{% else %}  
+					{% unless product.tags contains 'no-grid-swatch' %}
+						{% assign colors = {{variant.option1}}%}
+						{% assign sizes = {{variant.option2}}%}
+						{% unless product.tags contains 'Fall18' %}
+							{% for color in colors %}
+							<label class="colorSwatch" color="{{color | replace: ' ', '-' | downcase}}" class="colorName {{color | replace: ' ', '-' | downcase}}" style="display:inline-block;width:25px;height:25px; background-image: url({{ color | handle | append: '.' | append: file_extension | asset_url }})"></label>	
+							{% endfor %}
+						{% endunless %}
+					{% endunless %}
+					{% capture colorTempList %}{{colorList}}{{variant.option1}},{% endcapture %}
+					{% capture sizeTempList %}{{sizeList}}{{variant.option2}},{% endcapture %}
+					{% assign colorList = colorTempList %}
+					{% assign sizeList = sizeTempList %}
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% elsif product.options.first == 'Color' and product.options.size == 1 %}
+		{% for variant in product.variants %}
+			{% assign variant_image = variant.image or product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+			{% assign colors = {{variant.option1}}%}
+			{% assign colorName = color %}
+			{% for color in colors | limit:1 %}
+				<div color="{{color}}" title="{{product.title}}" class="productSortItem six columns thumbnail" itemtype="http://schema.org/Product" itemprop="itemListElement">
+					<a href="{{ variant.url | within: collection }}" itemprop="url" class="active">
+						<div class="relative product_image relative thumbnail {% if product.variant.option2.size > 4 %}many-variants{% endif %}">
+							<img width="100%" height="auto" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ variant_image | product_img_url: 'original' | split:'?' | first }}" data-retina-src="{{ variant_image | product_img_url: '1024x1024' | split:'?' | first }}" alt="{{variant.name}}" />	
+							{% for image in product.images %}
+								{% if image.alt contains 'shop-the-look' %}
+									<img src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ image | product_img_url: 'original' }}" data-retina-src="{{ image | product_img_url: 'large' }}" alt="{{ image.alt | escape }}" />
+								{% endif %}
+							{% endfor %}
+						{% comment %}	<div class="quick-buy">
+								{% include 'quick-buy' %}
+							</div>{% endcomment %}
+						</div>
+						<div class="meta">
+							{% for tag in product.tags %}
+								{% if tag contains 'country-' %}
+									<p class="country">{{ tag | remove: "country-" }}</p>
+								{% endif %}
+							{% endfor %}
+							<p class="title">{{product.title}}</p>
+							<p class="price {{ variant.id }}">{% if product.tags contains 'no-pricing' %}Price upon request{% elsif product.variant contains 'Default' %}{{variant.price | money}}{% elsif product.variant.inventory_quantity < 1 %}<span class="soldOut">{{ 'products.product.sold_out' | t }}</span>{% elsif product.price_varies  %} {{ product.price_min | money }} - {{ product.price_max | money }}{% else %}{{variant.price | money}}{% endif %}</p>
+							<p>{% if color contains 'Default' %}{% else %}<span class="colorName">{% assign words = {{color}} | split: ' ' %}{% for word in words %}{% unless forloop.last %}{{word | replace: '-', '/'}}{% endunless %} {% endfor %}</span>{% endif %}</p>
+						</div>
+					</a>
+					{% assign colorList = ',' %}
+					{% assign sizeList = ',' %}	
+					{% for variant in product.variants %}
+						{% capture size_opt_variant %}
+							{% for variant in product.variants %}
+								{% for option in variant.options %}
+									{% if product.options[forloop.index0] == 'Size' %}somestring,{% endif %}
+								{% endfor %}
+							{% endfor %}
+						{% endcapture %}
+						{% assign size_opt_variant_split = size_opt_variant | split: 'somestring,' %}
+						{% assign size_opt_count = size_opt_variant_split.size | minus:1 %}	
+						{% capture compareSize %},{{variant.option2}},{% endcapture %}
+						{% capture compareColor %},{{variant.option1}},{% endcapture %}
+						{% if colorList contains compareColor %}
+						
+						{% else %}  
+							{% unless product.tags contains 'no-grid-swatch' %}
+								{% assign colors = {{variant.option1}}%}
+								{% assign sizes = {{variant.option2}}%}
+								{% for color in colors %}
+									<label class="colorSwatch" color="{{color | replace: ' ', '-' | downcase}}" class="colorName {{color | replace: ' ', '-' | downcase}}" style="display:inline-block;width:25px;height:25px; background-image: url({{ color | handle | append: '.' | append: file_extension | asset_url }})"></label>	
+								{% endfor %}
+							{% endunless %}
+							{% capture colorTempList %}{{colorList}}{{variant.option1}},{% endcapture %}
+							{% capture sizeTempList %}{{sizeList}}{{variant.option2}},{% endcapture %}
+							{% assign colorList = colorTempList %}
+							{% assign sizeList = sizeTempList %}
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% endfor %}
+	{% else %}
+		<div color="{{color}}" title="{{product.title}}" class="productSortItem six columns thumbnail" itemtype="http://schema.org/Product" itemprop="itemListElement">
+		<a href="{{ product.url | within: collection }}" itemprop="url" class="active">
+			<div class="relative product_image relative thumbnail">
+				<img width="100%" height="auto" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ product.featured_image | product_img_url: 'original' | split:'?' | first }}" data-retina-src="{{ product.featured_image | product_img_url: '1024x1024' | split:'?' | first }}" alt="{{product.name}}" />
+				{% if settings.quick_shop_enabled %}
+					<span data-fancybox-href="#product-{{ product.id }}" class="quick_shop fa fa-plus" data-gallery="product-{{ product.id }}-gallery"></span>
+				{% endif %}
+				<div class="quick-buy">
+					{% include 'quick-buy' %}
+				</div>	
+			</div>
+			<div class="meta">
+				{% for tag in product.tags %}
+					{% if tag contains 'country-' %}
+						<p class="country">{{ tag | remove: "country-" }}</p>
+					{% endif %}
+				{% endfor %}
+				<p class="title">{{product.title}}</p>
+				<p class="price">{% if product.tags contains 'no-pricing' %}Price upon request{% elsif product.variant contains 'Default' %}{{variant.price | money}}{% elsif product.available == false %}<span class="soldOut">{{ 'products.product.sold_out' | t }}</span>{% elsif product.price_varies %} {{ product.price_min | money }} - {{ product.price_max | money }}{% else %}{{product.price | money}}{% endif %}</p>
+				<p>{% if color contains 'Default' %}{% else %} {{color | replace: '-','/'}}{% endif %}</p>
+			</div>
+		</a>
+	</div>
+	{% endif %}
+{% else %}
+	<div color="{{color}}" title="{{product.title}}" class="productSortItem six columns thumbnail" itemtype="http://schema.org/Product" itemprop="itemListElement">
+		<a href="{{ product.url | within: collection }}" itemprop="url" class="active">
+			<div class="relative product_image relative thumbnail">
+				<img width="100%" height="auto" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ product.featured_image | product_img_url: 'original' | split:'?' | first }}" data-retina-src="{{ product.featured_image | product_img_url: '1024x1024' | split:'?' | first }}" alt="{{product.name}}" />
+				{% if settings.quick_shop_enabled %}
+					<span data-fancybox-href="#product-{{ product.id }}" class="quick_shop fa fa-plus" data-gallery="product-{{ product.id }}-gallery"></span>
+				{% endif %}
+				<div class="quick-buy">
+					{% include 'quick-buy' %}
+				</div>	
+			</div>
+			<div class="meta">
+				{% for tag in product.tags %}
+					{% if tag contains 'country-' %}
+						<p class="country">{{ tag | remove: "country-" }}</p>
+					{% endif %}
+				{% endfor %}
+				<p class="title">{{product.title}}</p>
+				<p class="price">{% if product.tags contains 'no-pricing' %}Price upon request{% elsif product.variant contains 'Default' %}{{variant.price | money}}{% elsif product.available == false %}<span class="soldOut">{{ 'products.product.sold_out' | t }}</span>{% elsif product.price_varies %} {{ product.price_min | money }} - {{ product.price_max | money }}{% else %}{{product.price | money}}{% endif %}</p>
+				<p>{% if color contains 'Default' %}{% else %} {{color | replace: '-','/'}}{% endif %}</p>
+			</div>
+		</a>
+	</div>
+{% endunless %}

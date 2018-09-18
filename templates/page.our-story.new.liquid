@@ -1,0 +1,54 @@
+	<section class="fp-section section one center">
+		<div class="text text3">
+			
+			<h1 class="ivory">Our Story</h1>
+			
+		</div>
+		<div class="absolute-scroll bottom center">
+			<a id="link" class="light learn-more">Scroll<span></span></a>
+		</div>
+	</section> 
+	<div class="container">
+		<div class="sixteen center dark">
+			<h2 class="center">Urban Zen is: The Calm in the Chaos</h2>
+	  			<p><br/>Created for the sophisticated urban woman, our artisan pieces are timeless, seasonless and flexible, designed to go day into night, climate to climate, and travel your world - simply, sensually, uniquely.<br/><br/>Urban Zen was created to be part of a soulful economy: we care what, how and where our designs are made. And you care who benefits by your purchase. Together, we are partners in caring for the world we live in.</p>
+			</div>
+		</div>	
+		<div class="container">
+		<div class="one-third thumbnail">		
+				<img src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'available-in-season1.jpg' | asset_url | split:'?' | first }}" alt="Haiti Artisan Project" />
+				<h3 class="dark thin">Haiti Artisan<br>Project</h3>
+		</div>
+		<div class="one-third thumbnail">
+				<img src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'inspired-artisans.jpg' | asset_url | split:'?' | first }}" alt="D.O.T" />
+				<h3 class="dark thin">D.O.T</h3>
+		</div>
+		<div class="one-third thumbnail">
+				<img src="{{ 'transparent.gif' | asset_url | split:'?' | first }}" data-src="{{ 'foundation-children.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Integrative Therapy Program" />
+				<h3 class="dark thin">Integrative<br>Therapy<br>Program</h3>
+		</div>
+	</div>
+
+	<section class="fp-section section founder center">
+		<div class="text text3">
+			
+			<h1 class="ivory">Our Founder</h1>
+			
+		</div>
+		<div class="absolute-scroll bottom center">
+			<a id="link" class="light learn-more">Scroll<span></span></a>
+		</div>
+	</section> 
+	<script>
+	$(document).ready(function(){
+		function scrollToAnchor(aid){
+    		var aTag = $("a[name='"+ aid +"']");
+    		$('html,body').animate({scrollTop: aTag.offset().top -0},'slow');
+		}
+
+		$("#link").click(function() {
+	   		scrollToAnchor('jump-to');
+		});
+	});
+	</script>
+	{% include 'footer' %}

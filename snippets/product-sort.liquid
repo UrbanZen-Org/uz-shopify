@@ -1,0 +1,44 @@
+<script type="text/javascript">		
+	var $products = $('.products'),
+	$sortedProducts =$('.sortedProducts');
+	$productItem = $products.children('.productSortItem');
+	
+	function productSort(a,b){
+		var an = a.getAttribute('color'),
+		bn = b.getAttribute('color');
+
+		if(an > bn) {
+			return 1;
+		}
+		if(an < bn) {
+			return -1;
+		}
+		return 0;
+	};
+	$productItem.sort(productSort).appendTo($products);
+	$("[color*='Black']").prependTo($products);
+	$("[color*='Dove Grey']").prependTo($products);	
+	$("[color*='Mud']").prependTo($products);
+	$("[color*='Steel']").prependTo($products);
+	$("[color*='Steel']").prependTo($products);
+	$("[color*='Petrol']").prependTo($products);
+	$("[color*='Wine']").prependTo($products);
+	
+	
+	
+
+  
+    $('.productSortItem').each(function() {    
+   		var colorName = $(this).prop('color').trim();
+        var dataVariant = $(this).find('.soldout').attr('data-variant');
+        if(typeof dataVariant !== 'undefined') {
+          dataVariant = dataVariant.split(' ');
+          var lastIndex = dataVariant.pop();
+          dataVariant = dataVariant.join(' ');
+        }
+        if(dataVariant == colorName) {
+          $(this).find('input').val('Sold Out');
+		  
+        }
+    });
+</script>

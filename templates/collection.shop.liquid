@@ -1,0 +1,29 @@
+<div class="container">
+	{% if linklists.shop.links.size > 0 %}
+		<div class="full">
+			<a href="/pages/silk-road-collection" title="Browse our Silk Road Collection." >
+				<img src="{{ '022_D281_081_Banner_1024x1024.jpg' | asset_url | split:'?' | first  }}" width="100%" alt="Silk Road Collection" />
+              <span class="text"><h3 class="light">Silk Road Collection</h3><p class="light center">Shop by Look</p></span>
+			</a>
+		</div>
+		{% for link in linklists.shop.links %}
+			{% assign collection = link.object %}
+			<div class="one-third {% cycle 'left-side', 'middle', 'right-side' %} {{collection.title | handleize}}">
+				<a href="{{ collection.url }}" class="alpha thumbnail" title="Browse our {{ collection.title | escape }} collection.">
+					{% if collection.image %}
+						<img width="100%" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ collection.image.src | collection_img_url: 'large' }}" width="100%" alt="{{ collection.title | escape }}" />
+					{% elsif collection.object_type == 'page' %}
+						{% if collection.content contains "<featured" %}
+							{% assign src = collection.content | split: 'src="' %}
+							{% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn';; | replace: 'http:http://';;, 'http://';; | remove: 'https:' %}
+						    <img width="100%" src="{{ src }}" alt="{{collection.title}}" />
+						{% endif %}
+					{% else %}
+						<img src="{{ collection.products.first.featured_image | product_img_url: 'large' }}" width="100%" alt="{{ collection.title | escape }}" />
+					{% endif %}
+			    	<span class="text"><h3 class="light">{{ collection.title }}</h3><p class="light center">Shop All</p></span>
+				</a>
+			</div>
+		{% endfor %}
+	{% endif %}
+</div>

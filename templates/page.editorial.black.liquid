@@ -1,0 +1,87 @@
+	{% assign featuredBlogs = 'donnas-journey,made-by-hand,fashion,travel,wellness,editorial,philanthropy' | split:',' %}
+	{% assign featuredArticles = false %}
+	{% for featuredBlog in featuredBlogs %}
+		{% if blogs[featuredBlog].articles %}
+			{% if featuredArticles %}
+				{% assign featuredArticles = featuredArticles | concat:blogs[featuredBlog].articles %}
+			{% else %}
+				{% assign featuredArticles = blogs[featuredBlog].articles %}
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+	{% if featuredArticles %}
+		{% assign featuredArticles = featuredArticles %}
+		{% for article in featuredArticles %}
+			{% if article.tags contains 'letter' %}
+				<div class="topBanner">
+					<img src="https://cdn.shopify.com/s/files/1/1088/8842/articles/DKVoice_LetterfromFounder.jpg?v=1458577869" width="100%" height="auto" alt='Our Founder Donna Karan' />
+					<div class="text right-align">
+						<h2>A Letter From</h2>
+						<h1>The Founder</h1>
+						<a href="{{article.url}}" class="cta-button" title="{{article.title}}">Read</a>
+					</div>	
+				</div>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+<div class="container">	
+	<div class="featured">
+	{% if featuredArticles %}
+		{% assign featuredArticles = featuredArticles %}
+		{% for article in featuredArticles %}
+		    {% capture partial_url %}{{ article.url | remove: '/blogs/' }}{% endcapture %}
+		       {% capture blog_title %}{{ partial_url | split: "/" | first }}{% endcapture %}
+		       
+		{% if article.tags contains 'featured' %}
+		
+			<div class="article featured">
+				<div class="one-third columns">
+					<a href="{{ article.url }}" title="{{ article.title | escape }}">
+						<img src="{{ article.image | img_url: 'grande' }}" alt="{{ article.title | escape }}" />
+					</a>
+				</div>
+				<div class="two-thirds columns black">
+					<div class="text">
+						{% assign words = blog_title | split: '-' %}
+						<h3><a href="/blogs/{{ blog_title }}" title="{{ article.title | escape }}"> {% for word in words %}{{ word | camelcase }} {% endfor %}</h3>
+						<h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+						<p class="excerpt">{{article.excerpt}}</p>
+						<a href="{{article.url}}" class="cta-button">{% if article.tags contains 'discover' %}<span>discover</span>{% else %}<span>read</span>{% endif %}</a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+	</div>
+	<div class="blog-loop">
+		{% if featuredArticles %}
+			{% assign featuredArticles = featuredArticles | sort:'published_at' | reverse %}
+			{% for article in featuredArticles limit:20 %}
+				{% unless article.tags contains 'letter' or article.tags contains 'featured' %}
+				{% assign words = blog_title | split: '-' %}
+					<div class="article {% cycle 'odd', 'even' %}">
+						<a href="{{ article.url }}" title="{{ article.title | escape }}">
+							<img src="{{ article.image | img_url: 'grande' }}" alt="{{ article.title | escape }}" />
+						</a>
+						<div class="meta">
+							<h3 class="desktop_hidden"><a href="/blogs/{{ blog_title }}" title="{{ article.title | escape }}"> {% for word in words %}{{ word | camelcase }} {% endfor %}</h3>
+							<h4><a href="{{ article.url }}">{{ article.title}}</a></h4>
+							<p class="excerpt desktop_hidden">{{article.excerpt}}</p>
+							<div class="blog_meta tags mobile_hidden">
+								{% for tag in article.tags %}
+									{% if tag != 'Signature' and tag != 'signature' and tag != 'hide post' %}
+									<span>
+										<a href="{{ shop.url }}/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" title="{{ blog.title }} {{ 'blogs.general.tagged' | t }} {{ tag | escape }}">{{ tag }}</a>
+									</span>
+									{% endif %}
+								{% endfor %}
+			            	</div>
+							<a href="{{article.url}}" class="cta-button desktop_hidden">{% if article.tags contains 'discover' %}<span>discover</span>{% else %}<span>read</span>{% endif %}</a>
+						</div>
+			         </div>
+				{% endunless %}
+			{% endfor %}
+		{% endif %}
+	</div>
+</div>

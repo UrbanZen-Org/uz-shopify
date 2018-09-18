@@ -1,0 +1,43 @@
+</div>
+{% unless article.tags contains 'full-bleed' %}
+	<div class="container">
+{% endunless %}
+{% capture permalinkURL %}{{ shop.url }}{{ article.url }}{% endcapture %}
+{% capture shareTitle %}{{ article.title | url_param_escape }}{% endcapture %}
+	<div class="section center{% if article.tags contains 'full-bleed' %} margin-top{% endif %}">
+		<h1>{{ article.title }}</h1>
+		<span>{{ article.published_at | date: format: "month_day_year" }}</span>
+		<div class="tags">
+			{% for tag in article.tags %}
+				{% if tag != 'Signature'  and tag !='hide post' and tag !="letter" and tag !="featured" and tag !="full-bleed" and tag !="black-bg" %}
+					<span><a href="{{ shop.url}}/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" title="{{ blog.title }} {{ 'blogs.general.tagged' | t }} {{ tag | escape }}">{{ tag }}</a></span>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+	{{ article.content }}
+	{% if article.tags contains 'Signature' %}
+		<div class="signature center">
+					<span>Love,</span><br/>
+			      <img class="text-center" src="{{ 'dk-signature-blk_medium.png' | asset_url | split:'?' | first }}" width="100" height="86" alt="Donna Karan" />
+			    </div>
+		  {% endif %}
+	<br><br>
+	<div clas="section clearfix">
+		<ul class="blog-controls clearfix">
+	    	<li class="accent-text prev-next clearfix"> 
+				{% if blog.previous_article %}
+					{% capture prev_url %}{{ blog.previous_article }}#content{% endcapture %}
+					<span class="left">{{ '&larr; Previous Post' | link_to: prev_url }}</span>
+				{% endif %}
+				{% if blog.next_article %}
+					{% capture next_url %}{{ blog.next_article }}#content{% endcapture %}
+					<span class="right">{{ 'Next Post &rarr;' | link_to: next_url }}</span>
+				{% endif %}    
+				
+			</li>
+		</ul>
+	</div>
+{% unless article.tags contains 'full-bleed' %}
+</div>
+	{% endunless %}	

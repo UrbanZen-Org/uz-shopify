@@ -1,0 +1,586 @@
+
+var disabledClicked;
+var colorSelected;
+var sizeSelected; 
+if ( $(".swatch").parents(".modal").length == 1 ) { 
+  if($(event.target).is('#lookbook-1')){
+    $('.modal').find("li.black-blockprintedsatin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-blockprintedsatin input");  
+    
+   
+  }
+  if($(event.target).is('#lookbook-1m')){
+    $('.modal').find("li.black-blockprintedsatin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-blockprintedsatin input");
+    
+  }
+  if($(event.target).is('#lookbook-2')){
+    $('.modal').find("li.black-blockprintedsatin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-blockprintedsatin input");
+   
+  }
+  if($(event.target).is('#lookbook-2m')){
+    $('.modal').find("li.black-blockprintedsatin,li.red-dao-blockprintedsatin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-blockprintedsatin input,.swatch-element.color.bark-napasoft input");
+    
+  }
+  if($(event.target).is('#lookbook-3')){
+    $('.modal').find("li.dao-red-blockprintedsatin,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.dao-red-blockprintedsatin input,.swatch-element.color.bark-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-3m')){
+    $('.modal').find("li.black-brick-red-artisanprintedsilk,li.black-brick-red-artisanprintedcrinklechif").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-brick-red-artisanprintedsilk input,.swatch-element.color.black-brick-red-artisanprintedcrinklechif input"); 
+    
+  }
+  if($(event.target).is('#lookbook-4')){
+    $('.modal').find("li.black-brick-red-artisanprintedsilk,li.black-brick-red-artisanprintedcrinklechif").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-brick-red-artisanprintedsilk input,.swatch-element.color.black-brick-red-artisanprintedcrinklechif input"); 
+    
+  }
+  if($(event.target).is('#lookbook-4m')){
+    $('.modal').find("li.black-brick-red-artisanprintedcrinklechif").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-brick-red-artisanprintedcrinklechif input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-5')){
+    $('.modal').find("li.black-brick-red-artisanprintedcrinklechif").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-brick-red-artisanprintedcrinklechif input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-5m')){
+    $('.modal').find("li.black-silk,li.black-multi-artisanpatchworkemb").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.color.black-multi-artisanpatchworkemb input"); 
+    
+  }  
+  if($(event.target).is('#lookbook-5m')){
+    $('.modal').find("li.black-silk,li.black-multi-artisanpatchworkemb").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.color.black-multi-artisanpatchworkemb input"); 
+    
+  }    
+  if($(event.target).is('#lookbook-6')){
+    $('.modal').find("li.black-brick-red-artisanprintedcrinklechif").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-brick-red-artisanprintedcrinklechif input"); 
+    
+  }  
+  if($(event.target).is('#lookbook-6m')){
+    $('.modal').find("li.black-silk,li.bamboo-linensilk,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.color.bamboo-linensilk input,.swatch-element.color.bark-napasoft input"); 
+    
+  }  
+  if($(event.target).is('#lookbook-7')){
+    $('.modal').find("li.black-silk,li.black-multi-artisanpatchworkemb").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.black-multi-artisanpatchworkemb input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-7m')){
+    $('.modal').find("li.black-silk,li.brick-red-summersoftsuede").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.brick-red-summersoftsuede input"); 
+    
+  }    
+  if($(event.target).is('#lookbook-8')){
+    $('.modal').find("li.black-silk,li.bamboo-linensilk,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.bamboo-linensilk input,.swatch-element.bark-napasoft input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-8m')){
+    $('.modal').find("li.black-silk,li.brick-red-luminouscrinklecotton,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.brick-red-luminouscrinklecotton input,.swatch-element.bark-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-9')){
+    $('.modal').find("li.black-silk,li.brick-red-summersoftsuede").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.brick-red-summersoftsuede input"); 
+    
+  }
+  if($(event.target).is('#lookbook-9m')){
+    $('.modal').find("li.black-silk,li.brick-red-erodedjaquard,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.brick-red-erodedjaquard input,.swatch-element.black-napasoft input"); 
+    
+  }     
+  if($(event.target).is('#lookbook-10')){
+    $('.modal').find("li.black-silk,li.brick-red-luminouscrinklecotton,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.brick-red-luminouscrinklecotton input,.swatch-element.bark-napasoft input"); 
+    
+  }       
+  if($(event.target).is('#lookbook-10m')){
+    $('.modal').find("li.black-silk,li.black-viscosecrepe,li.brick-red-silk,li.black-napasoft,li.brick-red-summersoftsuede").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.black-viscosecrepe input,.swatch-element.brick-red-silk input,.swatch-element.black-napasoft input,.swatch-element.brick-red-summersoftsuede input"); 
+    
+  }
+  if($(event.target).is('#lookbook-11')){
+    $('.modal').find("li.brick-red-erodedjaquard,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.brick-red-erodedjaquard input,.swatch-element.black-napasoft input"); 
+    
+  }  
+  if($(event.target).is('#lookbook-11m')){
+    $('.modal').find("li.black-silk,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.bark-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-12')){
+    $('.modal').find("li.black-silk,li.brick-red-silk").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.brick-red-silk input"); 
+    
+  }
+  if($(event.target).is('#lookbook-12m')){
+    $('.modal').find("li.black-silk,li.black-collageknit").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.black-collageknit input"); 
+    
+  }  
+  if($(event.target).is('#lookbook-13')){
+    $('.modal').find("li.black-silk,li.brick-red-silk,li.black-viscosecrepe,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.brick-red-silk input,.swatch-element.black-viscosecrepe input,.swatch-element.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-13m')){
+    $('.modal').find("li.black-paperbag-caligraphicprintchiffon,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-paperbag-caligraphicprintchiffon input,.swatch-element.black-napasoft input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-14')){
+    $('.modal').find("li.black-silk,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.bark-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-14m')){
+    $('.modal').find("li.black-paperbag-caligraphicprintcdc,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-paperbag-caligraphicprintcdc input,.swatch-element.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-15')){
+    $('.modal').find("li.black-silk,li.black-collageknit").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.black-collageknit input"); 
+    
+  }  
+  if($(event.target).is('#lookbook-15m')){
+    $('.modal').find("li.paperbag-silk,li.paperbag-luminouscrinklecotton,li.paperbag-summersoftsuede,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-silk input,.swatch-element.paperbag-luminouscrinklecotton input,.swatch-element.paperbag-summersoftsuede input,.swatch-element.bark-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-16')){
+    $('.modal').find("li.black-paperbag-caligraphicprintchiffon,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-paperbag-caligraphicprintchiffon input,.swatch-element.black-napasoft input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-16m')){
+    $('.modal').find("li.paperbag-silk,li.paperbag-summersoftsuede,li.black-multi-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-silk input,.swatch-element.paperbag-summersoftsuede input,.swatch-element.black-multi-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-17')){
+    $('.modal').find("li.black-paperbag-caligraphicprintcdc,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-paperbag-caligraphicprintcdc input,.swatch-element.black-napasoft input"); 
+    
+  }  
+  if($(event.target).is('#lookbook-17m')){
+    $('.modal').find("li.paperbag-silk,li.paperbag-summersoftsuede,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-silk input,.swatch-element.paperbag-summersoftsuede input,.swatch-element.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-18')){
+    $('.modal').find("li.paperbag-silk,li.paperbag-luminouscrinklecotton,li.paperbag-summersoftsuede,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-silk input,.swatch-element.paperbag-luminouscrinklecotton input,.swatch-element.paperbag-summersoftsuede input,.swatch-element.bark-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-18m')){
+    $('.modal').find("li.paperbag-silk,li.paperbag-satinbackcrepe,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-silk input,.swatch-element.paperbag-satinbackcrepe input,.swatch-element.bark-napasoft input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-19')){
+    $('.modal').find("li.paperbag-silk,li.black-multi-napasoft,li.paperbag-summersoftsuede").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-silk input,.swatch-element.black-multi-napasoft input,.swatch-element.paperbag-summersoftsuede input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-19m')){
+    $('.modal').find("li.smokey-teal-luminouscrinklecotton,li.smokey-teal-silk").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-luminouscrinklecotton input,.swatch-element.smokey-teal-silk input"); 
+    
+  }
+  if($(event.target).is('#lookbook-20')){
+    $('.modal').find("li.paperbag-silk,li.black-napasoft,li.paperbag-summersoftsuede").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-silk input,.swatch-element.black-napasoft input,.swatch-element.paperbag-summersoftsuede input"); 
+    
+  }
+  if($(event.target).is('#lookbook-20m')){
+    $('.modal').find("li.smokey-teal-luminouscrinklecotton,li.smokey-teal-silk").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-luminouscrinklecotton input,.swatch-element.smokey-teal-silk input"); 
+    
+  }
+  if($(event.target).is('#lookbook-21')){
+    $('.modal').find("li.paperbag-silk,li.paperbag-satinbackcrepe,li.bark-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-silk input,.swatch-element.paperbag-satinbackcrepe input,.swatch-element.bark-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-21m')){
+    $('.modal').find("li.smokey-teal-signaturejersey").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-signaturejersey input"); 
+    
+  }
+  if($(event.target).is('#lookbook-22')){
+    $('.modal').find("li.smokey-teal-luminouscrinklecotton,li.smokey-teal-silk").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-luminouscrinklecotton input,.swatch-element.smokey-teal-silk input"); 
+    
+  }
+  if($(event.target).is('#lookbook-22m')){
+    $('.modal').find("li.smokey-teal-signaturejersey,li.raw-indigo-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-signaturejersey input,.swatch-element.raw-indigo-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-23')){
+    $('.modal').find("li.smokey-teal-luminouscrinklecotton,li.smokey-teal-silk").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-luminouscrinklecotton input,.swatch-element.smokey-teal-silk input"); 
+    
+  }
+  if($(event.target).is('#lookbook-23m')){
+    $('.modal').find("li.smokey-teal-cottonsilk").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-cottonsilk input"); 
+    
+  }  
+  if($(event.target).is('#lookbook-24')){
+    $('.modal').find("li.smokey-teal-signaturejersey").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-signaturejersey input"); 
+    
+  }    
+  if($(event.target).is('#lookbook-24m')){
+    $('.modal').find("li.black-silk,li.ivory-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.ivory-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-25')){
+    $('.modal').find("li.smokey-teal-signaturejersey,li.raw-indigo-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-signaturejersey input,.swatch-element.raw-indigo-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-25m')){
+    $('.modal').find("li.black-signaturejersey,li.ivory-satinbackcrepe,li.ivory-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.ivory-satinbackcrepe input,.swatch-element.ivory-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-26')){
+    $('.modal').find("li.smokey-teal-cottonsilk").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.smokey-teal-cottonsilk input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-26m')){
+    $('.modal').find("li.black-signaturejersey,li.ivory-silk,li.black-stretchcrepe,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.ivory-silk input,.swatch-element.black-stretchcrepe input,.swatch-element.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-27')){
+    $('.modal').find("li.black-silk,li.ivory-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-silk input,.swatch-element.ivory-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-27m')){
+    $('.modal').find("li.black-stretchcrepe,li.ivory-viscosecrepe,li.black-viscosecrepe,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-stretchcrepe input,.swatch-element.ivory-viscosecrepe input,.swatch-element.black-viscosecrepe input,.swatch-element.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-28')){
+    $('.modal').find("li.black-signaturejersey,li.ivory-satinbackcrepe,li.ivory-napasoft,li.black-silk").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.ivory-satinbackcrepe input,.swatch-element.ivory-napasoft input,.swatch-element.black-silk input"); 
+    
+  }
+  if($(event.target).is('#lookbook-28m')){
+    $('.modal').find("li.black-signaturejersey,li.ivory-signaturejersey,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.ivory-signaturejersey input,.swatch-element.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-29')){
+    $('.modal').find("li.black-signaturejersey,li.ivory-silk,li.black-stretchcrepe,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.ivory-silk input,.swatch-element.black-stretchcrepe input,.swatch-element.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-29m')){
+    $('.modal').find("li.black-signaturejersey,li.ivory-signaturejersey,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.ivory-signaturejersey input,.swatch-element.black-napasoft input"); 
+    
+  }  
+  if($(event.target).is('#lookbook-30')){
+    $('.modal').find("li.ivory-silk,li.black-stretchcrepe").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.ivory-silk input,.swatch-element.black-stretchcrepe input"); 
+    
+  }
+  if($(event.target).is('#lookbook-30m')){
+    $('.modal').find("li.black-signaturejersey").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-31')){
+    $('.modal').find("li.black-signaturejersey,li.ivory-silk,li.black-stretchcrepe,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.ivory-silk input,.swatch-element.black-stretchcrepe input,.swatch-element.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-32')){
+    $('.modal').find("li.ivory-viscosecrepe,li.black-stretchcrepe").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.ivory-viscosecrepe input,.swatch-element.black-stretchcrepe input"); 
+    
+  }
+  if($(event.target).is('#lookbook-33')){
+    $('.modal').find("li.ivory-viscosecrepe,li.black-stretchcrepe").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.ivory-viscosecrepe input,.swatch-element.black-stretchcrepe input"); 
+    
+  }
+  if($(event.target).is('#lookbook-34')){
+    $('.modal').find("li.ivory-viscosecrepe,li.black-stretchcrepe").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.ivory-viscosecrepe input,.swatch-element.black-stretchcrepe input"); 
+    
+  }   
+  if($(event.target).is('#lookbook-35')){
+    $('.modal').find("li.black-signaturejersey,li.ivory-signaturejersey,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.ivory-signaturejersey input,.swatch-element.black-napasoft input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-36')){
+    $('.modal').find("li.black-signaturejersey,li.ivory-signaturejersey,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.ivory-signaturejersey input,.swatch-element.black-napasoft input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-37')){
+    $('.modal').find("li.black-signaturejersey").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-39')){
+    $('.modal').find("li.raw-indigo-cottonpoplin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.raw-indigo-cottonpoplin input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-40')){
+    $('.modal').find("li.black-signaturejersey,li.raw-indigo-cottonpoplin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.color.raw-indigo-cottonpoplin input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-41')){
+    $('.modal').find("li.brick-red-cottonpoplin,li.black-cottonpoplin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.brick-red-cottonpoplin input,.swatch-element.color.black-cottonpoplin input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-42')){
+    $('.modal').find("li.paperbag-cottonpoplin,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-cottonpoplin input,.swatch-element.color.black-napasoft input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-43')){
+    $('.modal').find("li.paperbag-cottonpoplin,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-cottonpoplin input,.swatch-element.color.black-napasoft input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-44')){
+    $('.modal').find("li.black-cottonpoplin,li.paperbag-stretchcanvas,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-cottonpoplin input,.swatch-element.color.paperbag-stretchcanvas input,.swatch-element.color.black-napasoft input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-45')){
+    $('.modal').find("li.white-cottonpoplin[data-product-title^='Big Shirt'],li.raw-indigo-cottonpoplin,li.black-cottonpoplin[data-product-title^='Wrap And Tie Poncho']").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.white-cottonpoplin[data-product-title^='Big Shirt'] input,.swatch-element.color.raw-indigo-cottonpoplin input,.swatch-element.color.black-cottonpoplin[data-product-title^='Wrap And Tie Poncho'] input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-46')){
+    $('.modal').find("li.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'],li.white-cottonpoplin[data-product-title^='Belted Bib Front Shirt']").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'] input,.swatch-element.black-cottonpoplin[data-product-title^='Belted Bib Front Shirt'] input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-47')){
+   $('.modal').find("li.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'],li.white-cottonpoplin[data-product-title^='Wrap And Tie Long Sleeve Shirt Dress'],li.black-napasoft[data-product-title^='Leather Wrapped Prayer Necklace']").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'] input,.swatch-element.white-cottonpoplin[data-product-title^='Wrap And Tie Long Sleeve Shirt Dress'] input,.swatch-element.black-napasoft[data-product-title^='Leather Wrapped Prayer Necklace'] input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-48')){
+   $('.modal').find("li.black-cottonpoplin,li.white-calligraphicartworkemb").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-cottonpoplin input,.swatch-element.color.white-calligraphicartworkemb input");  
+    
+  } 
+  if($(event.target).is('#lookbook-49')){
+    $('.modal').find("li.black-fringedbasketembroidery").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-fringedbasketembroidery input"); 
+    
+  } 
+  if($(event.target).is('#lookbook-50')){
+    $('.modal').find("li.black-cottonpoplin,li.black-noveltyembroidery").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-cottonpoplin input,.swatch-element.color.black-noveltyembroidery input");  
+  }
+
+  if($(event.target).is('#lookbook-32m')){
+    $('.modal').find("li.raw-indigo-cottonpoplin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.raw-indigo-cottonpoplin input"); 
+    
+  }
+  if($(event.target).is('#lookbook-33m')){
+    $('.modal').find("li.black-signaturejersey,li.raw-indigo-cottonpoplin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-signaturejersey input,.swatch-element.color.raw-indigo-cottonpoplin input"); 
+    
+  }
+  if($(event.target).is('#lookbook-34m')){
+    $('.modal').find("li.brick-red-cottonpoplin[data-product-title^='Utilitarian Long Smock'],li.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant']").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.brick-red-cottonpoplin[data-product-title^='Utilitarian Long Smock'] input,.swatch-element.color.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'] input"); 
+    
+  }
+  if($(event.target).is('#lookbook-35m')){
+    $('.modal').find("li.paperbag-cottonpoplin,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-cottonpoplin input,.swatch-element.color.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-36m')){
+    $('.modal').find("li.paperbag-cottonpoplin,li.black-napasoft").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.paperbag-cottonpoplin,.swatch-element.color.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-37m')){
+    $('.modal').find("li.black-cottonpoplin,li.black-napasoft,li.paperbag-stretchcanvas").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-cottonpoplin input,.swatch-element.color.paperbag-stretchcanvas input,.swatch-element.color.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-38m')){
+    $('.modal').find("li.black-cottonpoplin[data-product-title^='Wrap And Tie Poncho'],li.white-cottonpoplin[data-product-title^='Big Shirt'],li.raw-indigo-cottonpoplin[data-product-title^='Crushed Pleated Skirt']").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-cottonpoplin[data-product-title^='Wrap And Tie Poncho'] input,.swatch-element.color.white-cottonpoplin[data-product-title^='Big Shirt'] input,.swatch-element.color.raw-indigo-cottonpoplin[data-product-title^='Crushed Pleated Skirt'] input"); 
+    
+  }
+  if($(event.target).is('#lookbook-39m')){
+    $('.modal').find("li.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'],li.white-cottonpoplin[data-product-title^='Belted Bib Front Shirt']").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'] input,.swatch-element.color.white-cottonpoplin[data-product-title^='Belted Bib Front Shirt'] input"); 
+    
+  }
+  if($(event.target).is('#lookbook-40m')){
+    $('.modal').find("li.white-cottonpoplin[data-product-title^='Wrap And Tie Long Sleeve Shirt Dress'],li.black-napasoft,li.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant']").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.white-cottonpoplin[data-product-title^='Wrap And Tie Long Sleeve Shirt Dress'] input,.swatch-element.color.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'] input,.swatch-element.color.black-napasoft input"); 
+    
+  }
+  if($(event.target).is('#lookbook-41m')){
+    $('.modal').find("li.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'],li.white-calligraphicartworkemb").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-cottonpoplin[data-product-title^='Pleated Pull On Poplin Pant'] input,.swatch-element.color.white-calligraphicartworkemb input"); 
+    
+  }
+  if($(event.target).is('#lookbook-42m')){
+    $('.modal').find("li.black-fringedbasketembroidery").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-fringedbasketembroidery input"); 
+    
+  }
+  if($(event.target).is('#lookbook-43m')){
+    $('.modal').find("li.black-cottonpoplin,li.black-noveltyembroidery").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-cottonpoplin input,.swatch-element.color.black-noveltyembroidery input"); 
+    
+  } 
+    
+
+
+  colorSelect.prop('checked','checked');
+  colorSelected = colorSelect.val();
+  variantId = colorSelect.attr('variant-id');
+  productId = colorSelect.attr('product-id');
+}
+
+$('ul.slides li.thumbnail-curated-image').click(function(event) {
+  if ( $(this).hasClass('thumbnail-curated-image') ) {
+    event.preventDefault();
+    console.log('flex curated')
+    var curatedImageIndex = $('li[data-title="curated-image"]').index();   
+    $('.product_slider').data("flexslider").flexslider(curatedImageIndex);
+  } 
+});
+
+$(document).on('click','.swatch-element.size', function(event){
+  console.log('IN SWATCH ELEMENT CLICK FUNCTION');
+  sizeSelected = $(this).find('input').val();
+  var selected = colorSelected +' / '+sizeSelected;
+  //$('.multi_select option').removeAttr('selected');
+  $('.multi_select').find('option:contains("'+selected+'")').attr('selected', 'selected');
+  console.log($('.multi_select').val(), 'multiselect value');
+  if($(this).hasClass('soldout')) {
+
+  }
+
+  $('.swatch-element.size').removeClass('swatch-selected');
+  $(this).addClass('swatch-selected');
+});
+$(document).on('click','.swatch-element.color', function(event){
+  $('.override-hide').each(function() {
+
+    $(this).css('transform', 'none');
+
+  });
+  var checkForDisabled = $('.swatch-element.color').find('input:disabled').length;
+  var isThisDisabled = $(this).find('input:disabled');
+
+  var swatch = $(this).attr('data-value').toLowerCase().replace(/ /g, '-');
+  $('.flex-active-slide').removeClass('flex-active-slide').css('opacity', '0');
+  $('li[data-title=' + swatch + ']').first().addClass('flex-active-slide');
+  $('.thumbnail-'+swatch).first().addClass('flex-active-slide');
+  $('.override-hide').removeClass('override-hide');
+  if(isThisDisabled.length > 0) {      
+    $(isThisDisabled).removeAttr('disabled');
+    setTimeout(function() {
+      $(isThisDisabled).attr('disabled', 'disabled');
+    }, 1);
+  } else {
+      // $('.slides li').removeClass('override-zindex');
+    }
+    $('.swatch-element.color').removeClass('swatch-selected');
+    $(this).addClass('swatch-selected');
+    $('.swatch_name').each(function(){
+      $(this).removeClass('swatch-color-selected');
+      var dataValue = $('.color.swatch-selected').attr('data-value');
+      if($(this).attr('data-value') == $('.color.swatch-selected').attr('data-value')){
+        $('.swatch_name[data-value="'+dataValue+'"]').addClass('swatch-color-selected');
+          console.log(dataValue+' in loop');
+          colorSelected = dataValue;
+      }
+    });
+
+
+    
+    setTimeout(checkLength, 25);
+
+
+    function checkLength() {
+     var length = $('.swatch-element.size.available').length;
+     if(length == 1) {
+
+       $('.swatch-element.size').removeClass('swatch-selected');
+       $('.swatch-element.size.available').addClass('swatch-selected');
+
+     }
+   }
+
+ });
+
+var colorLength = $('.swatch-element.color').length;
+var colorSoldOutLength = $('.swatch-element.color').find('img.crossed-out.always-show').length;
+var hasVariant = window.location.href.indexOf('?variant=');
+if(colorLength == colorSoldOutLength) {
+
+  var color = $('.swatch-element.color:first').attr('data-value');
+  var colorString = color.toLowerCase().replace(/ /g, '-');
+  console.log(colorString);
+  setTimeout(function() {
+    $('.thumbnail-' + colorString).addClass('override-hide');
+    var amount = 0;
+    var height = 105;
+    $('.override-hide').each(function() {
+        //$(this).css('transform','translateY('+ amount + 'px)');
+       // amount = amount + height;
+     });
+  }, 100); 
+
+}
+
+setTimeout(function() {
+  var dataVal = $('.swatch-element.color.swatch-selected').attr('data-value').toLowerCase().split(' ').join('-');
+  $('.thumbnail-' + dataVal).addClass('override-hide');
+  var amount = 0;
+  var height = 105;
+  $('.override-hide').each(function() {
+    //  $(this).css('transform','translateY('+ amount + 'px)');
+   //   amount = amount + height;
+ });
+}, 100); 
+
+$('.swatch-element.soldout').each(function() {
+  $(this).find('.crossed-out').addClass('always-show');
+  $(this).find('input').removeAttr('disabled');
+  $(this).removeClass('soldout');
+
+});

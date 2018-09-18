@@ -1,0 +1,82 @@
+<section class="section mobile_hidden homepage-slides">
+		<div class="simpleHomeSlider">
+			<ul class="slides">
+				<li>
+				{% comment %}<video class="hpvideo" autoplay loop>
+					<source src="{{ 'images-homepage-videofallteaser.mp4' | asset_url }}" type="video/mp4">
+				</video>{% endcomment %}
+				<iframe class="hpvideo" src="https://player.vimeo.com/video/229759931?background=1&autoplay=1" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
+					</iframe>
+					<div class="slide-info">
+						<h3 class="slide-subtitle">Coming Soon</h3>
+						<h2 class="slide-title">Fall 2017</h2>
+						{% comment %}<a href="/pages/silk-road-collection" class="cta-button">shop the look</a>{% endcomment %}
+					</div>	
+				</li>
+
+				<li style="background-image: url({{ 'images-home-TransitiontoFall.jpg' | asset_url }});">
+					<div class="slide-info">
+						<h3 class="slide-subtitle">Transition to Fall</h3>
+						<h2 class="slide-title">Silk Road Collection</h2>
+						<a href="/pages/silk-road-collection" class="cta-button">shop by look</a>
+					</div>	
+				</li>
+				
+				<li>
+					<div class="mobile_hidden">
+						<iframe class="hpvideo" src="https://player.vimeo.com/video/216169974?background=1&autoplay=1" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
+						</iframe>
+					</div>
+					<div class="slide-info">
+						<h3 class="slide-subtitle">Philanthropy &amp; Commerce</h3>
+						<h2 class="slide-title">URBAN ZEN<br> Foundation</h2>
+						<a href="http://urbanzen.org" target="_blank" class="cta-button">learn more</a>
+					</div>
+				</li>
+
+				<li style="background-image: url({{ 'images-home-ObjectsOfDesire.jpg' | asset_url }});">
+					<div class="slide-info">
+						<h3 class="slide-subtitle">Exclusively In-Store</h3>
+						<h2 class="slide-title">Objects of Desire</h2>
+						<a href="/pages/stores" target="_blank" class="cta-button">visit our stores</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+<div class="mobile-slides homepage-slides">
+	<section class="fp-section section center removeDesktop mobile-slide" style="background-image: url({{ 'images-homepage-mobilefallteaser.jpg' | asset_url }});">
+		<div class="slide-info">
+			<h3 class="slide-subtitle">Coming Soon</h3>
+			<h2 class="slide-title">Fall 2017</h2>
+		</div>
+	</section>
+
+	<section class="fp-section section center removeDesktop mobile-slide" style="background-image: url({{ 'images-home-mobileTransitiontoFall.jpg' | asset_url }});">
+		<div class="slide-info">
+			<h3 class="slide-subtitle">Transition to Fall</h3>
+			<h2 class="slide-title">Silk Road Collection</h2>
+			<a href="/pages/silk-road-collection" class="cta-button">shop by look</a>
+		</div>
+	</section>
+
+	<section class="fp-section section center removeDesktop mobile-slide" style="background-image: url({{ 'images-homepage-mobiledothaiti.jpg' | asset_url }});">
+		<div class="slide-info">
+			<h3 class="slide-subtitle">Philanthropy &amp; Commerce</h3>
+			<h2 class="slide-title">URBAN ZEN<br> Foundation</h2>
+			<a href="http://urbanzen.org" target="_blank" class="cta-button">learn more</a>
+		</div>
+	</section>
+
+	<section class="fp-section section center removeDesktop mobile-slide" style="background-image: url({{ 'images-home-mobileObjectsOfDesire.jpg' | asset_url }});">
+		<div class="slide-info">
+			<h3 class="slide-subtitle">Exclusively In-Store</h3>
+			<h2 class="slide-title">Objects of Desire</h2>
+			<a href="/pages/stores" target="_blank" class="cta-button">visit our stores</a>
+		</div>		
+	</section>
+
+	{% include 'footer' %}
+	<script src="https://player.vimeo.com/api/player.js"></script>
+</div>

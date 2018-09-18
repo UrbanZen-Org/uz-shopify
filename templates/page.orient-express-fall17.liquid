@@ -1,0 +1,42 @@
+{% assign page_classes = 'black-bg' %}
+<div class="orient-express-fall-17">
+	<section class="full-slideshow">
+		<div class="slides">
+			<div class="slide">
+				<div class="slide-cover">
+					<div class="slide-info fade-in-out">
+						<h2>Orient Express Campaign</h2>
+					</div>
+				</div>
+				{% comment %}<iframe class="hpvideo" src="https://player.vimeo.com/video/231964987?background=1&autoplay=1" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>{% endcomment %}
+				<img src="{{ 'https://s3.us-east-2.amazonaws.com/fall-2017/Campaign_Orient+Express+Fall+17/scroll_1.jpg' }}">
+				<img class="mobile" src="{{ 'https://s3.us-east-2.amazonaws.com/fall-2017/Campaign_Orient+Express+Fall+17/m_scroll_1.jpg' }}">
+			</div>	
+		</div>
+		<div class="down-arrow" data-target=".campaign-images"></div>
+	</section>
+	<section class="campaign-images">
+		{% for i in (1..9) %}
+			{% if i != 4 and i != 1 %}
+				<div class="campaign-image" style="background-image: url({{ 'https://s3.us-east-2.amazonaws.com/fall-2017/Campaign_Orient+Express+Fall+17/scroll_'| append: i | append: '.jpg' }})">
+					<img src="{{ 'https://s3.us-east-2.amazonaws.com/fall-2017/Campaign_Orient+Express+Fall+17/m_scroll_'| append: i | append: '.jpg' }}">
+				</div>
+			{% endif %}
+		{% endfor %}
+	</section>
+	<section class="behind-the-scenes">
+		<h2>Behind-the-Scenes</h2>
+		<p>MODEL Aqua Parios | PHOTOGRAPHER Hans Neumann <br> SET DESIGNER Ian Salter | HAIR Dakota Heman <br> MAKE-UP Tatyana Kharkova | LOCATION Urban Zen Center</p>
+		<div class="carousel">
+			{% for i in (1..5) %}
+				<div class="carousel-image">
+					<img src="{{ 'https://s3.us-east-2.amazonaws.com/fall-2017/Campaign_Orient+Express+Fall+17/BTS_'| append: i | append: '.jpg' }}">
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+	<section class="explore-the-collection">
+		<h2>Explore the Collection</h2>
+		<a href="/pages/orient-express-collection" class="cta-button" title="Shop Orient Express Collection">shop by look</a>
+	</section>
+</div>

@@ -1,0 +1,90 @@
+<div class="full">
+	<div class="text text3">	
+		<h1 class="light">{{page.title}}</h1>
+	</div>
+	{% if page.content contains "<featured" %}
+		{% assign src = page.content | split: 'src="' %}
+		{% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn';; | replace: 'http:http://';;, 'https://';; | remove: 'http:' %}
+	    <img width="100%" src="{{ src }}" alt="{{page.title}}" />
+	{% endif %}
+</div>
+
+	<dl class="accordion store-accordion faq">
+	   <dt><a class="open" href="#"></a><h2>General</h2></dt>
+	   <dd>
+		   <dl class="accordion-sub">
+			   <dt class="sub"><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>Customer Service</h6></dt>
+			   <dd>
+					<div class="sixteen section  columns clearfix animated ">
+				  		<p>
+							<a href="tel:8557554848">855.755.4848</a><br>
+							<a href="mailto:customerservice@urbanzen.com">customerservice@urbanzen.com</a>
+						</p>
+					</div>
+			   </dd>
+			   <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>Public Relations</h6></dt>
+			   <dd>
+				   <div class="sixteen section columns clearfix animated ">
+				   <p><a href="mailto:press@urbanzen.com">press@urbanzen.com</a></p>
+				   </div>
+			   </dd>
+			    <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>Sales</h6></dt>
+			   <dd>
+				   <div class="sixteen section columns clearfix animated ">
+				   <p><a href="mailto:wholesale@urbanzen.com">wholesale@urbanzen.com</a></p>
+				   </div>
+			   </dd>
+			    <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>Furniture Inquiries</h6></dt>
+			   <dd>
+				   <div class="sixteen section columns clearfix animated ">
+				   <p><a href="mailto:furniture@urbanzen.com">furniture@urbanzen.com</a></p>
+				   </div>
+			   </dd>
+		   </dl>
+	   </dd>
+	   <br />
+	    <dt><a class="open" href="#"></a><h2>Stores</h2></dt>
+	   <dd>
+		   <dl class="accordion-sub">
+			   <dt class="sub"><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>New York</h6></dt>
+			   <dd>
+					<div class="sixteen section  columns clearfix animated ">
+				  		<p>
+							<a href="tel:2122063999">212.206.3999</a><br>
+							<a href="mailto:customerservice@urbanzen.com">newyorkcity@urbanzen.com</a>
+						</p>
+					</div>
+			   </dd>
+			   <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>Los Angeles</h6></dt>
+			   <dd>
+				   <div class="sixteen section columns clearfix animated ">
+						<p>
+							<a href="tel:4243350655">424.335.0655</a><br>
+				   			<a href="mailto:losangeles@urbanzen.com">losangeles@urbanzen.com</a>
+				   		</p>
+				   </div>
+			   </dd>
+			    <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>Manhasset</h6></dt>
+			   <dd>
+				   <div class="sixteen section columns clearfix animated ">
+						<p>
+							<a href="tel:5169189595">516.918.9595</a><br>
+				   			<a href="mailto:losangeles@urbanzen.com">manhasset@urbanzen.com</a>
+				   		</p>
+				   </div>
+			   </dd>
+			    <div class="border-separate"></div><dt><a class="sub-open" href="#"></a><small class="right"><span class="down-angle"></span></small><h6>Sag Harbor</h6></dt>
+			   <dd>
+				   <div class="sixteen section columns clearfix animated ">
+						<p>
+							<a href="tel:6317256176">631.725.6176</a><br>
+				   			<a href="mailto:sagharbor@urbanzen.com">sagharbor@urbanzen.com</a>
+				   		</p>
+				   </div>
+			   </dd>
+		   </dl>
+	   </dd>  
+	</dl>
+
+
+{% include 'accordion-js' %}

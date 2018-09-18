@@ -1,0 +1,17 @@
+{% assign collection_handles = product.collections | map: 'handle' %}
+{% assign alt_text = product.featured_image.alt %}
+{% assign colorList = ',' %}
+{% assign sizeList = ',' %}
+
+	<div class="productSortItem {% if products_per_row == "2" %}six columns {% elsif products_per_row == "3" %}four columns {% else %}three columns {% cycle collection_group_thumb: 'alpha', '', '', 'omega' %}{% endif %} thumbnail {% cycle collection_group_mobile: 'even', 'odd' %}" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product">
+		<a href="{{ product.url | within: collection }}" itemprop="url">
+			<div class="relative product_image relative thumbnail">
+				<img width="424" height="600" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ product.featured_image | product_img_url: 'original' | split:'?' | first }}" data-retina-src="{{ product.featured_image | product_img_url: '1024x1024' | split:'?' | first }}" alt="{{product.name}}" />
+				{% comment %}<div class="quick-buy">
+					{% include 'quick-buy' %}
+				</div>{% endcomment %}
+			</div>
+			<span class="title medium">{{product.title}}{% if color contains 'Default' %}{% else %} <span class="colorName">{% assign words = {{color}} | split: ' ' %}{% for word in words %}{% unless forloop.last %}{{word}}{% endunless %} {% endfor %}</span>{% endif %}</span>
+			<span class="price">{% if product.tags contains 'no-pricing' %}Price upon request{% elsif product.variant contains 'Default' %}{{variant.price | money}}{% elsif product.available == false %}<span class="soldOut">{{ 'products.product.sold_out' | t }}</span>{% else %}{{product.price | money}}{% endif %}</span>
+		</a>
+	</div>

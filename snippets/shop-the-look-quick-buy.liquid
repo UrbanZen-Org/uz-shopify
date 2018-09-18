@@ -1,0 +1,521 @@
+{% assign file_extension = 'png' %}
+{% assign option_index = 0 %}
+{% assign variants = product.variants %}
+<div id="product-{{ product.id }}" class="modal product-{{ product.id }} quick_buy_popup" data-lookbook="">
+	<div class="one-half">
+		{% for variant in variants %}
+		{% assign size_opt_variant_split = size_opt_variant | split: 'somestring,' %}
+		{% assign size_opt_count = size_opt_variant_split.size %}
+		{% capture compareSize %},{{variant.option2}},{% endcapture %}
+		{% capture compareColor %},{{variant.option1}},{% endcapture %}
+		{% if colorList contains compareColor %}		
+		{% else %}  
+		{% assign variant_image = variant.image or product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+		{% assign colors = {{variant.option1}}%}
+		{% assign sizes = {{variant.option2}}%}
+		{% for color in colors %}
+		{% assign colorName = color %}
+		<a href="{{ variant.url }}" itemprop="url">
+			<img color="{{colorName}}" id="" class="quick_uniq quick_buy_image" width="100%" height="auto" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ variant.image | product_img_url: 'grande' | split:'?' | first }}" data-retina-src="{{ variant.image | product_img_url: '1024x1024' | split:'?' | first }}" alt="{{variant.name}}" title="{{product.title}}" />
+		</a>
+
+		{% endfor %}
+		{% capture colorTempList %}{{colorList}}{{variant.option1}},{% endcapture %}
+		{% capture sizeTempList %}{{sizeList}}{{variant.option2}},{% endcapture %}
+		{% assign colorList = colorTempList %}
+		{% assign sizeList = sizeTempList %}
+		{% assign variantURL = {{variant.url}} %}
+		{% endif %}
+
+		{% endfor %}
+	</div><div class="one-half">
+	<a href="{{ variantURL }}" itemprop="url"><h2>{{product.title}}</h2></a>
+	<p>{{variant.price | money }}</p>
+	<div class="product_form">
+		{% if product.tags contains 'call-to-purchase'  %}
+		<input type="submit" name="add" value="LIMITED QUANTITY AVAILABLE" class="action_button add_to_cart add-to-bag cta-button pull-right" data-label='LIMITED QUANTITY AVAILABLE' disabled />
+		{% elsif product.tags contains 'coming-soon' %}
+		<input type="submit" name="add" value="COMING MID-DECEMBER" class="action_button add_to_cart add-to-bag cta-button pull-right" data-label='COMING MID-DECEMBER' disabled />
+		{% elsif product.available == false %}
+		<input type="submit" name="add" value="sold out" class="action_button add_to_cart add-to-bag cta-button pull-right" data-label='Sold Out' disabled />		
+		{% else %}
+		<form action="/cart/add" data-id="{{ variant.id }}" method="post" class="clearfix product_form" data-money-format="{{ shop.money_format }}" data-shop-currency="{{ shop.currency }}" id="product-form-{{ product.id }}">
+			{% if product.variants.size == 1  %}
+			<div class="swatch-element available hide"></div>
+			<input type="hidden" name="id" class="" value="{{ product.variants.first.id }}" id="{{ variant.id }}" />
+			{% elsif product.options.last == 'Size' and product.first_available_variant.option2 == 'O/S'  %}
+			<div data-variant="{{ variant.title }}" style="visibility: hidden;" class="p5 5a swatch-element {% if variant.available %}available{% else %}soldout{% endif %} swatch-img">
+				{% if variant.available %} 
+				<input checked="checked" name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}" class="{{product.id}}" > 
+				<input type="hidden" name="id" class="" value="{{ product.variants.last.id }}" id="{{ variant.id }}" />
+				{% else %} 
+				<div data-variant="{{ variant.title }}" style="visibility: hidden;" class="p5 5a swatch-element {% if variant.available %}available{% else %}soldout{% endif %} swatch-img">
+					<input disabled="disabled"  style="opacity:0.4;" name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}"  class="disabled" > 
+					<label class="{{product.id}}" id="{{ variant.id }}" for="variant-{{ variant.id }}"  disabled="disabled" opacity="0.8">{{ variant.option2 | escape }}</label> 		
+					{% endif %}
+					<script>
+						$('#product-form-{{ product.id }}').addClass('quick-buy-reset');
+					</script>
+				</div>	
+				{% else %}
+				<input type="hidden" class="id-input" name="id" id="id" value="" />
+				<div class="swatch_options">
+					<div class="swatch">
+						{% for variant in variants %}
+						{% assign value = variant.options[option_index] %}
+						{% assign values = values | join: ',' %}
+						{% assign values = values | append: ',' | append: value %} 
+						{% assign values = values | split: ',' %}			
+
+						{% if product.options.first == 'Color' and product.options.size == 1 %}
+						{% assign variantColor = variant.option1 | escape %}
+						{% if variantColor == colorName %}
+						<div data-variant="{{ variant.title }}" style="visibility: hidden;" class="p5 5a swatch-element {% if variant.available %}available{% else %}soldout{% endif %} swatch-img">
+							{% if variant.available %} 
+							<input checked="checked" name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}" class="{{product.id}}" > 
+							<label class="{{product.id}}" id="{{ variant.id }}" for="variant-{{ variant.id }}">{{ variant.option2 | escape }}</label> 		
+							{% else %} 
+							<div data-variant="{{ variant.title }}" style="visibility: hidden;" class="p5 5a swatch-element {% if variant.available %}available{% else %}soldout{% endif %} swatch-img">
+								<input disabled="disabled"  style="opacity:0.4;" name="id" type="radio" value="{{ variant.id }}" id="variant-{{ variant.id }}"  class="disabled" > 
+								<label class="{{product.id}}" id="{{ variant.id }}" for="variant-{{ variant.id }}"  disabled="disabled" opacity="0.8">{{ variant.option2 | escape }}</label> 		
+								{% endif %}
+								<script>
+									$('#product-form-{{ product.id }}').addClass('quick-buy-reset');
+								</script>
+							</div>	
+							{% endif %}
+							{% elsif product.options.first == 'Color' and product.options.size > 1 %}
+							{% assign variantColor = variant.option1 | escape %}  
+							{% if variant.available %}
+							<div color="{{variantColor}}" class="{{variant.id}} p5 5a swatch-element {% if variant.available %}available{% else %}soldout{% endif %} quick_uniq" title="{{product.title}}">
+								<input name="id" type="radio" value="{{ variant.id }}" id="{{ variant.id }}" class="{{product.id}}" >
+								<label class="{{product.id}}" class="{{ variant.option1 | escape }}" for="{{ variant.id }}">{{ variant.option2 | escape }}</label> 						
+							</div>
+							{% else %}
+
+							<div class="{{ variant.id }} p5 swatch-element 5b {% if variant.available %}available{% else %}soldout{% endif %} quick_uniq" title="{{product.title}}">
+								<input name="id" type="radio" value="{{ variant.id }}" id="{{ variant.id }}" class="{{product.id}}" >
+								<label class="{{product.id}}" for="{{ variant.id }}">{{ variant.option2 | escape }}</label> 						
+							</div>
+							{% endif %}
+							{% endif %}
+							{% endfor %}
+							<script>
+								$(document).ready(function() {
+									$('.swatch-element').on('click', 'label.{{product.id}}', function() {
+											$('input[type="submit"].{{product.id}}').removeAttr('disabled');
+											$('label').removeClass('selected');
+											inputValue = $(this).parent().children('input[name="id"]').val();
+											$('input.id-input').attr('value', inputValue);
+											$(this).addClass('selected');
+											$('input[type="submit"].{{product.id}}').removeAttr('disabled');
+											$('.warning').empty();
+											$(this).parent().parent().parent().parent().children('.empty').removeClass('disabled-container');
+										}); 
+									if(!$('input[type="submit"]').hasClass('no-choices')){
+										
+									}
+									else{
+										console.log('fired');
+										$('input[type="submit"].no-choices').prop('disabled',false);	
+									 	$('input[type="submit"]').parent().removeClass('disabled-container');
+									}  
+								});                        
+
+							</script>
+						</div>
+					</div>
+					{% endif %}
+					{% capture add_to_cart_label %}{{ 'products.product.add_to_cart' | t }}{% endcapture %}
+					<span class="empty disabled-container">
+						{% if product.tags contains 'pre-order' %}
+
+						<input type="submit" id="addcart" name="add" value="PRE-ORDER" class="{% if product.variants.size == 1 or product.first_available_variant.option2 == 'O/S'  %}no-choices {% endif %} action_button add_to_cart add-to-bag cta-button pull-right {{product.id}}" data-label="PRE-ORDER" disabled="disabled" />	
+						{% else %}
+						<input type="submit" id="addcart" name="add" value="add to cart" class="action_button add_to_cart add-to-bag cta-button pull-right {{product.id}}" data-label={{ add_to_cart_label | json }} disabled="disabled" />
+						{% endif %}
+						<p class="warning"></p>
+					</span>
+
+				</form>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).on('click','.disabled-container', function(e){
+			e.preventDefault();
+			$(this).children(".warning").text("Please select a size");
+		});       
+		$(document).on('click','.quick_shop',function(event) {
+			 
+			$('body').addClass('overlay-open');
+			$("input[type=text], textarea").val("");
+			if($('.modal').is('[data-lookbook="lookbook-1"]')){	
+				$(".quick_uniq[color^='Black Blockprintedsatin'][title^='Cold Shoulder Kimono Dress']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-1m"]')){		
+				$(".quick_uniq[color^='Black Blockprintedsatin'][title^='Cold Shoulder Kimono Dress']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-2"]')){		
+				$(".quick_uniq[color^='Black Blockprintedsatin'][title^='Cold Shoulder Kimono Dress']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-2m"]')){		
+				$(".quick_uniq[color^='Dao Red Blockprintedsatin'][title^='Cold Shoulder Kimono Dress']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-3"]')){
+				$(".quick_uniq[color^='Dao Red Blockprintedsatin'][title^='Cold Shoulder Kimono Dress']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-3m"]')){
+				$(".quick_uniq[color^='Black-Brick Red Artisanprintedsilk'][title^='Printed Kimono Coat']").addClass('active');
+				$(".quick_uniq[color^='Black-Brick Red Artisanprintedcrinklechif'][title^='V-Neck Plunge Scarf Dress']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-4"]')){
+				$(".quick_uniq[color^='Black-Brick Red Artisanprintedsilk'][title^='Printed Kimono Coat']").addClass('active');
+				$(".quick_uniq[color^='Black-Brick Red Artisanprintedcrinklechif'][title^='V-Neck Plunge Scarf Dress']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-4m"]')){
+				$(".quick_uniq[color^='Black-Brick Red Artisanprintedcrinklechif'][title^='V-Neck Plunge Scarf Dress']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-5"]')){
+				$(".quick_uniq[color^='Black-Brick Red Artisanprintedcrinklechif'][title^='V-Neck Plunge Scarf Dress']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-5m"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Black Multi Artisanpatchworkemb'][title^='Artisan Patchwork Jacket']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-6"]')){
+				$(".quick_uniq[color^='Black-Brick Red Artisanprintedcrinklechif'][title^='V-Neck Plunge Scarf Dress']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-6m"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Bamboo Linensilk'][title^='Tri Color Long Kimono Wrap']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');		
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-7"]')){
+				$(".quick_uniq[color^='Black Multi Artisanpatchworkemb'][title^='Artisan Patchwork Jacket']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-7m"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Brick Red Summersoftsuede'][title^='Soft Pajama Jacket']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-8"]')){
+				$(".quick_uniq[color^='Bamboo Linensilk'][title^='Tri Color Long Kimono Wrap']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-8m"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Brick Red Luminouscrinklecotton'][title^='Kimono Jacket']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-9"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Brick Red Summersoftsuede'][title^='Soft Pajama Jacket']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-9m"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Cross Over Fluid Top']").addClass('active');
+				$(".quick_uniq[color^='Brick Red Erodedjaquard'][title^='Fluid Dress Coat']").addClass('active');
+				$(".quick_uniq[color^='Brick Red Erodedjaquard'][title^='Relaxed Pajama Pant']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Long Leather Beaded Necklace']").addClass('active'); 
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-10"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Brick Red Luminouscrinklecotton'][title^='Kimono Jacket']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-10m"]')){
+				$(".quick_uniq[color^='Black Viscosecrepe'][title^='Transformer Top']").addClass('active');
+				$(".quick_uniq[color^='Brick Red Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Brick Red Summersoftsuede'][title^='Flare Tank Top']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-11"]')){
+				$(".quick_uniq[color^='Brick Red Erodedjaquard'][title^='Fluid Dress Coat']").addClass('active'); 
+				$(".quick_uniq[color^='Black Napasoft'][title^='Long Leather Beaded Necklace']").addClass('active'); 
+				$(".quick_uniq[color^='Brick Red Erodedjaquard'][title^='Relaxed Pajama Pant']").addClass('active'); 
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-11m"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Cold Shoulder Jumpsuit']").addClass('active'); 
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');
+
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-12"]')){
+				$(".quick_uniq[color^='Brick Red Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-12m"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Black Collageknit'][title^='Short Tank Top']").addClass('active');
+				$(".quick_uniq[color^='Black Collageknit'][title^='Wrap Cozy']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-13"]')){
+				$(".quick_uniq[color^='Brick Red Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Black Viscosecrepe'][title^='Transformer Top']").addClass('active'); 
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-13m"]')){
+				$(".quick_uniq[color^='Black-Paperbag Caligraphicprintchiffon'][title^='One Shoulder Calligraphic Print Dress']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-14"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Cold Shoulder Jumpsuit']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-14m"]')){
+				$(".quick_uniq[color^='Black-Paperbag Caligraphicprintcdc'][title^='Calligraphic Print Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Black-Paperbag Caligraphicprintcdc'][title^='Calligraphic Print Pajama Pant']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-15"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Black Collageknit'][title^='Short Tank Top']").addClass('active');
+				$(".quick_uniq[color^='Black Collageknit'][title^='Wrap Cozy']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-15m"]')){
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Cocoon Dress']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Luminouscrinklecotton'][title^='Kimono Coat']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Summersoftsuede'][title^='Relaxed Suede Pajama Pant']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-16"]')){
+				$(".quick_uniq[color^='Black-Paperbag Caligraphicprintchiffon'][title^='One Shoulder Calligraphic Print Dress']").addClass('active'); 
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-16m"]')){
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Cocoon Dress']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Summersoftsuede'][title^='Relaxed Suede Pajama Pant']").addClass('active');
+				$(".quick_uniq[color^='Black Multi Napasoft'][title^='Elements Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-17"]')){
+				$(".quick_uniq[color^='Black-Paperbag Caligraphicprintcdc'][title^='Calligraphic Print Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Black-Paperbag Caligraphicprintcdc'][title^='Calligraphic Print Pajama Pant']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-17m"]')){
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Crossover Draped Top']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Summersoftsuede'][title^='Suede Pajama Coat']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Elements Necklace']").addClass('active');
+
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-18"]')){
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Cocoon Dress']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Luminouscrinklecotton'][title^='Kimono Coat']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Summersoftsuede'][title^='Relaxed Suede Pajama Pant']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Journal Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-18m"]')){
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Satinbackcrepe'][title^='Shrunken Blazer']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Tablet Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-19"]')){
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Cocoon Dress']").addClass('active');
+				$(".quick_uniq[color^='Black Multi Napasoft'][title^='Elements Necklace']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Summersoftsuede'][title^='Relaxed Suede Pajama Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-19m"]')){
+				$(".quick_uniq[color^='Smokey Teal Luminouscrinklecotton'][title^='Kimono Jacket']").addClass('active');
+				$(".quick_uniq[color^='Smokey Teal Silk'][title^='Pleated Pull On Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-20"]')){
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Crossover Draped Top']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Elements Necklace']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Summersoftsuede'][title^='Suede Pajama Coat']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-20m"]')){
+				$(".quick_uniq[color^='Smokey Teal Luminouscrinklecotton'][title^='Long Crossover Vest']").addClass('active');
+				$(".quick_uniq[color^='Smokey Teal Silk'][title^='Pleated Pull On Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-21"]')){
+				$(".quick_uniq[color^='Paperbag Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Paperbag Satinbackcrepe'][title^='Shrunken Blazer']").addClass('active');
+				$(".quick_uniq[color^='Bark Napasoft'][title^='Warrior Tablet Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-21m"]')){
+				$(".quick_uniq[color^='Smokey Teal Signaturejersey'][title^='Draped Cropped Jumpsuit']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-22"]')){
+				$(".quick_uniq[color^='Smokey Teal Silk'][title^='Pleated Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Smokey Teal Luminouscrinklecotton'][title^='Kimono Jacket']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-22m"]')){
+				$(".quick_uniq[color^='Smokey Teal Signaturejersey'][title^='Draped Tank Dress']").addClass('active');
+				$(".quick_uniq[color^='Raw Indigo Napasoft'][title^='Long Leather Beaded Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-23"]')){
+				$(".quick_uniq[color^='Smokey Teal Luminouscrinklecotton'][title^='Long Crossover Vest']").addClass('active');
+				$(".quick_uniq[color^='Smokey Teal Silk'][title^='Pleated Pull On Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-23m"]')){
+				$(".quick_uniq[color^='Smokey Teal Cottonsilk'][title^='One Shoulder Wrap Dress']").addClass('active'); 
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-24"]')){
+				$(".quick_uniq[color^='Smokey Teal Signaturejersey'][title^='Draped Cropped Jumpsuit']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-24m"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Ivory Napasoft'][title^='Leather Kimono Jacket']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active'); 
+				$(".quick_uniq[color^='Ivory Napasoft'][title^='Leather Panel Collar Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-25"]')){
+				$(".quick_uniq[color^='Smokey Teal Signaturejersey'][title^='Draped Tank Dress']").addClass('active');
+				$(".quick_uniq[color^='Raw Indigo Napasoft'][title^='Long Leather Beaded Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-25m"]')){
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Faux Wrap And Tie Skirt']").addClass('active');
+				$(".quick_uniq[color^='Ivory Satinbackcrepe'][title^='Shrunken Blazer']").addClass('active');
+				$(".quick_uniq[color^='Ivory Napasoft'][title^='Leather Panel Collar Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-26"]')){
+				$(".quick_uniq[color^='Smokey Teal Cottonsilk'][title^='One Shoulder Wrap Dress']").addClass('active'); 
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-26m"]')){
+				$(".quick_uniq[color^='Ivory Silk'][title^='Crossover Draped Top']").addClass('active');
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Faux Wrap And Tie Skirt']").addClass('active');
+				$(".quick_uniq[color^='Black Stretchcrepe'][title^='Soft Pajama Coat']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-27"]')){
+				$(".quick_uniq[color^='Black Silk'][title^='Faux Wrap Dress']").addClass('active');
+				$(".quick_uniq[color^='Ivory Napasoft'][title^='Leather Kimono Jacket']").addClass('active');
+				$(".quick_uniq[color^='Ivory Napasoft'][title^='Leather Panel Collar Necklace']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-27m"]')){
+				$(".quick_uniq[color^='Black Stretchcrepe'][title^='Fluid Pull On Pant']").addClass('active');
+				$(".quick_uniq[color^='Ivory Viscosecrepe'][title^='Transformer Top']").addClass('active');
+				$(".quick_uniq[color^='Black Viscosecrepe'][title^='Transformer Jacket']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-28"]')){
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Faux Wrap And Tie Skirt']").addClass('active');
+				$(".quick_uniq[color^='Ivory Satinbackcrepe'][title^='Shrunken Blazer']").addClass('active');
+				$(".quick_uniq[color^='Ivory Napasoft'][title^='Leather Panel Collar Necklace']").addClass('active');
+				$(".quick_uniq[color^='Black Silk'][title^='Pleated Pull On Pant']").addClass('active'); 
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-28m"]')){
+				$(".quick_uniq[color^='Ivory Signaturejersey'][title^='Scarf Top']").addClass('active');
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Wrap And Tie Jodhpur']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-29"]')){
+				$(".quick_uniq[color^='Black Stretchcrepe'][title^='Soft Pajama Coat']").addClass('active');
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Faux Wrap And Tie Skirt']").addClass('active');
+				$(".quick_uniq[color^='Ivory Silk'][title^='Crossover Draped Top']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-29m"]')){
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Faux Wrap And Tie Skirt']").addClass('active'); 
+				$(".quick_uniq[color^='Ivory Signaturejersey'][title^='Asymmetric Scarf Tank']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-30"]')){
+				$(".quick_uniq[color^='Ivory Silk'][title^='Crossover Draped Top']").addClass('active');
+				$(".quick_uniq[color^='Black Stretchcrepe'][title^='Fluid Pull On Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-30m"]')){
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Asymmetric Scarf Top']").addClass('active');
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Faux Wrap And Tie Skirt']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-31"]')){
+				$(".quick_uniq[color^='Black Stretchcrepe'][title^='Fluid Pull On Pant']").addClass('active'); 
+				$(".quick_uniq[color^='Ivory Viscosecrepe'][title^='Transformer Top']").addClass('active');
+				$(".quick_uniq[color^='Black Viscosecrepe'][title^='Transformer Jacket']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-32"]')){
+				$(".quick_uniq[color^='Black Stretchcrepe'][title^='Fluid Pull On Pant']").addClass('active'); 
+				$(".quick_uniq[color^='Ivory Viscosecrepe'][title^='Transformer Top']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-33"]')){
+				$(".quick_uniq[color^='Black Stretchcrepe'][title^='Fluid Pull On Pant']").addClass('active'); 
+				$(".quick_uniq[color^='Ivory Viscosecrepe'][title^='Transformer Top']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-34"]')){
+				$(".quick_uniq[color^='Black Stretchcrepe'][title^='Fluid Pull On Pant']").addClass('active'); 
+				$(".quick_uniq[color^='Ivory Viscosecrepe'][title^='Transformer Top']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-35"]')){
+				$(".quick_uniq[color^='Ivory Signaturejersey'][title^='Scarf Top']").addClass('active');
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Wrap And Tie Jodhpur']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-36"]')){
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Faux Wrap And Tie Skirt']").addClass('active'); 
+				$(".quick_uniq[color^='Ivory Signaturejersey'][title^='Asymmetric Scarf Tank']").addClass('active'); 
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-37"]')){
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Faux Wrap And Tie Skirt']").addClass('active'); 
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Asymmetric Scarf Top']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-39"]')){
+				$(".quick_uniq[color^='Raw Indigo Cottonpoplin'][title^='Utilitarian Smock']").addClass('active'); 
+				$(".quick_uniq[color^='Raw Indigo Cottonpoplin'][title^='Pleated Pull On Poplin Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-40"]')){
+				$(".quick_uniq[color^='Black Signaturejersey'][title^='Flare Tank Top']").addClass('active'); 
+				$(".quick_uniq[color^='Raw Indigo Cottonpoplin'][title^='Crushed Pleated Skirt']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-41"]')){
+				$(".quick_uniq[color^='Brick Red Cottonpoplin'][title^='Utilitarian Long Smock']").addClass('active'); 
+				$(".quick_uniq[color^='Black Cottonpoplin'][title^='Pleated Pull On Poplin Pant']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-42"]')){
+				$(".quick_uniq[color^='Paperbag Cottonpoplin'][title^='Wrap And Tie Poncho']").addClass('active'); 
+				$(".quick_uniq[color^='Paperbag Cottonpoplin'][title^='Sleeveless Wrap & Tie Shirt dress']").addClass('active');
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-43"]')){
+				$(".quick_uniq[color^='Paperbag Cottonpoplin'][title^='Utiltarian Jumpsuit']").addClass('active'); 
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-44"]')){
+				$(".quick_uniq[color^='Black Cottonpoplin'][title^='Big Shirt']").addClass('active'); 
+				$(".quick_uniq[color^='Paperbag Stretchcanvas'][title^='Signature Canvas Skinny Pants']").addClass('active'); 
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-45"]')){
+				$(".quick_uniq[color^='White Cottonpoplin'][title^='Big Shirt']").addClass('active'); 
+				$(".quick_uniq[color^='Raw Indigo Cottonpoplin'][title^='Crushed Pleated Skirt']").addClass('active');
+				$(".quick_uniq[color^='Black Cottonpoplin'][title^='Wrap And Tie Poncho']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-46"]')){
+				$(".quick_uniq[color^='Black Cottonpoplin'][title^='Pleated Pull On Poplin Pant']").addClass('active'); 
+				$(".quick_uniq[color^='White Cottonpoplin'][title^='Belted Bib Front Shirt']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-47"]')){
+				$(".quick_uniq[color^='White Cottonpoplin'][title^='Wrap & Tie Long Sleeve Shirt Dress']").addClass('active'); 
+				$(".quick_uniq[color^='Black Cottonpoplin'][title^='Pleated Pull On Poplin Pant']").addClass('active'); 
+				$(".quick_uniq[color^='Black Napasoft'][title^='Leather Wrapped Prayer Necklace']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-48"]')){
+				$(".quick_uniq[color^='Black Cottonpoplin'][title^='Pleated Pull On Poplin Pant']").addClass('active'); 
+				$(".quick_uniq[color^='White Calligraphicartworkemb'][title^='Kaftan']").addClass('active');
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-49"]')){
+				$(".quick_uniq[color^='Black Fringedbasketembroidery'][title^='Black Ribbon Kaftan']").addClass('active'); 
+				
+			}
+			else if($('.modal').is('[data-lookbook="lookbook-50"]')){
+				$(".quick_uniq[color^='Black Cottonpoplin'][title^='Pleated Pull On Poplin Pant']").addClass('active'); 
+				$(".quick_uniq[color^='Black Noveltyembroidery'][title^='Short Hand Looped Kaftan']").addClass('active');
+			}
+
+		});
+
+
+	</script>

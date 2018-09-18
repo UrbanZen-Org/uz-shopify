@@ -1,0 +1,71 @@
+<div class="customers">
+  <div class="sixteen columns clearfix collection_nav">
+    <h1 class="center">{{ 'customer.account.details' | t }}</h1>
+    <div class="feature_divider"></div>
+  </div>
+   
+  <div class="sixteen columns breadcrumb">
+    <div class="clearfix breadcrumb_text">
+      <div class="center">
+        <a href="/account" title="{{ 'layout.customer.my_account' | t }}">{{ customer.name }}</a> 
+        &nbsp; / &nbsp;
+        {{ 'layout.customer.log_out' | t | customer_logout_link }}
+      </div>
+    </div>
+  </div>
+  <div class="account-area">
+    <div class="customer-info">
+      <h4>Addresses</h4>
+      <div id="customer_detail" class="group">
+        <p class="name">{{ customer.name }}</p>        
+        <div class="address note">
+          {% if customer.default_address != nil %}
+            <p>{{ customer.default_address.address1 }}
+            {% if customer.default_address.address2 != "" %}
+              {{ customer.default_address.address2 }}
+            {% endif %}</p>
+            <p>{{ customer.default_address.city}}, {% if customer.default_address.province_code %}{{customer.default_address.province_code}}, {% endif %}
+            {{ customer.default_address.zip}}</p>
+            <p>{{customer.default_address.country}}</p>
+            <p>{{ customer.default_address.phone }}</p>
+            
+          {% endif %}
+        </div>
+        <p class="email note">{{ customer.email }}</p>
+        <a href="/account/addresses">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a>
+      </div>
+    </div>
+    <div class="order-history">
+      <div id="customer_orders">
+        <h4>{{ 'customer.orders.title' | t }}</h4>
+
+        {% if customer.orders.size != 0 %}
+        <table width="100%">
+          <thead>
+            <tr>
+              <th>{{ 'customer.orders.order_number' | t }}</th>
+              <th>{{ 'customer.orders.date' | t }}</th>
+              <th>{{ 'customer.orders.payment_status' | t }}</th>
+              <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+              <th>{{ 'customer.orders.total' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in customer.orders %}
+            <tr class="{% cycle 'odd', 'even' %} {% if order.cancelled %}cancelled_order{% endif %}">
+              <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+              <td><a href="{{ order.customer_url }}">{{ order.created_at | date: format: "month_day_year" }}</a></td>
+              <td><a href="{{ order.customer_url }}">{{ order.financial_status_label }}</a></td>
+              <td><a href="{{ order.customer_url }}">{{ order.fulfillment_status_label }}</a></td>
+              <td><a href="{{ order.customer_url }}">{{ order.total_price | money }}</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+          <p>{{ 'customer.orders.none' | t }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

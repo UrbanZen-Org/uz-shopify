@@ -1,0 +1,124 @@
+
+var disabledClicked;
+var colorSelected;
+var sizeSelected;
+if($(event.target).is('#lookbook-1')){
+    $('.modal').find(".swatch-element.color.black-blockprintedsatin").show();
+    $('.modal').find("li.black-blockprintedsatin").first().show().css('opacity','1');
+    var colorSelect = $(".swatch-element.color.black-blockprintedsatin input");
+    colorSelect.prop('checked','checked');
+    colorSelected = colorSelect.val();
+    console.log('colorSelected is: '+ colorSelected);
+  }
+
+$('ul.slides li.thumbnail-curated-image').click(function(event) {
+  if ( $(this).hasClass('thumbnail-curated-image') ) {
+    event.preventDefault();
+    console.log('flex curated')
+    var curatedImageIndex = $('li[data-title="curated-image"]').index();   
+    $('.product_slider').data("flexslider").flexslider(curatedImageIndex);
+  } 
+});
+
+$(document).on('click','.swatch-element.size', function(event){
+  console.log('IN SWATCH ELEMENT CLICK FUNCTION');
+  sizeSelected = $(this).find('input').val();
+  var selected = colorSelected +' / '+sizeSelected;
+  //$('.multi_select option').removeAttr('selected');
+  $('.multi_select').find('option:contains("'+selected+'")').attr('selected', 'selected');
+  console.log($('.multi_select').val(), 'multiselect value');
+  if($(this).hasClass('soldout')) {
+
+  }
+
+  $('.swatch-element.size').removeClass('swatch-selected');
+  $(this).addClass('swatch-selected');
+});
+$(document).on('click','.swatch-element.color', function(event){
+  $('.override-hide').each(function() {
+
+    $(this).css('transform', 'none');
+
+  });
+  var checkForDisabled = $('.swatch-element.color').find('input:disabled').length;
+  var isThisDisabled = $(this).find('input:disabled');
+
+  var swatch = $(this).attr('data-value').toLowerCase().replace(/ /g, '-');
+  $('.flex-active-slide').removeClass('flex-active-slide').css('opacity', '0');
+  $('li[data-title=' + swatch + ']').first().addClass('flex-active-slide');
+  $('.thumbnail-'+swatch).first().addClass('flex-active-slide');
+  $('.override-hide').removeClass('override-hide');
+  if(isThisDisabled.length > 0) {      
+    $(isThisDisabled).removeAttr('disabled');
+    setTimeout(function() {
+      $(isThisDisabled).attr('disabled', 'disabled');
+    }, 1);
+  } else {
+      // $('.slides li').removeClass('override-zindex');
+    }
+    $('.swatch-element.color').removeClass('swatch-selected');
+    $(this).addClass('swatch-selected');
+    $('.swatch_name').each(function(){
+      $(this).removeClass('swatch-color-selected');
+      var dataValue = $('.color.swatch-selected').attr('data-value');
+      if($(this).attr('data-value') == $('.color.swatch-selected').attr('data-value')){
+        $('.swatch_name[data-value="'+dataValue+'"]').addClass('swatch-color-selected');
+          console.log(dataValue+' in loop');
+          colorSelected = dataValue;
+      }
+    });
+
+
+    
+    setTimeout(checkLength, 25);
+
+
+    function checkLength() {
+     var length = $('.swatch-element.size.available').length;
+     if(length == 1) {
+
+       $('.swatch-element.size').removeClass('swatch-selected');
+       $('.swatch-element.size.available').addClass('swatch-selected');
+
+     }
+   }
+
+ });
+
+var colorLength = $('.swatch-element.color').length;
+var colorSoldOutLength = $('.swatch-element.color').find('img.crossed-out.always-show').length;
+var hasVariant = window.location.href.indexOf('?variant=');
+if(colorLength == colorSoldOutLength) {
+
+  var color = $('.swatch-element.color:first').attr('data-value');
+  var colorString = color.toLowerCase().replace(/ /g, '-');
+  console.log(colorString);
+  setTimeout(function() {
+    $('.thumbnail-' + colorString).addClass('override-hide');
+    var amount = 0;
+    var height = 105;
+    $('.override-hide').each(function() {
+        //$(this).css('transform','translateY('+ amount + 'px)');
+       // amount = amount + height;
+     });
+  }, 100); 
+
+}
+
+setTimeout(function() {
+  var dataVal = $('.swatch-element.color.swatch-selected').attr('data-value').toLowerCase().split(' ').join('-');
+  $('.thumbnail-' + dataVal).addClass('override-hide');
+  var amount = 0;
+  var height = 105;
+  $('.override-hide').each(function() {
+    //  $(this).css('transform','translateY('+ amount + 'px)');
+   //   amount = amount + height;
+ });
+}, 100); 
+
+$('.swatch-element.soldout').each(function() {
+  $(this).find('.crossed-out').addClass('always-show');
+  $(this).find('input').removeAttr('disabled');
+  $(this).removeClass('soldout');
+
+});

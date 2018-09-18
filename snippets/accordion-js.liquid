@@ -1,0 +1,45 @@
+<script type="text/javascript">
+$(document).ready(function() {
+  var submenu = $('.accordion-sub > dd').hide();
+
+  $(document).on('click','.accordian .open', function(e) {
+    console.log('clicked!')
+    e.preventDefault();
+    $this = $(this);
+    $target =  $this.parent().next();
+    if(!$this.hasClass('close')){
+      $('dt').find('small.right').html('<span class="down-angle"></span>');
+      $('.open').removeClass('close');
+      accordion.slideUp();
+      $this.addClass('close');
+      $target.slideDown();
+      $(this).parent('dt').find('small.right').html('<span class="up-angle"></span>');
+    }else{
+      $target.slideUp();
+      $this.removeClass('close');
+      $('dt').find('small.right').html('<span class="down-angle"></span>');
+    }
+    return false;
+  });
+   
+  $(document).on('click','.sub-open', function(e) {
+    e.preventDefault();
+    $this = $(this);
+    $subTarget =  $this.parent().next();
+    if(!$this.hasClass('close')){
+      $('dt').find('small.right').html('<span class="down-angle"></span>');
+      $('.sub-open').removeClass('close');
+      submenu.slideUp();
+      $this.addClass('close');
+      $subTarget.slideDown();
+      $(this).parent('dt').find('small.right').html('<span class="up-angle"></span>');
+    }else{
+      console.log('clicked Closed!');
+      $subTarget.slideUp();
+      $this.removeClass('close');
+      $('dt').find('small.right').html('<span class="down-angle"></span>');
+    }
+    return false;
+  });
+});
+</script>

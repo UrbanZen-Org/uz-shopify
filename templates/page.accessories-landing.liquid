@@ -1,0 +1,30 @@
+<div class="accessories-landing">
+	<section class="accessories-banner">
+		<div class="title-overlay">
+			<h1>Accessories</h1>
+		</div>
+		<img src="{{ 'https://s3.us-east-2.amazonaws.com/fall-2017/Accessories+Category+Landing+Page/' | append: 'landing-banner' |  append: '.jpg' }}">
+	</section>
+	<section class="accessories-categories">
+		{% for link in linklists.['accessories'].links %}
+			{% assign link_handle = link.title | handleize %}
+			{% if link_handle contains "made"  or link_handle contains "not" %}
+				{% assign class = ' half-width' %}
+			{% endif %}
+			<div class="accessories-category{{ class }}">
+			  <a href="{{ link.url }}">
+			  	<div class="title-overlay dark-hover">
+			  		<h2>{{ link.title }}</h2>
+			  	</div>
+			  	
+			  	{% if link_handle contains "made"  or link_handle contains "not" %}
+			  		<img class="desktop_hidden" src="{{ 'https://s3.us-east-2.amazonaws.com/fall-2017/Accessories+Category+Landing+Page/m-' | append: link_handle |  append: '.jpg' }}">
+			  		<img class="mobile_hidden" src="{{ 'https://s3.us-east-2.amazonaws.com/fall-2017/Accessories+Category+Landing+Page/' | append: link_handle |  append: '.jpg' }}">
+			  	{% else %}
+			  		<img src="{{ 'https://s3.us-east-2.amazonaws.com/fall-2017/Accessories+Category+Landing+Page/' | append: link_handle |  append: '.jpg' }}">
+			  	{% endif %}
+			  </a>
+		  </div>
+		{% endfor %}
+	</section>
+</div>

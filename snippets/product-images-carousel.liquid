@@ -1,0 +1,50 @@
+{% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+<div id="slider" class="{% unless product.tags contains 'no-variant-images' %}carousel-slider{% endunless %} flexslider product_slider">
+  
+  <ul class="slides">
+    {% for image in product.images %}
+      <li class="{{image.alt | split: ' ' | first }}" data-product-title="{{product.title}}" data-thumb="{{ image.src | product_img_url: '1024x1024' | split:'?' | first }}" data-title="{% if image.alt contains 'youtube' or image.alt contains 'vimeo' %}{{ product.title }}{% else %}{{ image.alt | escape }}{% endif %}">
+        {% if image.alt contains 'youtube' or image.alt contains 'vimeo' %}
+          {% assign src = image.alt | split: 'src="' | last %}
+          {% assign src = src[1] | split: '"' | first %}
+          {% if src contains '?' %}
+            {% assign src = src | append: '&amp;autoplay=1' %}
+          {% else %}
+            {% assign src = src | append: '?autoplay=1' %}
+          {% endif %}
+           <div class="video-container {% if image.alt contains 'vimeo' %}vimeo{% else %}youtube{% endif %}">
+            <div>
+              <a href="{{ src }}" class="fancybox fancybox.iframe" data-fancybox-group="{{ product.id }}" title="{{ product.title | escape }}">
+                {% capture myFirstWord %}{{ image.alt | truncatewords: 1 | remove: '...' }}{% endcapture %}
+                {% capture mySecondWord %}{{ image.alt | replace: myFirstWord, '' }}{% endcapture %}
+                {{ mySecondWord }}
+              </a>
+            </div>
+           </div> 
+        {% else %}  
+            <img width="723" height="1024" src="{{ image.src | product_img_url: '1024x1024' | split:'?' | first }}" data-src-retina="{{ image.src | product_img_url: '2048x2048' | split:'?' | first }}" alt="{% if image.alt contains 'youtube' or image.alt contains 'vimeo' %}{{ product.title }}{% else %}{{ image.alt | escape }}{% endif %}" data-index="{{ forloop.index0 }}" data-image-id="{{ image.id }}" data-cloudzoom="{% if image.alt contains 'youtube' or image.alt contains 'vimeo' %}{% else %}zoomImage: '{{ image.src | product_img_url: 'master' | split:'?' | first }}', tintColor: '{{ settings.shop_bg_color }}', zoomPosition: 'inside', zoomOffsetX: 0, touchStartDelay: 250" class="cloudzoom {% if featured_image.id == image.id %}featured_image{% endif %}{% endif %}" data-pin-description="" /> 
+        {% endif %}   
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% unless product.tags contains "no-variant-images" %}
+  <div id="carousel" class="flexslider">
+    {% for option in product.options %}
+      {% if option == 'Color' %}
+        {% assign selectedVariant = product.selected_or_first_available_variant.options[forloop.index0 ] | handleize %}
+      {% elsif option == 'Size'%}
+        {% assign selectedVariant = product.selected_or_first_available_variant.options[forloop.index0 ] | handleize %}
+      {% endif %}
+    {% endfor %}
+    
+    <ul class="slides {% if product.tags contains 'F18' %}fall-18{% endif %}">
+      {% for image in product.images %}
+          <li class="thumbnail-{{image.alt | split: ' ' | first }} animated fadeIn {%if image.alt == 'curated-image' %}curated{% endif %} {%if image.alt == selectedVariant %} active-variant {% endif %}">
+            <img width="71" height="100" src="{{image.src | product_img_url: 'small' | split:'?' | first }}" alt="{{image.alt | split: ' ' | first }}" />
+          </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endunless %}
+&nbsp;

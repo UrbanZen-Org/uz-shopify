@@ -1,0 +1,167 @@
+</div>
+<div id="fullpage">
+	<div class="cell-video-container">
+		<div class="text">
+			<h1 class="light">THE ALCHEMIST CAMPAIGN</h1>
+		</div>
+		<div class="absolute-scroll center">
+			<p class="light">A modern urban wardrobe inspired by ancient artisan life,<span class="mobile_hidden"><br></span>
+created to travel the many worlds you live in</p><br/>
+			<a id="link" class="light learn-more">EXPLORE<span></span></a>
+		</div>
+		<iframe id="introVid" class="mobile_hidden" src="https://player.vimeo.com/video/179917227?background=1&autoplay=1" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+		<img width="100%" class="desktop_hidden" src="{{ 'Campaign_M_01.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+	</div>
+	
+	<div class="full-width first bg-full" style="background-image: url({{ 'Campaign_D_01a.jpg' | asset_url | split:'?' | first }});">
+		<a name="jump-to"> </a>
+		{% assign products = collections.look-1.products %}
+		<div class="campaign-caption right-bottom white">	
+		<a href="#quick_cart" class="opener" data-fancybox-href="/products/tribal-leather-beads?variant=25392088705" data-image-id="19902745409" data-variant="Wine Leather">Tribal Leather Beads Necklace</a>
+		{% include 'shop-the-look-quick-buy' %}
+		</div>
+		<div id="quick_cart"></div>
+		<script>
+			$(document).ready(function() {
+
+	          $('.opener').click(function(e){
+	            e.preventDefault();
+
+	            var url = $(this).data('fancybox-href') + '.json?fields=id,images,title';
+	            var variantColor = $(this).data('variant');
+	            var imageId = $(this).data('variant');
+	            console.log(url);
+
+	            $.fancybox({
+	              type: 'modal',
+	              beforeLoad: function (){
+	                quick_cart(url);
+	              },
+	              href: 'quick_cart'
+	            });
+	          });
+	        });
+	        function quick_cart(url){
+
+	          $.getJSON(url, function (data){
+
+	            $('.fancybox-inner').append('<div>' + data.product.title + '</div>');
+	            $('.fancybox-inner').append('<div>' + data.product.image.src + '</div>');
+	            $('.fancybox-inner').append('{% capture add_to_cart_label %}{% if collection_handles contains "pre-order" %}{{ "collections.general.pre_order" | t }}{% else %}{{ "products.product.add_to_cart" | t }}{% endif %}{% endcapture %}<input type="submit" id="addcart" name="add" value="add to cart" class="action_button add_to_cart add-to-bag cta-button pull-right {{variant.id}} {{ product.id }} " data-label={{ add_to_cart_label | json }} disabled="disabled" />');
+	          });    
+	        }
+		</script>
+
+	</div>
+	<div class="full-width">
+		<div class="half left">
+			<img src="{{ 'Campaign_D_02a.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+		</div>
+		<div class="half left">
+			<img src="{{ 'Campaign_D_03a.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+		</div>
+	</div>
+	<div class="full-width">
+		<img src="{{ 'Campaign_D_04a.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+	</div>	
+	<div class="full-width">
+		<div class="half left">
+			<img src="{{ 'Campaign_D_05a.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+		</div>
+		<div class="half left">
+			<img src="{{ 'Campaign_D_06a.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+		</div>
+	</div>
+	<div class="full-width">
+		<img src="{{ 'Campaign_D_07a.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+	</div>		
+</div>	
+<div class="article">
+	<p class="credits right light">Photographer: Hans Neumann  |  Model: Tiana Tolstoi  |  Set Designer: Hans Maharawal</p>
+	<br/>
+	<br/>
+	<br/>
+	<h1 class="light center">BEHIND THE SCENES</h1><br/>
+	<div class="alchemistSlider relative_slider black-nav">
+		<ul class="slides">
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_01.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_01.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_02.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_02.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_03.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_03.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_04.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_04.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_05.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_05.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_06.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_06.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_07.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_07.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_08.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_08.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_09.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_09.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_10.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_10.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_11.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_11.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_12.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_12.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+			<li class="item">
+				<a rel="gallery1" class="fancybox" href="{{ 'FW16_BTS_13.jpg' | asset_url | split:'?' | first }}">
+					<img src="{{ 'FW16_BTS_13.jpg' | asset_url | split:'?' | first }}" alt="Urban Zen Alchemist Collection installation Pictures" />
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="section clearfix center">
+			<br/><br/>
+			<h1 class="light uppercase">EXPLORE THE COLLECTION</h1><br/><br/>
+			<a href="/pages/the-alchemist-collection/" class="cta-button" title="Our Stores">Shop</a>
+		</div>
+</div>
+<script type="text/javascript">
+	$(window).ready(function() {
+		$('.cell-video-container .absolute-scroll').delay(7000).fadeIn(2000);
+		$('.cell-video-container .text').delay(2000).fadeIn(2000);
+		$('.cell-video-container .text').delay(1000).fadeOut(3000);
+		
+	});
+</script>

@@ -1,0 +1,32 @@
+<div class="sixteen columns clearfix collection_nav">
+  <h1 class="center">{{ 'customer.activate_account.title' | t }}</h1>
+  <div class="feature_divider"></div>
+</div>
+<div class="section clearfix">  
+  <div class="activate  animated fadeInUp">
+    <p><em>{{ 'customer.activate_account.subtext' | t }}</em></p>
+
+    {% form 'activate_customer_password' %}
+      {{ form.errors | default_errors }}
+
+      <fieldset>
+        <label class="large" for="password">{{ 'customer.activate_account.password' | t }}</label>
+        <input type="password" value="" name="customer[password]" id="customer_password" class="large password" size="16" />
+      </fieldset>
+
+      <fieldset>
+        <label class="large" for="password_confirmation">{{ 'customer.activate_account.password_confirm' | t }}</label>
+        <input type="password" value="" name="customer[password_confirmation]" id="customer_password_confirmation" class="large password" size="16" />
+      </fieldset>
+
+      <fieldset class="button-inside">
+        <button type="submit" value="{{ 'customer.activate_account.submit' | t }}">{{ 'customer.activate_account.submit' | t }}
+        </button>
+        
+        <button type="submit" class="cancel" name="decline" id="customer_decline" value="{{ 'customer.activate_account.cancel' | t }}">{{ 'customer.activate_account.cancel' | t }}</button>
+      </fieldset>
+    {% endform %}
+  </div>
+</div>
+<br class="clear" />
+<br class="clear" />

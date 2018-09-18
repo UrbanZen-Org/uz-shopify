@@ -1,0 +1,50 @@
+{% comment %}
+{% capture thelinklist %}{{ collection.handle }}{% endcapture %}
+{% if current_tags  == blank %}
+<div class="container">
+	{% for link in linklists.[thelinklist].links %}
+		{% assign collection = link.object %}
+		{% if forloop.first == true %}
+			<div class="full">
+				<a href="{{ link.url }}" class="alpha thumbnail" title="Browse our {{ link.title | escape }} collection.">
+					{% capture file_name %}{{ collection.handle }}-{{ link.title | handle }}_grande.jpg{% endcapture %}
+					{% capture alt_attr %}{{ link.title | escape }}-{{tag | handle}}{% endcapture %}
+					<img width="100%" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ file_name | asset_url | }}" data-retina-src="{{ file_name | asset_url | }}" width="100%" alt="{{ alt_attr | escape }}" />
+					<span class="text"><h3 class="light">{{ link.title }}</h3><p class="light center">Shop All</p></span>
+				</a>
+			</div>
+		{% else %}
+			{% capture col_url%}{{collection.url}}{%endcapture%}
+				<div class="one-third {% cycle 'left-side', 'middle', 'right-side' %} {{link.title | handleize}}">
+					<a href="{{ link.url }}" class="alpha thumbnail" title="Browse our {{ link.title | escape }} collection.">
+						{% capture file_name %}{{ collection.handle }}-{{ link.title | handle }}_grande.jpg{% endcapture %}
+						{% capture alt_attr %}{{ link.title | escape }}-{{tag | handle}}{% endcapture %}
+						<img width="100%" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ file_name | asset_url | }}" data-retina-src="{{ file_name | asset_url | }}" width="100%" alt="{{ alt_attr | escape }}" />
+						<span class="text"><h3 class="light">{{ link.title }}</h3><p class="light center">Shop All</p></span>
+					</a>
+				</div>
+		{% endif %}
+	{% endfor %}
+</div>
+{% else %}
+<div class="sixteen columns">
+	<div class="header-title">
+    	<h1>{{ collection.title }}{{page.title}}</h1>
+  		<h3 class="subtitle text-center">{{current_tags | replace: '-', ' ' | replace: '["', '' | replace: '"]', '' }}</h3>
+	</div>
+    {% if collection.products.size == 0 %}
+      <div class="section no-match clearfix">     
+        <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
+      </div>
+    {% else %}
+      {% assign products = collection.products %}
+      {% assign products_per_row = settings.products_per_row %}
+      {% include 'product-loop' with settings.collection_sidebar %}
+    {% endif %}
+
+    {% include 'pagination' with settings.collection_sidebar %}
+  </div>
+
+{% endif %}
+
+{% endcomment %}

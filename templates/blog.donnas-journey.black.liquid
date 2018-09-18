@@ -1,0 +1,54 @@
+<div class="header-title desktop_hidden">
+	<h1>{{blog.title}}</h1>
+</div>
+<iframe id="donnas-video" class="mobile_hidden" src="https://player.vimeo.com/video/181976507" width="100%"  height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<div class="container">	
+	<div class="blog-loop">
+    	{% for article in blog.articles %}
+			{% if article.tags contains 'letter' %}
+				<div class="article {% cycle 'odd', 'even' %}">
+					<a href="{{ article.url }}" title="{{ article.title | escape }}">
+						<img src="{{ article.image | img_url: 'grande' }}" alt="{{ article.title | escape }}" />
+					</a>
+					<div class="meta">
+						<h4><a href="{{ article.url }}">{{ article.title}}</a></h4>
+						<p class="excerpt desktop_hidden">{{article.excerpt}}</p>
+						<div class="blog_meta tags mobile_hidden">				
+							{% for tag in article.tags %}
+								{% if tag != 'Signature' and tag != 'signature' and tag != 'hide post' %}
+								<span>
+									<a href="{{ shop.url }}/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" title="{{ blog.title }} {{ 'blogs.general.tagged' | t }} {{ tag | escape }}">{{ tag }}</a>
+								</span>
+								{% endif %}
+							{% endfor %}
+						</div>
+						<a href="{{article.url}}" class="cta-button desktop_hidden">{% if article.tags contains 'discover' %}<span>discover</span>{% else %}<span>read</span>{% endif %}</a>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	    {% for article in blog.articles %}
+			{% unless article.tags contains 'letter' or article.tags contains 'hide post' %}
+				<div class="article {% cycle 'odd', 'even' %}">
+					<a href="{{ article.url }}" title="{{ article.title | escape }}">
+						<img src="{{ article.image | img_url: 'grande' }}" alt="{{ article.title | escape }}" />
+					</a>
+					<div class="meta">
+						<h4><a href="{{ article.url }}">{{ article.title}}</a></h4>
+						<p class="excerpt desktop_hidden">{{article.excerpt}}</p>
+						<div class="blog_meta tags mobile_hidden">	
+							{% for tag in article.tags %}
+								{% if tag != 'Signature' and tag != 'signature' and tag != 'hide post' %}
+								<span>
+									<a href="{{ shop.url }}/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" title="{{ blog.title }} {{ 'blogs.general.tagged' | t }} {{ tag | escape }}">{{ tag }}</a>
+								</span>
+								{% endif %}
+							{% endfor %}
+						</div>
+						<a href="{{article.url}}" class="cta-button desktop_hidden">{% if article.tags contains 'discover' %}<span>discover</span>{% else %}<span>read</span>{% endif %}</a>
+					</div>
+				</div>
+			{% endunless %}
+		{% endfor %}
+	</div>
+</div>

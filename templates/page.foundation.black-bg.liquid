@@ -1,0 +1,89 @@
+
+{% comment %}<div class="cell-video-container">
+	<iframe id="vimeo-player" src="https://player.vimeo.com/video/87612998?api=1" width="100%" height="auto" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</div>{% endcomment %}
+	<div class="cover-area">
+		<iframe class="hpvideo hide-mobile" src="https://player.vimeo.com/video/87612998?background=1&autoplay=1" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+		<div class="mobile-video hide-desktop">
+			<div class="video-item" data-video-id="87612998">
+				<img class="lazyload" data-src="https://s3.amazonaws.com/site-global/Foundation+Page/foundation-video-placeholder.jpg">
+				<div class="play-icon">
+					<i class="material-icons">play_arrow</i>
+				</div>
+			</div>
+			<div class="video-overlay">
+				<i class="close material-icons">close</i>
+				<div class="video-holder">
+					<div class="video-responsive">
+						<div id="video"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<br />
+	<br />
+	<br />
+	<h2 class="center light">Urban Zen Foundation</h2>
+	<div class="section center">
+		<div class="one-half">
+			<p class="light">The Urban Zen Foundation creates, connects, and collaborates to raise awareness and inspire change in the areas of preservation of cultures, well being, and education.</p>
+			<br>
+		</div>
+	</div>
+	<div class="section">
+		<div class="one-quarter">		
+			<a href="http://urbanzen.org/haiti-artisan-project/" target="_blank" title="Haiti Artisan Project" class="alpha thumbnail">
+				<img class="lazyload" data-src="https://s3.amazonaws.com/site-global/Foundation+Page/01+-+Haiti+Artisan+Project.jpg" alt="Haiti Artisan Project" />
+				<div class="text">
+					<h3 class="thin">Haiti Artisan<br>Project</h3>
+				</div>
+			</a>
+		</div>
+		<div class="one-quarter">
+			<a href="http://urbanzen.org/d-o-t" title="" class="alpha thumbnail" target="_blank">
+				<img class="lazyload" data-src="https://s3.amazonaws.com/site-global/Foundation+Page/02+-+DOT.jpg" alt="D.O.T" />
+				<div class="text">
+					<h3 class="thin">D.O.T</h3>
+				</div>
+			</a>
+		</div>
+		<div class="one-quarter">
+			<a href="http://uzit.urbanzen.org/" target="_blank" title="Our Impact" class="alpha thumbnail">
+				<img class="lazyload" data-src="https://s3.amazonaws.com/site-global/Foundation+Page/03+-+Initiative+Therapy+Program.jpg" alt="Urban Zen Integrative Therapy Program" />
+				<div class="text">
+					<h3 class="thin">Integrative<br>Therapy<br>Program</h3>
+				</div>
+			</a>
+		</div>
+		<div class="one-quarter">
+			<a href="http://urbanzen.org/our-initiatives/empowering-children/" title="" class="alpha thumbnail" target="_blank">
+				<img class="lazyload" data-src="https://s3.amazonaws.com/site-global/Foundation+Page/04+-+Empowering+Children.jpg" alt="D.O.T" />
+				<div class="text">
+					<h3 class="thin">Empowering<br>Children</h3>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="section center">
+		<div class="one-half">
+			<a href="http://urbanzen.org" target="_blank" class="cta-button yellow" title="The Urban Zen Foundation">Learn More at urbanzen.org</a>
+		</div>
+	</div>
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script type="text/javascript">
+    var iframe = document.querySelector('iframe');
+    var player = new Vimeo.Player(iframe);
+        player.on('play', function() {
+			$('.drawer-menu').fadeTo( "slow", 0 );
+			
+			$('.social').fadeTo( "slow", 0 );
+   	 	});
+        player.on('pause', function() {
+			$('.drawer-menu').fadeTo( "slow", 1 );
+			
+			$('.social').fadeTo( "slow", 1 );
+   	 	});
+</script>

@@ -1,0 +1,29 @@
+
+{% unless product.tags contains "no-variant-images" %}
+	{% for variant in product.variants %}
+		{% assign temp = variant.option2 %}
+		{% if forloop.first %}
+			{% assign unique_option2 = temp %}
+		{% elsif unique_option2 contains temp %}
+		
+		{% else %} 
+			{% assign unique_option2 = unique_option2 | append: temp %}
+			{% capture variantOptions %}{{ unique_option2 }}{% endcapture %}
+		{% endif %} 
+	{% endfor %}
+	{% assign sortedVariants = variantOptions %}
+	{% for variant in sortedVariants %}
+		{{variant}}<br>
+	{% endfor %}
+{% else %}
+		<div class="{% if products_per_row == "2" %}six columns {% cycle collection_group_thumb: 'alpha', 'omega' %}{% elsif products_per_row == "3" %}four columns {% cycle collection_group_thumb: 'alpha', '', 'omega' %}{% else %}three columns {% cycle collection_group_thumb: 'alpha', '', '', 'omega' %}{% endif %} thumbnail {% cycle collection_group_mobile: 'even', 'odd' %}" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product">
+			<a href="{{ product.url | within: collection }}" itemprop="url">
+				<div class="relative product_image relative thumbnail">
+					<img width="424" height="600" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ product.featured_image | product_img_url: 'original' | split:'?' | first }}" data-retina-src="{{ product.featured_image | product_img_url: '1024x1024' | split:'?' | first }}" alt="{{product.name}}" />
+				</div>
+				<span class="title">{{product.title}}</span>
+				<span class="price">{{product.price | money}}</span>
+			</a>
+		</div>
+{% endunless %}
+				

@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+
+	<title>{{ shop.name }} - {{ page_title }}</title>
+
+	{{ content_for_header }}
+
+	{{ checkout_stylesheets }}
+	{{ checkout_scripts }}
+</head>
+<body>
+	<div class="banner" data-header>
+		<div class="wrap">
+			{{ content_for_logo }}
+		</div>
+	</div>
+
+	{{ order_summary_toggle }}
+
+	<div class="content" data-content>
+		<div class="wrap">
+			<div class="sidebar" role="complementary">
+				<div class="sidebar__header">
+					{{ content_for_logo }}
+				</div>
+				<div class="sidebar__content">
+					<h2 class="mobile_hidden">Order Summary</h2>
+					{{ content_for_order_summary }}
+					<span class="mobile_hidden">
+					<h2>Customer Care</h2>
+					<p>If you have any questions, or if we can be of further assistance, please contact the Urban Zen online team.<br><br><b>855.755.4848</b><br>Our customer care line is open Monday to Friday, from 10am – 6pm EST.<br><i>We are closed on weekends and national holidays.</i><br><br>All available items will be processed within 2 business days. Ground shipping arrives in approximately 4 to 7 business days. FedEx 2Day® shipping will arrive in 2-5 business days from time of order.</p>
+					</span>
+				</div>
+
+			</div>
+			<div class="main" role="main">
+
+				<div class="main__content">
+					{{ breadcrumb }}
+					{{ content_for_layout }}
+					<span class="desktop_hidden text-center">
+					<br><br>
+					<h2>Customer Care</h2>
+					<p>If you have any questions, or if we can be of further assistance, please contact the Urban Zen online team.<br><br><b>855.755.4848</b><br>Our customer care line is open Monday to Friday, from 10am – 6pm EST.<br><i>We are closed on weekends and national holidays.</i><br><br>All available items will be processed within 2 business days. Ground shipping arrives in approximately 4 to 7 business days. FedEx 2Day® shipping will arrive in 2-5 business days from time of order.</p>
+					</span>
+				</div>
+				
+				<div class="main__footer">
+					{{ content_for_footer }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ tracking_code }}
+</body>
+</html>

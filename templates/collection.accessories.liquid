@@ -1,0 +1,28 @@
+<div class="sixteen columns">
+	<div class="header-title">
+	    <h1>{{ collection.title }}{{page.title}}</h1>
+	  	<h3 class="subtitle text-center">{{current_tags | replace: '-', ' ' | replace: '["', '' | replace: '"]', '' }}</h3>
+	</div>
+	{% unless current_tags contains 'Bags' or current_tags contains 'Jewelry' or current_tags contains 'Belts' or current_tags contains 'Not-One-More' or current_tags contains 'Not One More' or current_tags contains 'haiti-accessories' %}
+		<div class="container">
+			{% if linklists.accessories.links.size > 0 %}
+				{% for link in linklists.accessories.links %}
+					{% assign collection = link.object %}
+					{% capture file_name %}landing-{{ link.title | handleize | downcase }}.jpg{% endcapture %}
+					{% capture alt_attr %}{{ link.title | escape }}{% endcapture %}
+					<div class="one-third {% cycle 'left-side', 'middle', 'right-side' %} {{collection.title | handleize}}">
+						<a href="{{ link.url }}" class="alpha thumbnail" title="Browse our {{ collection.title | escape }} collection.">
+								<img width="100%" height="auto" src="{{ 'transparent.gif' | asset_url | split:'?' | first  }}" data-src="{{ file_name | asset_url | lowercase }}" alt="{{link.title}}">
+					    	<span class="text"><h3 class="light">{{ link.title }}</h3><p class="light center">Shop All</p></span>
+						</a>
+					</div>
+
+				{% endfor %}
+			{% endif %}
+		</div>	
+	{% else %}
+		{% assign products = collection.products %}
+      	{% assign products_per_row = settings.products_per_row %}
+      	{% include 'product-loop' with settings.collection_sidebar %}
+	{% endunless %}
+</div>

@@ -1,0 +1,28 @@
+<div class="container-padded">	
+	<div class="header-title">
+		<h1>{{blog.title}}</h1>
+	</div>
+	<div class="blog-loop">
+    {% for article in blog.articles %}
+			<div class="article {% cycle 'odd', 'even' %}">
+				<a href="{{ article.url }}" title="{{ article.title | escape }}">
+					<img src="{{ article.image | img_url: 'grande' }}" alt="{{ article.title | escape }}" />
+				</a>
+				<div class="meta">
+					<h3 class="desktop_hidden"><a href="/blogs/{{ blog_title }}" title="{{ article.title | escape }}"> {% for word in words %}{{ word | camelcase }} {% endfor %}</h3>
+					<h4><a href="{{ article.url }}">{{ article.title}}</a></h4>
+					<div class="blog_meta tags mobile_hidden">
+						{% for tag in article.tags %}
+							{% if tag != 'signature' and tag != 'hide post' %}
+							<span>
+								<a href="{{ shop.url }}/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" title="{{ blog.title }} {{ 'blogs.general.tagged' | t }} {{ tag | escape }}">{{ tag }}</a>
+							</span>
+							{% endif %}
+						{% endfor %}
+	            	</div>
+					<a href="{{article.url}}" class="cta-button desktop_hidden">{% if article.tags contains 'discover' %}<span>discover</span>{% else %}<span>read</span>{% endif %}</a>
+				</div>
+			</div>
+	{% endfor %}
+	</div>
+</div>

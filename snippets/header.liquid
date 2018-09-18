@@ -1,0 +1,298 @@
+{% comment %}<header class="mm-fixed-top" role="banner">
+					<div class="top-menu"><form class="search-form" action="/search"><input type="text" name="q" placeholder="" value="{% if search and search.results.first.price %}{{ search.terms }}{% endif %}" autocapitalize="off" autocomplete="off" autocorrect="off" /><span class=""></span><span class="icon icon-search search-submit ico ico-mglass"></span></form><a href="#cart" class="icon-cart icon icon-shopping-bag cart-button continue"><div id="mdiv"><div class="mdiv"><div class="md"></div></div>
+				</div><span class="medium" data-cart-count>({{ cart.item_count }})</span></a></div>
+				<div class="fixed-menu-container desktop_hidden">
+					<button type="button" class="drawer-toggle drawer-hamburger"><span class="sr-only">toggle navigation</span><span class="drawer-hamburger-icon"></span></button><a class="drawer-brand" href="{{ shop.url }}"><i class="icon icon-script-logo"></i>
+					<span class="tagline">A Philosophy of Living By Donna Karan</span></a>
+				</div>
+				<nav class="drawer-nav" role="navigation">
+					<ul class="drawer-menu">
+						<li><a class="drawer-brand" href="{{ shop.url }}"><i class="icon icon-script-logo"></i>{% if template contains 'index' %}<span class="tagline">A Philosophy of Living By Donna Karan</span>{% endif %}</a></li>	
+						{% for link in linklists['main-menu'].links %}
+						{% assign child_list_handle = link.title | handleize %}
+						{% if linklists[child_list_handle].links != blank %}
+						{% assign submenu_active = false %}
+						{% for childlink in linklists[child_list_handle].links %}
+
+						{% if childlink.active %}
+
+						{% assign submenu_active = true %}
+						{% endif %}
+						{% endfor %}
+						<li class="{{ link.title | handleize }} submenu{% if link.active or submenu_active %} selected{% endif %}" aria-haspopup="true">
+							<a class="origlink" href="{{ link.url }}">{{ link.title }}</a><a href="#" class="drop-toggle">{{ link.title }}</a>
+							<ul class="sub-menu">
+								{% for childlink in linklists[child_list_handle].links %}
+								{% assign grand_child_list_handle = childlink.title | handle %}  
+								{% if linklists[grand_child_list_handle] and linklists[grand_child_list_handle].links.size > 0 %}
+								{% assign thirdmenu_active = false %}
+								{% for grandchildlink in linklists[grand_child_list_handle].links %}
+								{% if grandchildlink.active %}
+								{% assign thirdmenu_active = true %}
+								{% endif %}
+								{% endfor %}
+								<li class="thirdmenu{% if childlink.active or thirdmenu_active %} selected{% endif %}" aria-haspopup="true">
+									<a class="origlink" href="{{ childlink.url }}">{{ childlink.title }}</a><a href="#" class="drop-toggle">{{ childlink.title }}</a>
+									<ul class="third-menu">
+										{% for grand_childlink in linklists[grand_child_list_handle].links %}
+										<li class="{{grand_childlink.title | handleize}}{% if grand_childlink.active %} selected{% endif %}">
+											<a href="{{ grand_childlink.url }}">{{ grand_childlink.title }}</a>
+										</li>
+										{% endfor %}
+									</ul>
+								</li>
+								{% else %}
+								<li{% if childlink.active %} class="selected"{% endif %}>
+								<a href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+							</li>
+							{% endif %}
+							{% endfor %}
+						</ul>
+					</li>
+					{% else %}
+					<li class="{{ link.title | handleize }}{% if link.active %} selected{% endif %}">
+						<a href="{{ link.url }}">{{ link.title }}</a>
+					</li>
+					{% endif %}
+					{% endfor %}
+				</ul>
+
+				<div class="social">
+					<a href="{{ settings.instagram_link }}" title="{{ shop.name }} on Instagram" class="icon-instagram" rel="me" target="_blank"></a>
+					<a href="{{ settings.facebook_link }}" title="{{ shop.name }} on Facebook" class="icon-facebook" rel="me" target="_blank"></a>
+					<a href="{{ settings.pinterest_link }}" title="{{ shop.name }} on Pinterest" class="icon-pinterest" rel="me" target="_blank"></a>
+					<a href="{{ settings.twitter_link }}" title="{{ shop.name }} on Twitter" class="icon-twitter" rel="me" target="_blank"></a>
+				</div>
+			</nav>
+			<div class="drawer-right">
+				<h2 class="light"><span>My Bag</span></h2>
+				<div class="overflow">
+
+					<form action="/checkout" method="post" id="cart">
+						<ul data-money-format="{{ shop.money_format }}" data-shop-currency="{{ shop.currency }}" data-shop-name="{{ shop.name | escape }}">
+							<li class="success_message"><span></span></li>
+							{% if cart.item_count == 0 %}
+							<li class="empty_cart">{{ 'layout.general.empty_cart' | t }}</li>
+							{% else %}
+							{% for item in cart.items %}
+							<li class="cart_item {% if forloop.last %}last_cart_item{% endif %}">
+
+								{% if item.image %}
+								<div class="cart_image">
+									<a href="{{ item.url }}">
+										<img src="{{ item | img_url: 'medium' | split:'?' | first }}" alt="{{ item.title | escape }}" />
+									</a>
+								</div>
+								{% endif %}
+								<div class="cart-meta">
+									<a href="{{ item.url }}">
+										<div class="item_title">{{ item.product.title }}</div>
+										<div class="item_title">
+											{% if item.product.options.first contains 'Color' %}
+											{% assign words = {{item.variant.option1}} | split: ' ' %}
+											{% for word in words %}{% unless forloop.last %}{{word}}{% endunless %} {% endfor %}
+											{% if item.product.options.last contains 'Size' %} / {{item.variant.option2}}{% endif %}
+											{% elsif item.product.options.first contains 'Size' %}
+											{{item.variant.option1}}
+											{% else %}
+											{% endif %}
+										</div>
+										<strong class="price">{{ item.price | money }}</strong>
+									</a>
+									<p class="mm-counter">
+										<input type="number" min="0" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" />
+										<span class="remove">remove</span>
+									</p>
+								</div>
+
+							</li>
+							{% endfor %}
+							<li class="mm-label">
+								<p class="mm-counter">{{ cart.total_price | money }}</p>
+								<p>
+									<strong class="light">{{ 'layout.general.subtotal' | t }}</strong>
+								</p>
+							</li>
+							<li class="mm-subtitle clearfix">
+								{% if settings.display_special_instructions %}
+								<textarea id="note" name="note" rows="2" placeholder="{{ 'layout.general.cart_note' | t }}" class="clearfix">{{ cart.note }}</textarea>
+								{% endif %}
+
+
+							</li>
+							{% endif %}
+						</ul>
+						<input type="submit" class="action_button right" value="{{ 'layout.general.checkout' | t }}" />
+					</form>
+				</div>
+			</div>
+			<div class="overlay"></div>
+		</header>{% endcomment %}
+
+<nav class="top-menu{{ " " ~ menu_class }}">
+	<div class="nav-bar">
+		<div class="menu-link">
+			<div class="menu-icon">
+				<div class="center"></div>
+			</div>
+		</div>
+		<div class="menu-logo">
+			<a href="https://urbanzen.com">{% include 'uz-logo' %}</a>
+		</div>
+		<div class="tagline">A philosophy of living by Donna Karan</div>
+		<div class="cart-search">
+			<form class="search-area" action="https://shop.urbanzen.com/search">
+				<input type="text" name="q">
+				<button type="submit"><div class="material-icons">search</div></button>			
+			</form>
+			<div class="cart-info">
+				<div class="cart-icon"></div>
+				<div class="cart-num">(<span class="cart-count">0</span>)</div>
+				<div class="material-icons cart-close">close</div>
+			</div>
+		</div>
+	</div>
+	<div class="floating-cart">
+		<div clas	s="cart-sidebar">
+			<div class="material-icons close">close</div>
+			<h2>MY BAG</h2>
+			<div class="no-items">Your Bag is empty</div>
+			<ul class="cart-items">
+				
+			</ul>
+			<div class="cart-total">
+				Subtotal
+				<span class="cart-subtotal"></span>
+			</div>
+			<a class="checkout-button">checkout</a>	
+		</div>
+	</div>
+{% comment %}	<ul class="main-menu">
+		<div class="mobile-search">
+			<form class="search-area" action="https://shop.urbanzen.com/search">
+				<input type="text" name="q">
+				<button type="submit"><div class="material-icons">search</div></button>			
+			</form>
+		</div>{% endcomment %}
+{% comment %}		{% for link in linklists['main-menu'].links %}
+			{% assign child_list_handle = link.title | handleize %}
+			
+			{% if linklists[child_list_handle].links != blank %}
+			
+				{% assign submenu_active = false %}
+			
+				{% for childlink in linklists[child_list_handle].links %}
+					{% if childlink.active %}
+						{% assign submenu_active = true %}
+					{% endif %}
+
+					{% assign grand_child_list_handle = childlink.title | handle %}  
+					{% assign thirdmenu_active = false %}
+					{% if linklists[grand_child_list_handle] and linklists[grand_child_list_handle].links.size > 0 %}
+						{% assign thirdmenu_active = false %}
+						{% for grandchildlink in linklists[grand_child_list_handle].links %}
+							{% if grandchildlink.active %}
+							titl : {{grandchildlink.title }}
+								{% assign thirdmenu_active = true %}
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+					
+				{% endfor %}
+
+				<li class="item-{{ link.title | handleize }} submenu menu-item-has-children{% if link.active or submenu_active or thirdmenu_active %} current-menu-item{% endif %}" aria-haspopup="true">
+					<a href="{{ link.url }}">{{ link.title }}</a>
+					<ul class="sub-menu {%if submenu_active or thirdmenu_active %}open{% endif %}" >
+						{% for childlink in linklists[child_list_handle].links %}
+							{% assign grand_child_list_handle = childlink.title | handle %}  
+							{% if linklists[grand_child_list_handle] and linklists[grand_child_list_handle].links.size > 0 %}
+								{% assign thirdmenu_active = false %}
+								{% for grandchildlink in linklists[grand_child_list_handle].links %}
+									{% if grandchildlink.active %}
+										{% assign thirdmenu_active = true %}
+									{% endif %}
+								{% endfor %}
+						<li class="thirdmenu{% if childlink.active or thirdmenu_active %} current-menu-item open{% endif %}" aria-haspopup="true">
+							<a href="{{ childlink.url }}">{{ childlink.title }}</a>
+							<ul class="third-menu{% if childlink.active or thirdmenu_active %} open{% endif %}">
+								{% for grand_childlink in linklists[grand_child_list_handle].links %}
+								<li class="item-{{grand_childlink.title | handleize}}{% if grand_childlink.active %} current-menu-item{% endif %}">
+									<a href="{{ grand_childlink.url }}">{{ grand_childlink.title }}</a>
+								</li>
+								{% endfor %}
+							</ul>
+						</li>
+						{% else %}
+						<li{% if childlink.active %} class="current-menu-item"{% endif %}>
+						<a href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</li>
+	{% else %}
+		<li class="item-{{ link.title | handleize }}{% if link.active %} current-menu-item{% endif %}">
+			<a href="{{ link.url }}">{{ link.title }}</a>
+		</li>
+	{% endif %}
+{% endfor %}
+{% endcomment %}
+	<ul class="main-menu">
+		<div class="mobile-search">
+			<form class="search-area" action="https://shop.urbanzen.com/search">
+				<input type="text" name="q">
+				<button type="submit"><div class="material-icons">search</div></button>			
+			</form>
+		</div>
+{% for link in linklists.main-menu.links %}
+	<li class="item-{{ link.title | handleize }} submenu menu-item-has-children{% if link.active %} current-menu-item{% endif %}" aria-haspopup="true">
+					<a href="{{ link.url }}">{{ link.title }}</a>
+{% if link.links != blank %}
+  	<ul class="sub-menu {%if link.active or link.child_active %}open{% endif %}" >
+    {% for child_link in link.links %}  
+			<li class="thirdmenu{% if child_link.active or child_link.child_active %} current-menu-item open{% endif %}" aria-haspopup="true">
+				<a href="{{ child_link.url }}">{{ child_link.title }}</a>
+
+    {% if child_link.links != blank %}
+      <ul class="third-menu{% if child_link.active or child_link.child_active %} open{% endif %}">
+      {% for grandchild_link in child_link.links %}  
+				<li class="item-{{grandchild_link.title | handleize}}{% if grandchild_link.active %} current-menu-item{% endif %}">
+					<a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+				</li>
+      {% endfor %}
+      </ul>
+    {% endif %}   
+    </li>
+    {% endfor %}
+  </ul> 
+{% endif %} 
+</li>
+{% endfor %}
+</ul>
+	<div class="social">
+		<a href="https://instagram.com/urbanzen" class="icomoon-instagram"></a>
+		<a href="https://facebook.com/urbanzen" class="icomoon-facebook"></a>
+		<a href="https://pinterest.com/urbanzenpins" class="icomoon-pinterest"></a>
+		<a href="https://twitter.com/urban_zen" class="icomoon-twitter"></a>
+	</div>
+</ul>
+</nav>
+<script id="CartItemTemplate" type="text/x-jsrender">
+	<div class="cart-item" data-line-item-id="<%:lineItemId%>">
+		<div class="cart-item-content">
+			<div class="cart-item-image"><img src="<%:image%>" alt="<%:title%>"></div>
+			<div class="cart-item-details">
+				<div class="cart-item-title"><%:title%></div>
+				<div class="cart-item-color"><label>Color</label><span><%:color%></span></div>
+				<div class="cart-item-size"><label>Size</label><span><%:size%></span></div>
+				
+				<div class="cart-item-qty">
+					<label class="qty-label" for ="itemQty">Qty</label>
+					<input type="text" name="qty" value="<%:qty%>" id="itemQty">					
+				</div>
+				<div class="cart-item-price"><%:price%></div>
+				<div class="cart-item-remove material-icons" data-line-item-id="<%:lineItemId%>">close</div>
+			</div>
+		</div>
+	</div>
+</script>	
